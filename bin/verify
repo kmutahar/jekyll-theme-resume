@@ -6,7 +6,7 @@ cd "$(dirname "$0")/.."
 log="${TMPDIR:-/tmp}/resume-theme-verify.log"
 : > "$log"
 
-cleanup() { rm -rf .jekyll-cache bilingual-jekyll-resume-theme-*.gem; }
+cleanup() { rm -rf .jekyll-cache jekyll-theme-resume-*.gem; }
 
 step() {
   local name=$1; shift
@@ -22,6 +22,6 @@ step() {
 
 step build bundle exec jekyll build --source demo --destination _site
 step rake  bundle exec rake
-step gem   gem build bilingual-jekyll-resume-theme.gemspec
+step gem   gem build jekyll-theme-resume.gemspec
 cleanup
 echo "ALL PASS (full log: $log)"

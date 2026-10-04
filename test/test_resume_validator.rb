@@ -7,7 +7,7 @@ require "tmpdir"
 require "yaml"
 require "open3"
 require "jekyll"
-require_relative "../lib/bilingual-jekyll-resume-theme/resume_validator"
+require_relative "../lib/jekyll-theme-resume/resume_validator"
 require_relative "../_plugins/resume_validator"
 
 # Covers the config-driven, locale-file-driven ResumeValidator (Task 5.2 rewrite): language
@@ -40,7 +40,7 @@ class ResumeValidatorTest < Minitest::Test
   # --- 1. Six-language discovery from a real config's `languages:` block, end to end -------
 
   def test_six_language_fixture_discovers_all_languages_and_validates_cleanly
-    validator = BilingualJekyllResumeTheme::ResumeValidator.new(SAMPLE_DATA_DIR, config_path: SAMPLE_CONFIG_PATH)
+    validator = JekyllThemeResume::ResumeValidator.new(SAMPLE_DATA_DIR, config_path: SAMPLE_CONFIG_PATH)
     exit_code = validator.validate(quiet: true, fail_on_warnings: true)
 
     assert_equal 0, exit_code
@@ -49,7 +49,7 @@ class ResumeValidatorTest < Minitest::Test
   end
 
   def test_six_language_fixture_all_locales_matches_configured_languages
-    validator = BilingualJekyllResumeTheme::ResumeValidator.new(SAMPLE_DATA_DIR, config_path: SAMPLE_CONFIG_PATH)
+    validator = JekyllThemeResume::ResumeValidator.new(SAMPLE_DATA_DIR, config_path: SAMPLE_CONFIG_PATH)
     validator.validate(quiet: true)
 
     assert_equal %w[ar de en es fr ur], validator.discover_languages.sort
@@ -60,7 +60,7 @@ class ResumeValidatorTest < Minitest::Test
   def test_locale_for_falls_back_to_theme_locale_when_no_site_override
     Dir.mktmpdir("test_locale_fallback_") do |tmp|
       # No <tmp>/locales directory at all: locale_for must resolve purely from the theme.
-      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp)
+      validator = JekyllThemeResume::ResumeValidator.new(tmp)
 
       expected = YAML.safe_load_file(File.join(THEME_LOCALES_DIR, "es.yml"))
       assert_equal expected, validator.locale_for("es")
@@ -70,7 +70,7 @@ class ResumeValidatorTest < Minitest::Test
 
   def test_locale_for_returns_nil_when_neither_theme_nor_site_locale_exists
     Dir.mktmpdir("test_locale_missing_") do |tmp|
-      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp)
+      validator = JekyllThemeResume::ResumeValidator.new(tmp)
       assert_nil validator.locale_for("zz")
     end
   end
@@ -84,7 +84,7 @@ class ResumeValidatorTest < Minitest::Test
       # Only one key overridden; everything else must still come from the theme's es.yml.
       write_yaml(File.join(tmp, "locales", "es.yml"), "ui" => { "section_titles" => { "experience" => "Mi Experiencia" } })
 
-      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, primary_locale: "en")
+      validator = JekyllThemeResume::ResumeValidator.new(tmp, primary_locale: "en")
       exit_code = validator.validate(languages: %w[en es], quiet: true)
 
       merged = validator.locale_for("es")
@@ -104,7 +104,7 @@ class ResumeValidatorTest < Minitest::Test
     Dir.mktmpdir("test_array_replace_") do |tmp|
       write_yaml(File.join(tmp, "locales", "de.yml"), "present_values" => ["Nur"])
 
-      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp)
+      validator = JekyllThemeResume::ResumeValidator.new(tmp)
       aliases = validator.present_aliases_for("de")
 
       assert_includes aliases, "Nur"
@@ -125,7 +125,7 @@ class ResumeValidatorTest < Minitest::Test
       # "xx" has no theme-side _data/locales/xx.yml, so this tiny site file is used as-is.
       write_yaml(File.join(tmp, "locales", "xx.yml"), "ui" => { "present" => "Xx" })
 
-      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, primary_locale: "en")
+      validator = JekyllThemeResume::ResumeValidator.new(tmp, primary_locale: "en")
       validator.validate(languages: %w[en xx], quiet: true)
 
       xx_warning = validator.warnings.find { |w| w[:context] == "Locale xx" }
@@ -142,14 +142,14 @@ class ResumeValidatorTest < Minitest::Test
       write_minimal_language_dir(tmp, "xx")
       write_yaml(File.join(tmp, "locales", "xx.yml"), "ui" => { "present" => "Xx" })
 
-      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, primary_locale: "en")
+      validator = JekyllThemeResume::ResumeValidator.new(tmp, primary_locale: "en")
       exit_code = validator.validate(languages: %w[en xx], quiet: true)
 
       assert_empty validator.errors
       refute_empty validator.warnings
       assert_equal 0, exit_code, "warnings alone must not fail the build"
 
-      validator2 = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, primary_locale: "en")
+      validator2 = JekyllThemeResume::ResumeValidator.new(tmp, primary_locale: "en")
       strict_exit_code = validator2.validate(languages: %w[en xx], quiet: true, fail_on_warnings: true)
       assert_equal 1, strict_exit_code, "fail_on_warnings: true must turn warnings into a failing exit code"
     end
@@ -162,7 +162,7 @@ class ResumeValidatorTest < Minitest::Test
       write_minimal_language_dir(tmp, "en")
       write_minimal_language_dir(tmp, "zz") # "zz" has no theme locale and no site locale override.
 
-      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, primary_locale: "en")
+      validator = JekyllThemeResume::ResumeValidator.new(tmp, primary_locale: "en")
       exit_code = validator.validate(languages: %w[en zz], quiet: true)
 
       assert_equal 1, exit_code
@@ -175,7 +175,7 @@ class ResumeValidatorTest < Minitest::Test
       write_minimal_language_dir(tmp, "en")
       # "es" has a theme locale but no data folder at all under tmp.
 
-      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, primary_locale: "en")
+      validator = JekyllThemeResume::ResumeValidator.new(tmp, primary_locale: "en")
       exit_code = validator.validate(languages: %w[en es], quiet: true)
 
       assert_equal 1, exit_code
@@ -202,7 +202,7 @@ class ResumeValidatorTest < Minitest::Test
         # "validate_resume" intentionally omitted: must default to on.
       }
       site = FakeSite.new(config, tmp)
-      generator = BilingualJekyllResumeTheme::ResumeValidatorGenerator.new
+      generator = JekyllThemeResume::ResumeValidatorGenerator.new
 
       assert_raises(Jekyll::Errors::FatalException) do
         capture_io { generator.generate(site) }
@@ -220,7 +220,7 @@ class ResumeValidatorTest < Minitest::Test
         "validate_resume" => false # ...but explicitly opted out.
       }
       site = FakeSite.new(config, tmp)
-      generator = BilingualJekyllResumeTheme::ResumeValidatorGenerator.new
+      generator = JekyllThemeResume::ResumeValidatorGenerator.new
 
       capture_io { generator.generate(site) } # must not raise
     end
@@ -234,7 +234,7 @@ class ResumeValidatorTest < Minitest::Test
       "validate_resume_strict" => true
     )
     site = FakeSite.new(config, REPO_ROOT)
-    generator = BilingualJekyllResumeTheme::ResumeValidatorGenerator.new
+    generator = JekyllThemeResume::ResumeValidatorGenerator.new
 
     capture_io { generator.generate(site) } # must not raise: demo/_data validates cleanly
   end
@@ -247,7 +247,7 @@ class ResumeValidatorTest < Minitest::Test
       FileUtils.mkdir_p(File.join(tmp, "en"))
       File.write(File.join(tmp, "en", "header.yml"), "active: true\n  bad indent: [broken\n")
 
-      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, primary_locale: "en")
+      validator = JekyllThemeResume::ResumeValidator.new(tmp, primary_locale: "en")
       exit_code = validator.validate(languages: %w[en], quiet: true)
 
       assert_equal 1, exit_code
@@ -259,7 +259,7 @@ class ResumeValidatorTest < Minitest::Test
     Dir.mktmpdir("test_alias_config_") do |tmp|
       File.write(File.join(tmp, "_config.yml"), "a: &x {k: 1}\nb: *x\n")
 
-      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp)
+      validator = JekyllThemeResume::ResumeValidator.new(tmp)
       exit_code = validator.validate(quiet: true)
 
       assert_equal 1, exit_code
@@ -271,7 +271,7 @@ class ResumeValidatorTest < Minitest::Test
     ["../x", "a/b", "*", "en\0"].each do |bad|
       config = { "languages" => { bad => { "data_path" => "en" } } }
       Dir.mktmpdir("test_lang_key_") do |tmp|
-        validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, config: config)
+        validator = JekyllThemeResume::ResumeValidator.new(tmp, config: config)
         validator.validate(quiet: true)
 
         assert(validator.errors.any? { |e| e[:message].include?("Invalid language key") }, "#{bad.inspect} must be rejected")
@@ -282,7 +282,7 @@ class ResumeValidatorTest < Minitest::Test
 
   def test_unsafe_explicit_language_is_rejected
     Dir.mktmpdir("test_lang_arg_") do |tmp|
-      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp)
+      validator = JekyllThemeResume::ResumeValidator.new(tmp)
       validator.validate(languages: %w[../etc], quiet: true)
 
       assert(validator.errors.any? { |e| e[:message].include?("Invalid language key") })
@@ -291,7 +291,7 @@ class ResumeValidatorTest < Minitest::Test
 
   def config_url_errors(config)
     Dir.mktmpdir("test_config_urls_") do |tmp|
-      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, config: config)
+      validator = JekyllThemeResume::ResumeValidator.new(tmp, config: config)
       validator.validate(quiet: true)
       validator.errors.map { |e| e[:message] }.select { |m| m.include?("must be a relative path") }
     end
@@ -323,7 +323,7 @@ class ResumeValidatorTest < Minitest::Test
     bad = [{ "gtm" => "GTM-X');alert(1)" }, { "gtm" => "x" }, { "gtag" => "G-1'</script>" }, { "gtag" => "G 1" }]
     errors = lambda do |analytics|
       Dir.mktmpdir("test_analytics_") do |tmp|
-        validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, config: analytics)
+        validator = JekyllThemeResume::ResumeValidator.new(tmp, config: analytics)
         validator.validate(quiet: true)
         validator.errors.select { |e| e[:message].include?("analytics.") }
       end
@@ -335,7 +335,7 @@ class ResumeValidatorTest < Minitest::Test
 
   def test_regional_language_keys_are_valid
     %w[en zh-CN pt_BR].each do |key|
-      assert_match BilingualJekyllResumeTheme::ResumeValidator::LANG_KEY_REGEX, key
+      assert_match JekyllThemeResume::ResumeValidator::LANG_KEY_REGEX, key
     end
   end
 
@@ -344,7 +344,7 @@ class ResumeValidatorTest < Minitest::Test
       write_yaml(File.join(tmp, "en", "links.yml"),
                  [{ "active" => true, "description" => "Bad Link", "url" => "not a valid url" }])
 
-      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, primary_locale: "en")
+      validator = JekyllThemeResume::ResumeValidator.new(tmp, primary_locale: "en")
       exit_code = validator.validate(languages: %w[en], quiet: true)
 
       assert_equal 1, exit_code
@@ -358,7 +358,7 @@ class ResumeValidatorTest < Minitest::Test
                  [{ "active" => true, "company" => "Acme", "position" => "Engineer",
                     "startdate" => "2020-01-01", "enddate" => "2019-01-01" }])
 
-      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, primary_locale: "en")
+      validator = JekyllThemeResume::ResumeValidator.new(tmp, primary_locale: "en")
       exit_code = validator.validate(languages: %w[en], quiet: true)
 
       assert_equal 1, exit_code
@@ -374,7 +374,7 @@ class ResumeValidatorTest < Minitest::Test
       write_yaml(File.join(tmp, "en", "education.yml"),
                  [{ "active" => true, "uni" => "MIT", "degree" => "BSc" }])
 
-      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, primary_locale: "en")
+      validator = JekyllThemeResume::ResumeValidator.new(tmp, primary_locale: "en")
       validator.validate(languages: %w[en ar], quiet: true)
 
       assert(validator.warnings.any? { |w| w[:context] == "Parity" && w[:message].include?("education.yml") },
@@ -388,7 +388,7 @@ class ResumeValidatorTest < Minitest::Test
   def findings(section, entries)
     Dir.mktmpdir("test_rule_") do |tmp|
       write_yaml(File.join(tmp, "en", "#{section}.yml"), entries)
-      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, primary_locale: "en")
+      validator = JekyllThemeResume::ResumeValidator.new(tmp, primary_locale: "en")
       capture_io { validator.validate(languages: %w[en], quiet: true) }
       [validator.errors.map { |e| e[:message] }, validator.warnings.map { |w| w[:message] }]
     end
@@ -481,7 +481,7 @@ class ResumeValidatorTest < Minitest::Test
     Dir.mktmpdir("test_empty_") do |tmp|
       FileUtils.mkdir_p(File.join(tmp, "en"))
       File.write(File.join(tmp, "en", "skills.yml"), "# only a comment\n")
-      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp)
+      validator = JekyllThemeResume::ResumeValidator.new(tmp)
       validator.validate(languages: %w[en], quiet: true)
       assert(validator.warnings.any? { |w| w[:message].include?("File is empty") })
     end
@@ -527,7 +527,7 @@ class ResumeValidatorTest < Minitest::Test
     Dir.mktmpdir("test_present_ar_") do |tmp|
       write_yaml(File.join(tmp, "ar", "experience.yml"),
                  [VALID["experience"].merge("active" => true, "enddate" => "حتى الآن")])
-      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp)
+      validator = JekyllThemeResume::ResumeValidator.new(tmp)
       assert_equal 0, validator.validate(languages: %w[ar], quiet: true)
     end
   end
@@ -587,7 +587,7 @@ class ResumeValidatorTest < Minitest::Test
     Dir.mktmpdir("test_dotted_") do |tmp|
       write_minimal_language_dir(File.join(tmp, "2025-06"), "v1")
       write_yaml(File.join(tmp, "_config.yml"), "languages" => { "en" => { "data_path" => "2025-06.v1" } })
-      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp)
+      validator = JekyllThemeResume::ResumeValidator.new(tmp)
       assert_equal 0, validator.validate(quiet: true)
       assert_empty validator.errors
     end
@@ -596,7 +596,7 @@ class ResumeValidatorTest < Minitest::Test
   def test_language_without_data_path_is_a_config_error
     Dir.mktmpdir("test_no_data_path_") do |tmp|
       write_minimal_language_dir(tmp, "en")
-      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, config: { "languages" => { "en" => { "url" => "/" } } })
+      validator = JekyllThemeResume::ResumeValidator.new(tmp, config: { "languages" => { "en" => { "url" => "/" } } })
       assert_equal 1, validator.validate(quiet: true)
       assert(validator.errors.any? { |e| e[:message].include?("has no 'data_path'") })
     end
@@ -604,14 +604,14 @@ class ResumeValidatorTest < Minitest::Test
 
   def test_missing_explicit_config_path_is_an_error
     Dir.mktmpdir("test_missing_cfg_") do |tmp|
-      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, config_path: File.join(tmp, "nope.yml"))
+      validator = JekyllThemeResume::ResumeValidator.new(tmp, config_path: File.join(tmp, "nope.yml"))
       assert_equal 1, validator.validate(quiet: true)
       assert(validator.errors.any? { |e| e[:message].include?("does not exist") })
     end
   end
 
   def test_missing_data_directory_is_an_error
-    validator = BilingualJekyllResumeTheme::ResumeValidator.new("/nonexistent/data/dir")
+    validator = JekyllThemeResume::ResumeValidator.new("/nonexistent/data/dir")
     assert_equal 1, validator.validate(quiet: true)
   end
 
@@ -620,13 +620,13 @@ class ResumeValidatorTest < Minitest::Test
       %w[en fr assets].each { |dir| write_minimal_language_dir(tmp, dir) }
       FileUtils.mkdir_p(File.join(tmp, "de"))
       write_minimal_language_dir(tmp, "not-a-language-folder")
-      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, primary_locale: "fr")
+      validator = JekyllThemeResume::ResumeValidator.new(tmp, primary_locale: "fr")
       assert_equal %w[fr en], validator.discover_languages, "primary locale first, then sorted"
     end
   end
 
   def test_present_date_api
-    validator = BilingualJekyllResumeTheme::ResumeValidator.new(SAMPLE_DATA_DIR)
+    validator = JekyllThemeResume::ResumeValidator.new(SAMPLE_DATA_DIR)
     assert validator.present_date?("")
     assert validator.present_date?("Present", lang: "en")
     assert validator.present_date?("حتى الآن", lang: "ar")

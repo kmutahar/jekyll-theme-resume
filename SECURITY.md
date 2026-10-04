@@ -4,7 +4,7 @@
 
 We take the security of our resume theme and the dependencies it delivers to our users seriously. Because this theme is distributed as a RubyGem package used to build static sites, we actively patch vulnerabilities discovered in our runtime plugin requirements.
 
-The following versions of `bilingual-jekyll-resume-theme` currently receive security updates:
+The following versions of `jekyll-theme-resume` currently receive security updates:
 
 | Version | Supported          | Notes                               |
 | ------- | ------------------ | ----------------------------------- |

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module BilingualJekyllResumeTheme
+module JekyllThemeResume
   # Programmatically synthesizes standard HTTP error pages (404, 403, 500)
   # into site.pages if they are not already defined by the site.
   #

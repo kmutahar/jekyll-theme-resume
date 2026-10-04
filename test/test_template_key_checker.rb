@@ -6,7 +6,7 @@ require "fileutils"
 require "tmpdir"
 require "yaml"
 require "open3"
-require_relative "../lib/bilingual-jekyll-resume-theme/template_key_checker"
+require_relative "../lib/jekyll-theme-resume/template_key_checker"
 
 # Covers TemplateKeyChecker: the Liquid variable-to-section binding resolution (direct
 # for-loops, assign/filter chains, the grouped-item-list.html include boundary, the
@@ -45,7 +45,7 @@ class TemplateKeyCheckerTest < Minitest::Test
   end
 
   def checker_for(data_dir, template_root)
-    BilingualJekyllResumeTheme::TemplateKeyChecker.new(data_dir, template_root: template_root)
+    JekyllThemeResume::TemplateKeyChecker.new(data_dir, template_root: template_root)
   end
 
   # --- 1. A direct for-loop typo is caught ---------------------------------------------------
@@ -168,7 +168,7 @@ class TemplateKeyCheckerTest < Minitest::Test
   # --- 7. Integration: the theme's real templates against its real demo data -----------------
 
   def test_real_theme_templates_against_real_demo_data_runs_clean_of_builtin_false_positives
-    checker = BilingualJekyllResumeTheme::TemplateKeyChecker.new(SAMPLE_DATA_DIR)
+    checker = JekyllThemeResume::TemplateKeyChecker.new(SAMPLE_DATA_DIR)
     checker.check(quiet: true)
 
     # Regression guard for the group_by/Array-accessor false positives this class is
@@ -187,7 +187,7 @@ class TemplateKeyCheckerTest < Minitest::Test
   end
 
   def test_missing_data_directory_warns_and_fails_only_with_fail_on_warnings
-    checker = BilingualJekyllResumeTheme::TemplateKeyChecker.new("/nonexistent/dir")
+    checker = JekyllThemeResume::TemplateKeyChecker.new("/nonexistent/dir")
     capture_io { assert_equal 0, checker.check(quiet: true) }
     capture_io { assert_equal 1, checker.check(quiet: true, fail_on_warnings: true) }
   end

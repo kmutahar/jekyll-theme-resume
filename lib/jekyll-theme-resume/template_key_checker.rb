@@ -3,7 +3,7 @@
 require "yaml"
 require "date"
 
-module BilingualJekyllResumeTheme
+module JekyllThemeResume
   # Statically checks the theme's own _layouts/_includes Liquid templates for
   # `.field` accesses on resume-data-bound variables that don't correspond to any
   # real key found in the target data directory's YAML — catching typos (e.g.
@@ -143,7 +143,7 @@ module BilingualJekyllResumeTheme
     end
 
     # --- Language / data discovery (mirrors ResumeValidator's data_path-driven
-    # convention in lib/bilingual-jekyll-resume-theme/resume_validator.rb;
+    # convention in lib/jekyll-theme-resume/resume_validator.rb;
     # duplicated rather than reaching into its private methods — that class
     # validates YAML schema/dates/URLs/locale parity, this one checks a different
     # concern (template code correctness), so the two stay separate, small classes

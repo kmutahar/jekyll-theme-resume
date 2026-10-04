@@ -8,7 +8,7 @@ require "addressable/uri"
 require "kramdown/utils/entities"
 require "json_schemer"
 
-module BilingualJekyllResumeTheme
+module JekyllThemeResume
   # Maps the existing CV data contract to JSON Resume without changing source keys.
   # Returns nil when final validation fails; callers must never publish that export.
   class JsonResumeExporter

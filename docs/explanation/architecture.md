@@ -4,7 +4,7 @@
 
 This page explains how the theme fits together: the layouts and generators, how the pieces are wired, the two verification engines, and the Liquid pitfalls that shape the templates. For the annotated file tree see [repository map](../reference/repository-map.md); to build the demo site, see [getting started](../tutorials/getting-started.md).
 
-**bilingual-jekyll-resume-theme** is a Ruby gem / Jekyll theme for data-driven, multilingual resume and CV sites. One locale-agnostic layout renders every language, left-to-right or right-to-left, from YAML data and per-language locale files. The theme ships six locales: English, Arabic, Spanish, French, German, and Urdu.
+**jekyll-theme-resume** is a Ruby gem / Jekyll theme for data-driven, multilingual resume and CV sites. One locale-agnostic layout renders every language, left-to-right or right-to-left, from YAML data and per-language locale files. The theme ships six locales: English, Arabic, Spanish, French, German, and Urdu.
 
 ---
 

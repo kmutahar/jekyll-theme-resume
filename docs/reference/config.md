@@ -12,7 +12,7 @@ Per-language settings (name, title, address, data path, URL) live under `languag
 
 | Setting | Type | Default | Description |
 |---|---|---|---|
-| `theme` | String | | **Required.** `bilingual-jekyll-resume-theme`. |
+| `theme` | String | | **Required.** `jekyll-theme-resume`. |
 | `title` | String | `""` | **Required.** Site title for SEO tags, avatar link title, and footers. |
 | `description` | String | `""` | Site summary emitted by `{% seo %}`. |
 | `url` | String | `""` | **Required.** Protocol and domain (e.g., `https://example.com`). Used for absolute hreflang URLs. |
@@ -275,7 +275,7 @@ validate_resume_strict: false
 
 ```yaml
 plugins:
-  - bilingual-jekyll-resume-theme
+  - jekyll-theme-resume
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap

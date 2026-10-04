@@ -6,22 +6,22 @@
 
 | Phase | ID | Planned feature | Issue |
 |---|---|---|---|
-| P1 | 1.1 | Predefined Color Themes Palette Engine (5 Palettes) | [#7](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/7) |
-| P1 | 1.3 | Expanded Modern Social Media Platforms (9 Platforms) | [#204](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/204) |
-| P1 | 1.5 | Dynamic Contact / Resume QR Code Component | [#14](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/14) |
-| P1 | 1.6 | Achievement Badges & Credential Icons | [#19](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/19) |
-| P2 | 2.1 | Comprehensive JSON-LD Structured Data | [#9](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/9) |
-| P2 | 2.2 | Skills Level Indicators & Visual Progress Bars | [#10](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/10) |
-| P2 | 2.3 | Professional Print Pagination & Spacing Engine | [#12](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/12) |
-| P2 | 2.5 | Skills Taxonomy & Categorized Tagging System | [#18](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/18) |
-| P2 | 2.6 | Social Media Cards (Open Graph & Twitter) | [#22](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/22) |
-| P2 | 2.9 | Dual Gregorian / Hijri (Islamic) Calendar Localization | [#218](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/218) |
-| P4 | 4.2 | Interactive Career Timeline Visualization | [#16](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/16) |
-| P4 | 4.3 | Contact Form Integration (Formspree / Netlify) | [#20](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/20) |
-| P4 | 4.4 | Privacy-First Resume Engagement Analytics | [#17](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/17) |
-| P4 | 4.5 | Resume Comparison View | [#23](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/23) |
-| P4 | 4.7 | Dynamic Custom Resume Sections Engine | [#219](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/219) |
-| P4 | 4.8 | Client-Side Site Search Index | [#225](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/225) |
+| P1 | 1.1 | Predefined Color Themes Palette Engine (5 Palettes) | [#7](https://github.com/kmutahar/jekyll-theme-resume/issues/7) |
+| P1 | 1.3 | Expanded Modern Social Media Platforms (9 Platforms) | [#204](https://github.com/kmutahar/jekyll-theme-resume/issues/204) |
+| P1 | 1.5 | Dynamic Contact / Resume QR Code Component | [#14](https://github.com/kmutahar/jekyll-theme-resume/issues/14) |
+| P1 | 1.6 | Achievement Badges & Credential Icons | [#19](https://github.com/kmutahar/jekyll-theme-resume/issues/19) |
+| P2 | 2.1 | Comprehensive JSON-LD Structured Data | [#9](https://github.com/kmutahar/jekyll-theme-resume/issues/9) |
+| P2 | 2.2 | Skills Level Indicators & Visual Progress Bars | [#10](https://github.com/kmutahar/jekyll-theme-resume/issues/10) |
+| P2 | 2.3 | Professional Print Pagination & Spacing Engine | [#12](https://github.com/kmutahar/jekyll-theme-resume/issues/12) |
+| P2 | 2.5 | Skills Taxonomy & Categorized Tagging System | [#18](https://github.com/kmutahar/jekyll-theme-resume/issues/18) |
+| P2 | 2.6 | Social Media Cards (Open Graph & Twitter) | [#22](https://github.com/kmutahar/jekyll-theme-resume/issues/22) |
+| P2 | 2.9 | Dual Gregorian / Hijri (Islamic) Calendar Localization | [#218](https://github.com/kmutahar/jekyll-theme-resume/issues/218) |
+| P4 | 4.2 | Interactive Career Timeline Visualization | [#16](https://github.com/kmutahar/jekyll-theme-resume/issues/16) |
+| P4 | 4.3 | Contact Form Integration (Formspree / Netlify) | [#20](https://github.com/kmutahar/jekyll-theme-resume/issues/20) |
+| P4 | 4.4 | Privacy-First Resume Engagement Analytics | [#17](https://github.com/kmutahar/jekyll-theme-resume/issues/17) |
+| P4 | 4.5 | Resume Comparison View | [#23](https://github.com/kmutahar/jekyll-theme-resume/issues/23) |
+| P4 | 4.7 | Dynamic Custom Resume Sections Engine | [#219](https://github.com/kmutahar/jekyll-theme-resume/issues/219) |
+| P4 | 4.8 | Client-Side Site Search Index | [#225](https://github.com/kmutahar/jekyll-theme-resume/issues/225) |
 
 <a id="status-delete-zone"></a>
 ## Status Delete-Zone (Intentional Removals & Deprecations)
@@ -52,7 +52,7 @@ In accordance with Living Docs Governance, this Delete-Zone catalogs files, patt
 
 ### Feature 1.1: Predefined Color Themes Palette Engine (5 Palettes)
 
-**Issue:** [#7](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/7) · **Branch:** `feature/color-themes` · **Closure:** `Closes #7`
+**Issue:** [#7](https://github.com/kmutahar/jekyll-theme-resume/issues/7) · **Branch:** `feature/color-themes` · **Closure:** `Closes #7`
 
 Add the planned default, modern-blue, emerald-green, corporate-navy, and warm-burgundy palettes. The existing resume_theme setting currently supplies a body class; the palette engine is not implemented.
 
@@ -68,7 +68,7 @@ Add the planned default, modern-blue, emerald-green, corporate-navy, and warm-bu
 
 ### Feature 1.3: Expanded Modern Social Media Platforms (9 Platforms)
 
-**Issue:** [#204](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/204) · **Branch:** `feature/expanded-social-icons` · **Closure:** `Closes #204`
+**Issue:** [#204](https://github.com/kmutahar/jekyll-theme-resume/issues/204) · **Branch:** `feature/expanded-social-icons` · **Closure:** `Closes #204`
 
 Add icon and print-list support for Mastodon, Discord, Bluesky, Threads, Substack, GitLab, Google Scholar, ORCID, and Behance. Mastodon already has rel="me" head metadata in default/profile layouts; icon and print support remains planned.
 
@@ -84,7 +84,7 @@ Add icon and print-list support for Mastodon, Discord, Bluesky, Threads, Substac
 
 ### Feature 1.5: Dynamic Contact / Resume QR Code Component
 
-**Issue:** [#14](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/14) · **Branch:** `feature/qr-code` · **Closure:** `Closes #14`
+**Issue:** [#14](https://github.com/kmutahar/jekyll-theme-resume/issues/14) · **Branch:** `feature/qr-code` · **Closure:** `Closes #14`
 
 Add an optional QR code linking a printed or digital resume to its canonical online page.
 
@@ -100,7 +100,7 @@ Add an optional QR code linking a printed or digital resume to its canonical onl
 
 ### Feature 1.6: Achievement Badges & Credential Icons
 
-**Issue:** [#19](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/19) · **Branch:** `feature/achievement-badges` · **Closure:** `Closes #19`
+**Issue:** [#19](https://github.com/kmutahar/jekyll-theme-resume/issues/19) · **Branch:** `feature/achievement-badges` · **Closure:** `Closes #19`
 
 Add optional badge images to certifications and recognitions while retaining the current text-only presentation when absent.
 
@@ -116,7 +116,7 @@ Add optional badge images to certifications and recognitions while retaining the
 
 ### Feature 2.1: Comprehensive JSON-LD Structured Data
 
-**Issue:** [#9](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/9) · **Branch:** `feature/json-ld-structured-data` · **Closure:** `Closes #9`
+**Issue:** [#9](https://github.com/kmutahar/jekyll-theme-resume/issues/9) · **Branch:** `feature/json-ld-structured-data` · **Closure:** `Closes #9`
 
 Extend machine-readable resume data beyond current Person/Organization microdata and jekyll-seo-tag output. JSON-LD alone does not guarantee ATS acceptance or search rich results.
 
@@ -132,7 +132,7 @@ Extend machine-readable resume data beyond current Person/Organization microdata
 
 ### Feature 2.2: Skills Level Indicators & Visual Progress Bars
 
-**Issue:** [#10](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/10) · **Branch:** `feature/skills-visualization` · **Closure:** `Closes #10`
+**Issue:** [#10](https://github.com/kmutahar/jekyll-theme-resume/issues/10) · **Branch:** `feature/skills-visualization` · **Closure:** `Closes #10`
 
 Add optional visual skill proficiency indicators alongside skill names and descriptions.
 
@@ -148,7 +148,7 @@ Add optional visual skill proficiency indicators alongside skill names and descr
 
 ### Feature 2.3: Professional Print Pagination & Spacing Engine
 
-**Issue:** [#12](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/12) · **Branch:** `feature/print-pagination-engine` · **Closure:** `Closes #12`
+**Issue:** [#12](https://github.com/kmutahar/jekyll-theme-resume/issues/12) · **Branch:** `feature/print-pagination-engine` · **Closure:** `Closes #12`
 
 Improve the existing print styles with explicit page-break and typography controls.
 
@@ -164,7 +164,7 @@ Improve the existing print styles with explicit page-break and typography contro
 
 ### Feature 2.5: Skills Taxonomy & Categorized Tagging System
 
-**Issue:** [#18](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/18) · **Branch:** `feature/skills-taxonomy` · **Closure:** `Closes #18`
+**Issue:** [#18](https://github.com/kmutahar/jekyll-theme-resume/issues/18) · **Branch:** `feature/skills-taxonomy` · **Closure:** `Closes #18`
 
 Group skills by optional categories and display optional tags while keeping the current flat list available.
 
@@ -180,7 +180,7 @@ Group skills by optional categories and display optional tags while keeping the 
 
 ### Feature 2.6: Social Media Cards (Open Graph & Twitter)
 
-**Issue:** [#22](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/22) · **Branch:** `feature/social-media-cards` · **Closure:** `Closes #22`
+**Issue:** [#22](https://github.com/kmutahar/jekyll-theme-resume/issues/22) · **Branch:** `feature/social-media-cards` · **Closure:** `Closes #22`
 
 Improve per-language sharing images and summaries. Basic Open Graph metadata already exists through jekyll-seo-tag; this feature adds richer configuration and fallbacks.
 
@@ -196,7 +196,7 @@ Improve per-language sharing images and summaries. Basic Open Graph metadata alr
 
 ### Feature 2.9: Dual Gregorian / Hijri (Islamic) Calendar Localization
 
-**Issue:** [#218](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/218) · **Branch:** `feature/hijri-calendar-support` · **Closure:** `Closes #218`
+**Issue:** [#218](https://github.com/kmutahar/jekyll-theme-resume/issues/218) · **Branch:** `feature/hijri-calendar-support` · **Closure:** `Closes #218`
 
 Offer Gregorian, Hijri, or dual display and optional numeral styling without changing source ISO dates.
 
@@ -212,7 +212,7 @@ Offer Gregorian, Hijri, or dual display and optional numeral styling without cha
 
 ### Feature 4.2: Interactive Career Timeline Visualization
 
-**Issue:** [#16](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/16) · **Branch:** `feature/career-timeline` · **Closure:** `Closes #16`
+**Issue:** [#16](https://github.com/kmutahar/jekyll-theme-resume/issues/16) · **Branch:** `feature/career-timeline` · **Closure:** `Closes #16`
 
 Add a timeline presentation for career milestones, reusing current multilingual resume data.
 
@@ -228,7 +228,7 @@ Add a timeline presentation for career milestones, reusing current multilingual 
 
 ### Feature 4.3: Contact Form Integration (Formspree / Netlify)
 
-**Issue:** [#20](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/20) · **Branch:** `feature/contact-form` · **Closure:** `Closes #20`
+**Issue:** [#20](https://github.com/kmutahar/jekyll-theme-resume/issues/20) · **Branch:** `feature/contact-form` · **Closure:** `Closes #20`
 
 Add an optional contact form with inline or modal presentation and a configured submission backend.
 
@@ -244,7 +244,7 @@ Add an optional contact form with inline or modal presentation and a configured 
 
 ### Feature 4.4: Privacy-First Resume Engagement Analytics
 
-**Issue:** [#17](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/17) · **Branch:** `feature/privacy-analytics` · **Closure:** `Closes #17`
+**Issue:** [#17](https://github.com/kmutahar/jekyll-theme-resume/issues/17) · **Branch:** `feature/privacy-analytics` · **Closure:** `Closes #17`
 
 Add opt-in print and outbound-link events on top of the existing analytics integration.
 
@@ -260,7 +260,7 @@ Add opt-in print and outbound-link events on top of the existing analytics integ
 
 ### Feature 4.5: Resume Comparison View
 
-**Issue:** [#23](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/23) · **Branch:** `feature/resume-comparison` · **Closure:** `Closes #23`
+**Issue:** [#23](https://github.com/kmutahar/jekyll-theme-resume/issues/23) · **Branch:** `feature/resume-comparison` · **Closure:** `Closes #23`
 
 Provide a side-by-side manual comparison of two existing resume pages or translations. The current proposal is a comparison UI, not a traffic-randomization or statistical A/B testing engine.
 
@@ -276,7 +276,7 @@ Provide a side-by-side manual comparison of two existing resume pages or transla
 
 ### Feature 4.7: Dynamic Custom Resume Sections Engine
 
-**Issue:** [#219](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/219) · **Branch:** `feature/custom-sections-engine` · **Closure:** `Closes #219`
+**Issue:** [#219](https://github.com/kmutahar/jekyll-theme-resume/issues/219) · **Branch:** `feature/custom-sections-engine` · **Closure:** `Closes #219`
 
 Allow additional sections such as patents or speaking without manually extending the standard dispatcher for each one.
 
@@ -285,7 +285,7 @@ Allow additional sections such as patents or speaking without manually extending
 **Files:**
 
 - Create `_includes/resume-custom-section.html` (params `section_name`, `items`, `lang`).
-- Extend `_includes/resume-section.html`, `lib/bilingual-jekyll-resume-theme/resume_validator.rb`, `_config.sample.yml` (commented example).
+- Extend `_includes/resume-section.html`, `lib/jekyll-theme-resume/resume_validator.rb`, `_config.sample.yml` (commented example).
 - Tests: `test/test_resume_validator.rb`, `test/test_rendered_site.rb`, `test/test_json_resume_exporter.rb`, `test/test_packaging.rb`.
 - Demo: `demo/_data/<lang>/speaking.yml`, `demo/_data/locales/<lang>.yml`, `demo/_config.yml` (6 languages).
 - Docs:
@@ -345,7 +345,7 @@ Allow additional sections such as patents or speaking without manually extending
 
 ### Feature 4.8: Client-Side Site Search Index
 
-**Issue:** [#225](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues/225) · **Branch:** `feature/site-search` · **Closure:** `Closes #225`
+**Issue:** [#225](https://github.com/kmutahar/jekyll-theme-resume/issues/225) · **Branch:** `feature/site-search` · **Closure:** `Closes #225`
 
 Add localized resume search and an error-page search interface. The current error layout has no search form; both the index and interface remain future work.
 
@@ -376,7 +376,7 @@ The following hardening measures originate from the sandboxed security audit (`R
 The publish workflow still writes a static `RUBYGEMS_API_KEY` to `~/.gem/credentials`. Manual dispatch is gone (releases come only from `v*` tag pushes) and all third-party actions are pinned to commit SHAs.
 
 **Implementation contract:**
-- Register the gem's Trusted Publisher on rubygems.org (Settings → Trusted Publishers → GitHub Actions: owner `kmutahar`, repo `bilingual-jekyll-resume-theme`, workflow `publish.yml`).
+- Register the gem's Trusted Publisher on rubygems.org (Settings → Trusted Publishers → GitHub Actions: owner `kmutahar`, repo `jekyll-theme-resume`, workflow `publish.yml`).
 - In `publish.yml`, add `id-token: write`, use a pinned `rubygems/configure-rubygems-credentials` step, and keep `gem push`. Do not use `rubygems/release-gem` (it builds, tags and pushes, which conflicts with the tag-triggered flow).
 - Keep `RUBYGEMS_API_KEY` until one OIDC release succeeds, then delete the secret.
 
@@ -395,8 +395,8 @@ bundle exec jekyll build --source demo --destination _site --strict_front_matter
 bundle exec rake
 bundle exec rake "proof[_site,demo/_config.yml]"
 ./bin/validate-resume demo/_data --all-locales --fail-on-warnings
-gem build bilingual-jekyll-resume-theme.gemspec
-rm -f bilingual-jekyll-resume-theme-*.gem
+gem build jekyll-theme-resume.gemspec
+rm -f jekyll-theme-resume-*.gem
 ```
 
 For UI changes, inspect all configured locales, both direction stylesheets, light/dark states, keyboard operation, and print output. Add feature-specific verification that tests the behavior rather than only looking for a string in generated HTML. The default Rake task includes data validation, template-key warnings, RuboCop, and every test suite; HTML proofing is separate. See [docs/reference/testing-suites.md](docs/reference/testing-suites.md) and [docs/reference/validator-cli.md](docs/reference/validator-cli.md).

@@ -1,24 +1,24 @@
 # frozen_string_literal: true
 
 Gem::Specification.new do |spec|
-  spec.name          = "bilingual-jekyll-resume-theme"
-  spec.version       = "1.1.0"
+  spec.name          = "jekyll-theme-resume"
+  spec.version       = "1.3.0"
   spec.authors       = ["Khaldoon Mutahar"]
   spec.email         = ["contact@mutahar.me"]
 
   spec.summary       = "A data-driven, multilingual (LTR and RTL) Jekyll resume theme with six built-in locales."
-  spec.homepage      = "https://www.mutahr.me/bilingual-jekyll-resume-theme"
+  spec.homepage      = "https://www.mutahr.me/jekyll-theme-resume"
   spec.license       = "MIT"
 
   spec.platform      = Gem::Platform::RUBY # Specifies this is a pure Ruby gem (works on all platforms)
   spec.required_ruby_version = ">= 3.3.0"
 
   spec.metadata      = {
-    "bug_tracker_uri"   => "https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues",
-    "changelog_uri"     => "https://github.com/kmutahar/bilingual-jekyll-resume-theme/blob/master/CHANGELOG.md",
-    "documentation_uri" => "https://github.com/kmutahar/bilingual-jekyll-resume-theme#readme",
+    "bug_tracker_uri"   => "https://github.com/kmutahar/jekyll-theme-resume/issues",
+    "changelog_uri"     => "https://github.com/kmutahar/jekyll-theme-resume/blob/master/CHANGELOG.md",
+    "documentation_uri" => "https://github.com/kmutahar/jekyll-theme-resume#readme",
     "homepage_uri"      =>  spec.homepage,
-    "source_code_uri"   => "https://github.com/kmutahar/bilingual-jekyll-resume-theme/",
+    "source_code_uri"   => "https://github.com/kmutahar/jekyll-theme-resume/",
     "allowed_push_host" => "https://rubygems.org" # Security lock to prevent pushing to wrong host
   }
 
@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
       File.file?(f) &&
       f != "bin/release" &&
       f != "bin/check-data-keys" &&
-      f != "lib/bilingual-jekyll-resume-theme/template_key_checker.rb" &&
+      f != "lib/jekyll-theme-resume/template_key_checker.rb" &&
       f != "docs/COMPLETED_AUDIT.md" &&
       !f.start_with?("docs/adr/") &&
       !f.start_with?("demo/")
@@ -44,10 +44,10 @@ Gem::Specification.new do |spec|
   # --- A helpful message shown to users after installation ---
   spec.post_install_message = <<~MSG
     --------------------------------------------------
-    Thank you for installing bilingual-jekyll-resume-theme!
+    Thank you for installing jekyll-theme-resume!
     
     To get started, check the setup instructions:
-    https://github.com/kmutahar/bilingual-jekyll-resume-theme#readme
+    https://github.com/kmutahar/jekyll-theme-resume#readme
     --------------------------------------------------
   MSG
 

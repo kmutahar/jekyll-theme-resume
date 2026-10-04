@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 # =============================================================================
-# Bilingual Jekyll Resume Theme — Gem Runtime Entrypoint
+# Multilingual Jekyll Resume Theme — Gem Runtime Entrypoint
 # =============================================================================
-# When a consuming Jekyll site specifies `theme: bilingual-jekyll-resume-theme`
+# When a consuming Jekyll site specifies `theme: jekyll-theme-resume`
 # in its _config.yml or includes the gem in its Gemfile, Bundler/Jekyll automatically
 # requires this file.
 #
@@ -14,7 +14,7 @@
 # =============================================================================
 
 require "jekyll"
-require_relative "bilingual-jekyll-resume-theme/resume_validator"
+require_relative "jekyll-theme-resume/resume_validator"
 require_relative "../_plugins/error_pages_generator"
 require_relative "../_plugins/resume_validator"
 require_relative "../_plugins/resume_pages_generator"

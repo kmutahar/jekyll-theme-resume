@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 require "optparse"
-require_relative "../lib/bilingual-jekyll-resume-theme/resume_validator"
+require_relative "../lib/jekyll-theme-resume/resume_validator"
 
 options = {
   data_dir: nil,
@@ -68,11 +68,11 @@ data_dir = ARGV[0] || options[:data_dir]
 if data_dir.nil?
   # Prefer a directory that holds at least one language folder (a site's _data, else the theme's demo).
   data_dir = %w[_data demo/_data].find do |dir|
-    BilingualJekyllResumeTheme::ResumeValidator.new(dir).discover_languages.any?
+    JekyllThemeResume::ResumeValidator.new(dir).discover_languages.any?
   end || "_data"
 end
 
-validator = BilingualJekyllResumeTheme::ResumeValidator.new(
+validator = JekyllThemeResume::ResumeValidator.new(
   data_dir,
   config_path: options[:config_path],
   primary_locale: options[:primary_locale]

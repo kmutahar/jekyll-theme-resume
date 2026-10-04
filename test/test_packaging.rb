@@ -15,7 +15,7 @@ class PackagingTest < Minitest::Test
   ERROR_CODES = %w[404 403 500 503].freeze
 
   def spec
-    @spec ||= Dir.chdir(ROOT) { Gem::Specification.load("bilingual-jekyll-resume-theme.gemspec") }
+    @spec ||= Dir.chdir(ROOT) { Gem::Specification.load("jekyll-theme-resume.gemspec") }
   end
 
   def locale(lang)
@@ -35,9 +35,9 @@ class PackagingTest < Minitest::Test
     files = spec.files
     LOCALES.each { |lang| assert_includes files, "_data/locales/#{lang}.yml" }
     %w[_layouts/resume.html _includes/resume-section.html _sass/_resume-rtl.scss assets/css/cv-rtl.scss
-       _data/social_networks.yml bin/validate-resume lib/bilingual-jekyll-resume-theme.rb
-       lib/bilingual-jekyll-resume-theme/resume_validator.rb lib/bilingual-jekyll-resume-theme/json_resume_exporter.rb
-       lib/bilingual-jekyll-resume-theme/schemas/json_resume_v1.0.0.json _plugins/error_pages_generator.rb
+       _data/social_networks.yml bin/validate-resume lib/jekyll-theme-resume.rb
+       lib/jekyll-theme-resume/resume_validator.rb lib/jekyll-theme-resume/json_resume_exporter.rb
+       lib/jekyll-theme-resume/schemas/json_resume_v1.0.0.json _plugins/error_pages_generator.rb
        _plugins/resume_pages_generator.rb _plugins/resume_validator.rb _plugins/json_resume_generator.rb
        _config.sample.yml 404.html LICENSE.txt README.md docs/README.md
        docs/tutorials/getting-started.md].each { |file| assert_includes files, file }
@@ -45,7 +45,7 @@ class PackagingTest < Minitest::Test
 
   def test_gem_excludes_repository_only_tooling
     files = spec.files
-    %w[Rakefile bin/release bin/check-data-keys lib/bilingual-jekyll-resume-theme/template_key_checker.rb
+    %w[Rakefile bin/release bin/check-data-keys lib/jekyll-theme-resume/template_key_checker.rb
        docs/COMPLETED_AUDIT.md AGENTS.md FEATURE_ROADMAP.md].each { |file| refute_includes files, file }
     assert(files.none? { |file| file.start_with?("test/", "demo/", ".github/", "docs/adr/") })
   end

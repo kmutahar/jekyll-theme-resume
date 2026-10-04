@@ -5,7 +5,7 @@ require "jekyll"
 require "fileutils"
 require "tmpdir"
 
-require_relative "../lib/bilingual-jekyll-resume-theme"
+require_relative "../lib/jekyll-theme-resume"
 
 # ErrorPagesGenerator and gem registration: a consuming site gets 404/403/500 pages without
 # authoring them, and any page it does author always wins.
@@ -64,7 +64,7 @@ class ErrorPagesGeneratorTest < Minitest::Test
   def test_gem_entrypoint_registers_every_theme_generator
     generators = Jekyll::Generator.descendants.map(&:name)
     %w[ErrorPagesGenerator ResumePagesGenerator ResumeValidatorGenerator JsonResumeGenerator].each do |name|
-      assert_includes generators, "BilingualJekyllResumeTheme::#{name}"
+      assert_includes generators, "JekyllThemeResume::#{name}"
     end
   end
 end

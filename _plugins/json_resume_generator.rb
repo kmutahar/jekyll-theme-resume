@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require_relative "../lib/bilingual-jekyll-resume-theme/json_resume_exporter"
-require_relative "../lib/bilingual-jekyll-resume-theme/resume_validator"
+require_relative "../lib/jekyll-theme-resume/json_resume_exporter"
+require_relative "../lib/jekyll-theme-resume/resume_validator"
 
-module BilingualJekyllResumeTheme
+module JekyllThemeResume
   class JsonResumePage < Jekyll::PageWithoutAFile
     def initialize(site, route, document)
       super(site, site.source, File.dirname(route).delete_prefix("/"), "resume.json")

@@ -47,12 +47,12 @@ jobs:
 
       - name: Validate RubyGem Specification & Executables
         run: |
-          gem build bilingual-jekyll-resume-theme.gemspec
-          gem spec bilingual-jekyll-resume-theme-*.gem executables | grep -q "validate-resume"
+          gem build jekyll-theme-resume.gemspec
+          gem spec jekyll-theme-resume-*.gem executables | grep -q "validate-resume"
           # check-data-keys is a dev/CI-only tool and must never ship as a gem executable
-          gem spec bilingual-jekyll-resume-theme-*.gem executables | grep -qv "check-data-keys"
-          ! gem spec bilingual-jekyll-resume-theme-*.gem files | grep -q "docs/COMPLETED_AUDIT.md"
-          rm -f bilingual-jekyll-resume-theme-*.gem
+          gem spec jekyll-theme-resume-*.gem executables | grep -qv "check-data-keys"
+          ! gem spec jekyll-theme-resume-*.gem files | grep -q "docs/COMPLETED_AUDIT.md"
+          rm -f jekyll-theme-resume-*.gem
 
   lint-ruby:
     name: Lint Ruby (RuboCop)

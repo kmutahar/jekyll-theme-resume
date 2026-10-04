@@ -4,9 +4,9 @@
 > 
 > *Note for Claude Code / Warp users*: [`CLAUDE.md`](CLAUDE.md) and [`WARP.md`](WARP.md) reference this master document. Do not create separate diverging guides; maintain all guidance in this file.
 
-**bilingual-jekyll-resume-theme** is a Ruby gem / Jekyll theme for data-driven, multilingual resume and CV websites. One locale-agnostic layout renders every language, LTR or RTL, from per-language YAML data and locale files. Six locales ship with the theme: English (`en`), Arabic (`ar`), Spanish (`es`), French (`fr`), German (`de`), and Urdu (`ur`). 
-- **RubyGems**: https://rubygems.org/gems/bilingual-jekyll-resume-theme
-- **Demo / Homepage**: https://www.mutahr.me/bilingual-jekyll-resume-theme
+**jekyll-theme-resume** is a Ruby gem / Jekyll theme for data-driven, multilingual resume and CV websites. One locale-agnostic layout renders every language, LTR or RTL, from per-language YAML data and locale files. Six locales ship with the theme: English (`en`), Arabic (`ar`), Spanish (`es`), French (`fr`), German (`de`), and Urdu (`ur`). 
+- **RubyGems**: https://rubygems.org/gems/jekyll-theme-resume
+- **Demo / Homepage**: https://www.mutahr.me/jekyll-theme-resume
 
 ## 1. Agent Golden Rules & Operating Protocol
 
@@ -35,8 +35,8 @@ bundle exec jekyll build --source demo --destination _site
 # 2. Test suite, linting, and data validation
 bundle exec rake
 # 3. Package verification
-gem build bilingual-jekyll-resume-theme.gemspec
-rm -f bilingual-jekyll-resume-theme-*.gem
+gem build jekyll-theme-resume.gemspec
+rm -f jekyll-theme-resume-*.gem
 ```
 *Done* means 0 Liquid errors, 0 test failures, 0 RuboCop offenses, and a successful gem build.
 
@@ -88,7 +88,7 @@ bundle exec rake
 ./bin/validate-resume demo/_data --all-locales --fail-on-warnings
 
 # Test the theme in a consuming Jekyll site (local test)
-# In consuming site Gemfile: gem "bilingual-jekyll-resume-theme", path: "../bilingual-jekyll-resume-theme"
+# In consuming site Gemfile: gem "jekyll-theme-resume", path: "../jekyll-theme-resume"
 ```
 
 ## 4. Troubleshooting & Debugging
@@ -96,7 +96,7 @@ bundle exec rake
 - **Section Not Appearing**: Check that the section name is in `site.resume_section_order`, `site.resume_section.<name>` is `true`, and the data items have `active: true`.
 - **Page Renders Without Data**: The page's `lang` has no `languages.<lang>` entry, or its `data_path` folder is missing. Run `./bin/validate-resume <data_dir>`.
 - **Dates Not Localized**: Check that the `enddate` string matches a value in the locale's `present_values`.
-- **Files Missing from Built Gem**: Ensure the files match the `spec.files` filter in `bilingual-jekyll-resume-theme.gemspec`.
+- **Files Missing from Built Gem**: Ensure the files match the `spec.files` filter in `jekyll-theme-resume.gemspec`.
 
 ## 5. GitHub Issues & Git Workflow
 

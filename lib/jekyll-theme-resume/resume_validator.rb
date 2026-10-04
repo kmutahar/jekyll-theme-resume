@@ -4,7 +4,7 @@ require "yaml"
 require "uri"
 require "date"
 
-module BilingualJekyllResumeTheme
+module JekyllThemeResume
   # Validates resume YAML data against expected schemas, checks section-file parity
   # across every configured language, and provides colorized diagnostics.
   #

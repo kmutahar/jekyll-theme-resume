@@ -1,10 +1,10 @@
-# bilingual-jekyll-resume-theme
+# jekyll-theme-resume
 
-[![CI Test Suite](https://github.com/kmutahar/bilingual-jekyll-resume-theme/actions/workflows/ci.yml/badge.svg)](https://github.com/kmutahar/bilingual-jekyll-resume-theme/actions/workflows/ci.yml) [![Latest release](https://img.shields.io/github/v/release/kmutahar/bilingual-jekyll-resume-theme?display_name=tag)](https://github.com/kmutahar/bilingual-jekyll-resume-theme/releases) [![Gem Version](https://badge.fury.io/rb/bilingual-jekyll-resume-theme.svg?icon=si%3Arubygems)](https://badge.fury.io/rb/bilingual-jekyll-resume-theme)
+[![CI Test Suite](https://github.com/kmutahar/jekyll-theme-resume/actions/workflows/ci.yml/badge.svg)](https://github.com/kmutahar/jekyll-theme-resume/actions/workflows/ci.yml) [![Latest release](https://img.shields.io/github/v/release/kmutahar/jekyll-theme-resume?display_name=tag)](https://github.com/kmutahar/jekyll-theme-resume/releases) [![Gem Version](https://badge.fury.io/rb/jekyll-theme-resume.svg?icon=si%3Arubygems)](https://badge.fury.io/rb/jekyll-theme-resume)
 
-A flexible Jekyll theme for clean, data-driven, multilingual resume/CV websites. Ships English, Arabic, Spanish, French, German, and Urdu; any other language is added from your site alone. Created and maintained by Khaldoon Mutahar. See the latest version on the [Releases page](https://github.com/kmutahar/bilingual-jekyll-resume-theme/releases).
+A flexible Jekyll theme for clean, data-driven, multilingual resume/CV websites. Ships English, Arabic, Spanish, French, German, and Urdu; any other language is added from your site alone. Created and maintained by Khaldoon Mutahar. See the latest version on the [Releases page](https://github.com/kmutahar/jekyll-theme-resume/releases).
 
-**Links:** [RubyGems](https://rubygems.org/gems/bilingual-jekyll-resume-theme) · [Live demo](https://www.mutahr.me/bilingual-jekyll-resume-theme) · [Source](https://github.com/kmutahar/bilingual-jekyll-resume-theme)
+**Links:** [RubyGems](https://rubygems.org/gems/jekyll-theme-resume) · [Live demo](https://www.mutahr.me/jekyll-theme-resume) · [Source](https://github.com/kmutahar/jekyll-theme-resume)
 Inspired by and originally forked from [Joel Glovier’s resume template](https://github.com/jglovier/resume-template/). Joel’s version was a basic English-only theme with limited customization (e.g., no section reordering); this project has since evolved into a fully separate theme authored by Khaldoon.
 
 ## Features
@@ -25,16 +25,16 @@ Inspired by and originally forked from [Joel Glovier’s resume template](https:
 
 ### Installation
 
-1. Add to your Jekyll site's `Gemfile`, inside `group :jekyll_plugins`. The `:jekyll_plugins` group loads the theme’s bundled generators and validator. Alternatively, explicitly list `bilingual-jekyll-resume-theme` under `plugins:` in `_config.yml` (as the sample does); a plain Gemfile entry plus `theme:` alone is insufficient:
+1. Add to your Jekyll site's `Gemfile`, inside `group :jekyll_plugins`. The `:jekyll_plugins` group loads the theme’s bundled generators and validator. Alternatively, explicitly list `jekyll-theme-resume` under `plugins:` in `_config.yml` (as the sample does); a plain Gemfile entry plus `theme:` alone is insufficient:
 ```ruby
 group :jekyll_plugins do
-  gem "bilingual-jekyll-resume-theme"
+  gem "jekyll-theme-resume"
 end
 ```
 
 2. Add to your `_config.yml`:
 ```yaml
-theme: bilingual-jekyll-resume-theme
+theme: jekyll-theme-resume
 ```
 
 3. Install dependencies:
@@ -65,7 +65,7 @@ Most-used reference pages: [Configuration reference](docs/reference/config.md) (
 ## Project Structure
 
 ```text
-bilingual-jekyll-resume-theme/
+jekyll-theme-resume/
 ├── _layouts/          # HTML templates (default, resume, profile, error)
 ├── _includes/         # Reusable components (section dispatcher, date formatter, avatar, toggles)
 ├── _sass/             # SCSS (LTR main styles, RTL overrides, dark mode tokens, print styles)
@@ -139,11 +139,11 @@ bundle exec rake
 bundle exec rake "proof[_site,demo/_config.yml]"
 
 # Build the gem
-gem build bilingual-jekyll-resume-theme.gemspec
+gem build jekyll-theme-resume.gemspec
 
 # List packaged files (must include locales and bin, exclude tests)
-gem spec bilingual-jekyll-resume-theme-*.gem files
-rm -f bilingual-jekyll-resume-theme-*.gem
+gem spec jekyll-theme-resume-*.gem files
+rm -f jekyll-theme-resume-*.gem
 
 # Dependency Audit
 bundle outdated
@@ -177,7 +177,7 @@ The theme is available as open source under the terms of the [MIT License](LICEN
 ## Support
 
 - 📖 Check the [Documentation](#documentation) for detailed information
-- 🐛 Report issues on [GitHub Issues](https://github.com/kmutahar/bilingual-jekyll-resume-theme/issues)
+- 🐛 Report issues on [GitHub Issues](https://github.com/kmutahar/jekyll-theme-resume/issues)
 
 ---
 

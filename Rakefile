@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 require "rake"
-require_relative "lib/bilingual-jekyll-resume-theme/resume_validator"
-require_relative "lib/bilingual-jekyll-resume-theme/template_key_checker"
+require_relative "lib/jekyll-theme-resume/resume_validator"
+require_relative "lib/jekyll-theme-resume/template_key_checker"
 
-desc "Validate bilingual resume YAML data files for schema conformance and parity"
+desc "Validate multilingual resume YAML data files for schema conformance and parity"
 task :validate, [:data_dir] do |_t, args|
   data_dir = args[:data_dir] || (Dir.exist?("_data/en") ? "_data" : "demo/_data")
-  validator = BilingualJekyllResumeTheme::ResumeValidator.new(data_dir)
+  validator = JekyllThemeResume::ResumeValidator.new(data_dir)
   exit_code = validator.validate
   exit exit_code unless exit_code.zero?
 end
@@ -17,7 +17,7 @@ desc "Check theme templates for Liquid references to resume data keys that don't
      "sample data doesn't always mean the template is wrong — see TemplateKeyChecker's class doc)"
 task :check_data_keys, [:data_dir] do |_t, args|
   data_dir = args[:data_dir] || (Dir.exist?("_data/en") ? "_data" : "demo/_data")
-  checker = BilingualJekyllResumeTheme::TemplateKeyChecker.new(data_dir)
+  checker = JekyllThemeResume::TemplateKeyChecker.new(data_dir)
   checker.check
 end
 

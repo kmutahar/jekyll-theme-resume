@@ -2,7 +2,7 @@
 
 *Audience: site owners and theme developers*
 
-The repository has two verification engines; only the resume-data validator ships in the gem. `lib/bilingual-jekyll-resume-theme/resume_validator.rb` checks resume YAML data — reached three ways: the `validate-resume` CLI, the `rake validate` task, and a Jekyll generator that runs during every consuming site's build. `lib/bilingual-jekyll-resume-theme/template_key_checker.rb` checks the theme's own `_layouts`/`_includes` Liquid templates for references to data keys that don't exist — reached via the `check-data-keys` CLI and the `rake check_data_keys` task ([section 11](#11-template-key-checker-check-data-keys)); unlike the resume validator, it runs only in this repository's own development workflow and CI, never on a consuming site's build, and it is not packaged in the gem. This page describes what each checks and how their entry points behave.
+The repository has two verification engines; only the resume-data validator ships in the gem. `lib/jekyll-theme-resume/resume_validator.rb` checks resume YAML data — reached three ways: the `validate-resume` CLI, the `rake validate` task, and a Jekyll generator that runs during every consuming site's build. `lib/jekyll-theme-resume/template_key_checker.rb` checks the theme's own `_layouts`/`_includes` Liquid templates for references to data keys that don't exist — reached via the `check-data-keys` CLI and the `rake check_data_keys` task ([section 11](#11-template-key-checker-check-data-keys)); unlike the resume validator, it runs only in this repository's own development workflow and CI, never on a consuming site's build, and it is not packaged in the gem. This page describes what each checks and how their entry points behave.
 
 ---
 
@@ -189,7 +189,7 @@ Scans only `_layouts/*.html` and `_includes/**/*.html` — this repository's own
 
 ## 12. Ruby API (`ResumeValidator`)
 
-`BilingualJekyllResumeTheme::ResumeValidator` in [`lib/bilingual-jekyll-resume-theme/resume_validator.rb`](../../lib/bilingual-jekyll-resume-theme/resume_validator.rb) backs the CLI, the Rake task, and the Jekyll generator. Public interface:
+`JekyllThemeResume::ResumeValidator` in [`lib/jekyll-theme-resume/resume_validator.rb`](../../lib/jekyll-theme-resume/resume_validator.rb) backs the CLI, the Rake task, and the Jekyll generator. Public interface:
 
 | Signature | Behavior |
 |---|---|

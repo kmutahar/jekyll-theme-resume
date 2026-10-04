@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "../lib/bilingual-jekyll-resume-theme/resume_validator"
+require_relative "../lib/jekyll-theme-resume/resume_validator"
 
-module BilingualJekyllResumeTheme
+module JekyllThemeResume
   # Synthesizes a CV (layout: resume) and profile (layout: profile) page for every
   # languages.<lang> entry in _config.yml that doesn't already have a hand-authored one,
   # the same way ErrorPagesGenerator synthesizes 404/403/500 pages (see

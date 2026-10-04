@@ -1,4 +1,4 @@
-# RuboCop configuration for bilingual-jekyll-resume-theme.
+# RuboCop configuration for jekyll-theme-resume.
 # Scope: the Ruby that ships with or verifies the theme (lib/, _plugins/, bin/, test/, Rakefile).
 # Run with: bundle exec rake rubocop   (or: bundle exec rubocop)
 
@@ -71,4 +71,4 @@ Style/Documentation:
 # Bundler requires the gem entrypoint to match the gem name (with hyphens).
 Naming/FileName:
   Exclude:
-    - "lib/bilingual-jekyll-resume-theme.rb"
+    - "lib/jekyll-theme-resume.rb"

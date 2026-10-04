@@ -1,5 +1,5 @@
 # ==============================================================================
-# BILINGUAL JEKYLL RESUME THEME - MASTER SAMPLE CONFIGURATION
+# MULTILINGUAL JEKYLL RESUME THEME - MASTER SAMPLE CONFIGURATION
 # ==============================================================================
 # This configuration file contains all supported settings for the theme.
 # Copy this file to your site's root as `_config.yml` and customize it.
@@ -9,7 +9,7 @@
 # ==============================================================================
 # 1. SITE IDENTITY & LOCALIZATION
 # ==============================================================================
-theme: bilingual-jekyll-resume-theme
+theme: jekyll-theme-resume
 title: "Your Full Name"
 description: >- # Ignore newlines until next key; used for SEO meta descriptions
   A brief description of your site or professional tagline.
@@ -288,7 +288,7 @@ plugins:
   # of Bundler group, guarding against a Gemfile that forgets to put the theme gem in
   # the `:jekyll_plugins` group — without that, the build-time resume validator and
   # page generators silently never run.
-  - bilingual-jekyll-resume-theme
+  - jekyll-theme-resume
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap

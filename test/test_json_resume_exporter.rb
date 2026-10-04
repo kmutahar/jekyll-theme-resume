@@ -5,12 +5,12 @@ require "tmpdir"
 require "fileutils"
 require "yaml"
 require "stringio"
-require_relative "../lib/bilingual-jekyll-resume-theme"
+require_relative "../lib/jekyll-theme-resume"
 
 class JsonResumeExporterTest < Minitest::Test
-  Exporter = BilingualJekyllResumeTheme::JsonResumeExporter
-  Generator = BilingualJekyllResumeTheme::JsonResumeGenerator
-  JsonPage = BilingualJekyllResumeTheme::JsonResumePage
+  Exporter = JekyllThemeResume::JsonResumeExporter
+  Generator = JekyllThemeResume::JsonResumeGenerator
+  JsonPage = JekyllThemeResume::JsonResumePage
   ROOT = File.expand_path("..", __dir__)
 
   def setup

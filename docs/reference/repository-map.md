@@ -5,7 +5,7 @@
 Annotated tree of the theme's code directories. The `docs/` directory is not listed; see the [documentation index](../README.md).
 
 ```text
-bilingual-jekyll-resume-theme/
+jekyll-theme-resume/
 ├── 403.html / 404.html / 500.html  # Root HTTP error pages (layout: error)
 │
 ├── _layouts/
@@ -62,8 +62,8 @@ bilingual-jekyll-resume-theme/
 │   └── resume_validator.rb       # Build-time validation (on by default)
 │
 ├── lib/
-│   ├── bilingual-jekyll-resume-theme.rb          # Gem entrypoint
-│   └── bilingual-jekyll-resume-theme/
+│   ├── jekyll-theme-resume.rb          # Gem entrypoint
+│   └── jekyll-theme-resume/
 │       ├── json_resume_exporter.rb # Maps resume data to a JSON Resume v1.0.0 document
 │       ├── resume_validator.rb   # Validator engine
 │       ├── template_key_checker.rb # Template checker (repository-only)

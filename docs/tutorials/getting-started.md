@@ -2,13 +2,13 @@
 
 *Audience: site owners*
 
-In this tutorial you start from an empty folder and end with an English and Arabic resume site running on your computer, built with the `bilingual-jekyll-resume-theme` gem. Follow the steps in order. Each step shows what you should see before you move on.
+In this tutorial you start from an empty folder and end with an English and Arabic resume site running on your computer, built with the `jekyll-theme-resume` gem. Follow the steps in order. Each step shows what you should see before you move on.
 
 ## Before you start
 
 You need:
 
-- **Theme version 1.1.0 or newer.** This tutorial is written for 1.1.0.
+- **Theme version 1.3.0 or newer.** This tutorial is written for 1.3.0.
 - **Ruby 3.3.0 or newer.** The theme's CI tests Ruby 3.3, 3.4, and 4.0.
 - **Bundler**, which installs Jekyll and the theme for you. The theme needs Jekyll `~> 4.4`, and Bundler installs it automatically.
 - **Git**, used in step 5 to download the sample resume data.
@@ -40,7 +40,7 @@ Create a file named `Gemfile` with this content:
 source "https://rubygems.org"
 
 group :jekyll_plugins do
-  gem "bilingual-jekyll-resume-theme"
+  gem "jekyll-theme-resume"
 end
 ```
 
@@ -52,14 +52,14 @@ The theme must be inside `group :jekyll_plugins`. That group loads the theme's b
 bundle install
 ```
 
-**Expected result:** Bundler installs `bilingual-jekyll-resume-theme`, Jekyll, and the theme's plugins, then prints `Bundle complete!`.
+**Expected result:** Bundler installs `jekyll-theme-resume`, Jekyll, and the theme's plugins, then prints `Bundle complete!`.
 
 ## Step 4: Write `_config.yml`
 
 Create `_config.yml` with this minimal English and Arabic configuration:
 
 ```yaml
-theme: bilingual-jekyll-resume-theme
+theme: jekyll-theme-resume
 title: "Jane Doe"
 url: "https://your-domain.com"
 baseurl: ""                   # Keep empty unless hosting on a subpath (e.g., /resume)
@@ -165,8 +165,8 @@ You now have a working two-language resume site.
 To see all sections types in all six languages, build the full Sherlock Holmes demo from a clone of the theme repository. Run these commands from a folder outside `my-resume`; the first two clone the repository and move into it:
 
 ```bash
-git clone https://github.com/kmutahar/bilingual-jekyll-resume-theme.git
-cd bilingual-jekyll-resume-theme
+git clone https://github.com/kmutahar/jekyll-theme-resume.git
+cd jekyll-theme-resume
 git submodule update --init --recursive
 bundle install
 bundle exec jekyll build --source demo --destination _site

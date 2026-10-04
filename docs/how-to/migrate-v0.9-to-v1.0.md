@@ -26,7 +26,7 @@ Upgrade a site built on v0.9.0 to v1.0.0. v1.0.0 is a hard break: no aliases, sh
 | `analytics.ga` | `analytics.gtag` or `analytics.gtm` |
 | `resume_section.recognition` (singular) | `resume_section.recognitions` |
 | `required_ruby_version >= 3.0.0` | `>= 3.3.0` |
-| A plain `gem "bilingual-jekyll-resume-theme"` line (no longer enough on its own) | Put the line inside `group :jekyll_plugins do ... end`, or list the theme under `plugins:` in `_config.yml`, to load its generators and validator |
+| A plain `gem "jekyll-theme-resume"` line (no longer enough on its own) | Put the line inside `group :jekyll_plugins do ... end`, or list the theme under `plugins:` in `_config.yml`, to load its generators and validator |
 
 ## 2. Apply the additional removals
 

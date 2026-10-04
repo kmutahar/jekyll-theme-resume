@@ -25,7 +25,7 @@ bundle exec ruby test/test_rendered_site.rb -n /date/   # tests whose name match
 - **New section field:** add it to `resume_data` in `test_rendered_site.rb` and assert on the rendered text; add a validator rule test if the field is validated.
 - **New locale key:** add it to all six `_data/locales/*.yml` files. `test_packaging.rb` fails if the key sets differ or no template reads the key.
 - **New social platform:** follow [Add a social platform](add-a-social-platform.md); `test_packaging.rb` checks the SVG and labels.
-- **New generator:** require it from `lib/bilingual-jekyll-resume-theme.rb` and add its class to the registration test in `test_error_pages_generator.rb`.
+- **New generator:** require it from `lib/jekyll-theme-resume.rb` and add its class to the registration test in `test_error_pages_generator.rb`.
 
 ## See also
 

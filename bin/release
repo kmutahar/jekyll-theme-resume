@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Automated release wrapper for bilingual-jekyll-resume-theme
+# Automated release wrapper for jekyll-theme-resume
 # Usage:
 #   ./bin/release <version>       (e.g., ./bin/release 0.8.0 or ./bin/release v0.8.0)
 #   ./bin/release --bump          (auto-detect version from git-cliff)
@@ -91,7 +91,7 @@ fi
 # Clean up version string (strip leading 'v')
 VERSION="${TARGET_VERSION#v}"
 TAG="v${VERSION}"
-GEMSPEC="bilingual-jekyll-resume-theme.gemspec"
+GEMSPEC="jekyll-theme-resume.gemspec"
 
 if [[ -z "$VERSION" ]]; then
   echo "Error: Release version cannot be empty." >&2

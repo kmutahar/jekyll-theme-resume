@@ -23,7 +23,7 @@ Add a new social network icon and label to the theme.
        newplatform: "New Platform"   # translate for each language
    ```
    Once the entry from step 2 exists, `test/test_packaging.rb` fails until its SVG and all six labels exist.
-4. To include the platform in the JSON Resume export, add its `key` to `JsonResumeExporter::NETWORKS` in [`lib/bilingual-jekyll-resume-theme/json_resume_exporter.rb`](../../lib/bilingual-jekyll-resume-theme/json_resume_exporter.rb). That list is hard-coded, so a platform missing from it is never exported.
+4. To include the platform in the JSON Resume export, add its `key` to `JsonResumeExporter::NETWORKS` in [`lib/jekyll-theme-resume/json_resume_exporter.rb`](../../lib/jekyll-theme-resume/json_resume_exporter.rb). That list is hard-coded, so a platform missing from it is never exported.
 
 ## Check it
 

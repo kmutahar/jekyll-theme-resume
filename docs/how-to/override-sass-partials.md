@@ -6,7 +6,7 @@ Change theme styles from a consuming site without forking the gem. Jekyll priori
 
 ## Replace a partial
 
-1. Find the theme's copy: `bundle info --path bilingual-jekyll-resume-theme` prints the gem's folder; the partials are in its `_sass/` folder.
+1. Find the theme's copy: `bundle info --path jekyll-theme-resume` prints the gem's folder; the partials are in its `_sass/` folder.
 2. Copy the complete partial into your site's `_sass/` folder under the same name (for example `_sass/_dark-mode.scss`).
 3. Edit your copy and rebuild. A same-path file replaces the whole theme partial, so keep every definition the other partials depend on.
 

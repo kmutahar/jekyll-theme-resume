@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "../lib/bilingual-jekyll-resume-theme/resume_validator"
+require_relative "../lib/jekyll-theme-resume/resume_validator"
 
-module BilingualJekyllResumeTheme
+module JekyllThemeResume
   # Jekyll Generator that validates resume YAML data during Jekyll build (on by default).
   #
   # _config.yml switches:
