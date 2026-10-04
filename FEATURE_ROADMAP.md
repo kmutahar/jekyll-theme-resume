@@ -368,7 +368,6 @@ The following hardening measures originate from the sandboxed security audit (`R
 | ID | Hardening Area | Target Files | Priority |
 |---|---|---|---|
 | SEC-04 | CI/CD and release workflow supply chain hardening | `.github/workflows/publish.yml`, `.github/workflows/ci.yml` | Medium |
-| SEC-08 | Content Security Policy (CSP) guidance and inline script audits | `docs/reference/config.md`, `_layouts/*.html` | Low |
 
 ### Security Brief SEC-04: CI/CD & Supply Chain Hardening
 
@@ -385,18 +384,6 @@ The gem publication workflow allows manual dispatch from any ref without tag or 
 - [ ] Publication workflow cannot be triggered against arbitrary un-tagged branches.
 - [ ] All third-party actions use immutable commit SHAs.
 - [ ] Long-lived publishing secrets are replaced with OpenID Connect tokens.
-
-### Security Brief SEC-08: Content Security Policy (CSP) Guidance
-
-**Target files:** `docs/reference/config.md`
-
-Inline scripts (such as the anti-FOUC theme detector and language switcher helpers) currently prevent deploying strict CSP headers without `unsafe-inline` or cryptographic hashes.
-
-**Implementation contract:**
-- Provide documented CSP guidance in `docs/reference/config.md` showing recommended header directives and hash generation commands for consuming sites.
-
-**Acceptance criteria:**
-- [ ] Consuming sites have clear instructions on configuring CSP headers for the theme.
 
 ## 4. Verification and Delivery
 

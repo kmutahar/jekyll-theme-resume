@@ -331,3 +331,48 @@ social_usernames:
 
 Routes, collision rules, visibility, and field mappings: [JSON Resume export configuration and privacy](json-resume-fields.md#configuration).
 
+### 14. Content Security Policy
+
+The theme ships no CSP header (static sites set headers at the host). It does emit inline code, so a strict `script-src` needs a hash for each inline script, or `'unsafe-inline'`.
+
+| Inline code | Where | Directive that governs it |
+|---|---|---|
+| Anti-FOUC theme detector (reads `localStorage`, sets `data-theme`) | `<head>`, every page (`shared-head.html`) | `script-src` |
+| Dark-mode toggle handler | `dark-mode-toggle.html`, when the toggle is enabled | `script-src` |
+| Error-page language detection | `404`/`403`/`500`/`503` pages (`error.html`) | `script-src` |
+| Google Tag Manager or `gtag` snippet | `analytics-head.html`, when `analytics.gtm` / `analytics.gtag` is set | `script-src`, plus `connect-src`/`img-src`/`frame-src` for Google hosts |
+| Locale font and line-height variables | `<style>` in `resume.html` | `style-src` |
+| `onclick="window.location.reload();"` on the error-page Reload button | 500/503 error pages | `script-src-attr` |
+| Some `style="..."` attributes (project and association titles, GTM `<noscript>` iframe) | resume sections, `analytics-body.html` | `style-src-attr` |
+
+The language switcher is plain links and needs no script. `<script type="application/json">` blocks are data, not executed, and are not covered by CSP.
+
+Starting point without analytics (hashes come from the command below):
+
+```text
+Content-Security-Policy:
+  default-src 'self';
+  script-src 'self' 'sha256-...' 'sha256-...';
+  style-src 'self' 'sha256-...';
+  style-src-attr 'unsafe-inline';
+  script-src-attr 'none';
+  img-src 'self' https: data:;
+  object-src 'none'; base-uri 'self'; frame-ancestors 'self'
+```
+
+- `script-src-attr 'none'` blocks the error-page Reload `onclick`; allow it with `'unsafe-hashes' 'sha256-<hash of window.location.reload();>'` if you keep that button.
+- `style-src-attr 'unsafe-inline'` covers the few inline `style` attributes; removing it needs those attributes moved into CSS.
+- With analytics, add the Google hosts you use (for GA4: `https://www.googletagmanager.com` in `script-src`, `https://*.google-analytics.com` in `connect-src`). Tag Manager can load arbitrary tags, which a strict policy cannot control.
+- A hash changes whenever the inline code changes: the theme's scripts change on upgrade, and the analytics snippet changes with your ID. Regenerate after each upgrade or config change.
+
+Generate the hashes from a built site (run in the site root after `jekyll build`; Ruby only, no extra gems):
+
+```bash
+ruby -rdigest -rbase64 -e '
+  tags = Dir["_site/**/*.html"].flat_map do |f|
+    File.read(f).scan(%r{<(script|style)(?![^>]*\s(?:src|type="application/json"))[^>]*>(.*?)</\1>}m)
+  end
+  tags.uniq.each { |tag, body| puts "#{tag == "script" ? "script-src" : "style-src"} \x27sha256-#{Base64.strict_encode64(Digest::SHA256.digest(body))}\x27" }'
+```
+
+Each output line names the directive to add the hash to. Hashes cover the exact bytes between the tags, whitespace included, so serve the files unminified-after-hash or hash the final output.
