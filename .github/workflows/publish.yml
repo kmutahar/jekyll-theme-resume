@@ -7,8 +7,6 @@ on:
   push:
     tags:
       - 'v*'
-  # Trigger 2: Allows you to manually run this workflow from the GitHub "Actions" tab
-  workflow_dispatch:
 
 # Grant write permissions to repository contents so GitHub Actions can create Releases
 permissions:
@@ -21,14 +19,14 @@ jobs:
 
     steps:
     # 1. Check out the repository code. 
-    # v5 is used to ensure compatibility with Node.js 24 runners (avoiding deprecation warnings).
+    # Third-party actions are pinned to full commit SHAs (Dependabot keeps them current).
     - name: Checkout code
-      uses: actions/checkout@v7
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
     # 2. Set up the Ruby environment.
     # setup-ruby is the official way to manage Ruby versions in GitHub Actions.
     - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
+      uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3d138a4ef85c8 # v1.327.0
       with:
         ruby-version: '3.4'
         bundler-cache: true # Automatically runs 'bundle install' and caches gems
@@ -68,7 +66,7 @@ jobs:
     # 5. Automatically create a GitHub Release for the pushed tag (e.g. v0.8.0),
     # setting the release body description from RELEASE_NOTES.md and attaching the built .gem asset.
     - name: Create GitHub Release & Upload Gem Artifact
-      uses: softprops/action-gh-release@v3
+      uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
       with:
         body_path: RELEASE_NOTES.md
         files: "*.gem"

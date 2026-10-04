@@ -367,22 +367,20 @@ The following hardening measures originate from the sandboxed security audit (`R
 
 | ID | Hardening Area | Target Files | Priority |
 |---|---|---|---|
-| SEC-04 | CI/CD and release workflow supply chain hardening | `.github/workflows/publish.yml`, `.github/workflows/ci.yml` | Medium |
+| SEC-04 | RubyGems Trusted Publishing (OIDC) for the publish workflow | `.github/workflows/publish.yml`, `.github/workflows/ci.yml` | Medium |
 
 ### Security Brief SEC-04: CI/CD & Supply Chain Hardening
 
 **Target files:** `.github/workflows/publish.yml`, `.github/workflows/ci.yml`
 
-The gem publication workflow allows manual dispatch from any ref without tag or branch validation. The workflow writes static API credentials to `~/.gem/credentials` while mutable third-party actions run with write permissions.
+The publish workflow still writes a static `RUBYGEMS_API_KEY` to `~/.gem/credentials`. Manual dispatch is gone (releases come only from `v*` tag pushes) and all third-party actions are pinned to commit SHAs.
 
 **Implementation contract:**
-- Add ref enforcement (`if: startsWith(github.ref, 'refs/tags/v')`) on release triggers.
-- Pin third-party GitHub Actions to full immutable commit SHAs.
-- Migrate from static `RUBYGEMS_API_KEY` credentials to RubyGems Trusted Publishing (OIDC).
+- Register the gem's Trusted Publisher on rubygems.org (Settings → Trusted Publishers → GitHub Actions: owner `kmutahar`, repo `bilingual-jekyll-resume-theme`, workflow `publish.yml`).
+- In `publish.yml`, add `id-token: write`, use a pinned `rubygems/configure-rubygems-credentials` step, and keep `gem push`. Do not use `rubygems/release-gem` (it builds, tags and pushes, which conflicts with the tag-triggered flow).
+- Keep `RUBYGEMS_API_KEY` until one OIDC release succeeds, then delete the secret.
 
 **Acceptance criteria:**
-- [ ] Publication workflow cannot be triggered against arbitrary un-tagged branches.
-- [ ] All third-party actions use immutable commit SHAs.
 - [ ] Long-lived publishing secrets are replaced with OpenID Connect tokens.
 
 ## 4. Verification and Delivery
