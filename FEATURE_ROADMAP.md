@@ -368,7 +368,6 @@ The following hardening measures originate from the sandboxed security audit (`R
 | ID | Hardening Area | Target Files | Priority |
 |---|---|---|---|
 | SEC-02 | Safe URL scheme allowlisting | `_includes/avatar.html`, `_includes/social-links.html`, `lib/.../resume_validator.rb` | High |
-| SEC-03 | Contextual Liquid escaping in HTML attributes and JS | `_includes/analytics-head.html`, `_layouts/resume.html`, `_includes/hreflang.html` | High |
 | SEC-04 | CI/CD and release workflow supply chain hardening | `.github/workflows/publish.yml`, `.github/workflows/ci.yml` | Medium |
 | SEC-06 | JSON Resume export contact privacy documentation | `docs/reference/data-schemas.md`, `docs/how-to/publish-json-resume.md`, `docs/reference/json-resume-fields.md` | Medium |
 | SEC-07 | Gemspec packaging hygiene and untracked file exclusion | `bilingual-jekyll-resume-theme.gemspec`, `test/test_packaging.rb` | Low |
@@ -388,21 +387,6 @@ Site configuration parameters such as `avatar_url`, `avatar_link`, and `social_l
 - [ ] Config URLs with disallowed schemes are suppressed in templates or flagged by the validator.
 - [ ] Safe local paths (`/assets/...`) and external `https://` URLs render normally.
 - [ ] `rake validate` reports invalid URL protocols in site configuration.
-
-### Security Brief SEC-03: Contextual Escaping in HTML Attributes & JS
-
-**Target files:** `_includes/analytics-head.html`, `_layouts/resume.html`, `_includes/hreflang.html`
-
-Template values injected into HTML attributes (`lang="{{ lang }}"`) or inline analytics scripts are output without explicit filtering.
-
-**Implementation contract:**
-- Apply `| escape` on `lang` attributes across all layout headers.
-- Validate language keys against `/^[a-zA-Z0-9_-]+$/` to prevent attribute injection.
-- Sanitize or validate tracking IDs (`gtag`, `gtm`) in `_includes/analytics-head.html` to ensure only alphanumeric and hyphenated identifiers are injected into script blocks.
-
-**Acceptance criteria:**
-- [ ] All `lang` and `hreflang` attributes in rendered HTML are properly escaped.
-- [ ] Malformed analytics IDs containing quotes or script tags do not break into inline script contexts.
 
 ### Security Brief SEC-04: CI/CD & Supply Chain Hardening
 

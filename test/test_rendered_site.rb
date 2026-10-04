@@ -179,6 +179,8 @@ class RenderedSiteTest < Minitest::Test
       end
       write(File.join(source, "404.html"), page("layout" => "error", "code" => "404", "permalink" => "/404.html"))
       write(File.join(source, "500.html"), page("layout" => "error", "code" => 500, "permalink" => "/500.html"))
+      write(File.join(source, "weird-lang.html"),
+            page("layout" => "profile", "lang" => %(x"onload="alert(1)), "t_id" => "weird", "permalink" => "/weird/"))
       write(File.join(source, "about.md"), page({ "layout" => "default", "lang" => "ar", "permalink" => "/about/" }, "Hello **there**"))
 
       config = Jekyll.configuration(base_config.merge(overrides).merge("source" => source, "destination" => dest, "quiet" => true))
@@ -749,6 +751,26 @@ class RenderedSiteTest < Minitest::Test
     assert_equal HOSTILE, page.at_css(".error-description").text
     assert_equal HOSTILE, page.at_css("#error-home-btn").text.strip
     assert_equal HOSTILE, page.at_css("a.skip-link").text
+  end
+
+  def test_lang_and_hreflang_attributes_are_escaped
+    doc = html("weird/index.html")
+    assert_equal %(x"onload="alert(1)), doc.at_css("html")["lang"]
+    assert_nil doc.at_css("html")["onload"], "a quote in lang must not open a new attribute"
+    assert_nil doc.at_css("link[hreflang]")["onload"]
+    assert_equal %(x"onload="alert(1)), doc.at_css("link[hreflang]")["hreflang"]
+  end
+
+  HOSTILE_ID = "X');alert(1);//</script><img src=x onerror=alert(2)>"
+
+  def test_hostile_analytics_ids_cannot_break_out_of_inline_scripts
+    %w[gtm gtag].each do |kind|
+      doc = html("index.html", "analytics" => { kind => HOSTILE_ID })
+      assert_empty doc.css("head img, body img").select { |img| img["onerror"] }, "#{kind}: injected element"
+      script = doc.css("script").map(&:text).find { |js| js.include?("alert(1)") }
+      refute_nil script, "#{kind}: the ID should stay inside one script"
+      assert_includes script, HOSTILE_ID.to_json.gsub("<", "\\u003c"), "#{kind}: ID must be a JS string literal"
+    end
   end
 
   def test_server_error_page_puts_the_reload_button_first

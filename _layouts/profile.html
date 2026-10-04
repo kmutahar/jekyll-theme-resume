@@ -7,7 +7,7 @@ Dynamic <html> tag:
 {%- assign lang = page.lang | default: site.default_lang | default: 'en' -%}
 {%- assign locale = site.data.locales[lang] | default: site.data.locales[site.default_lang] | default: site.data.locales['en'] -%}
 {%- assign lang_cfg = site.languages[lang] -%}
-<html lang="{{ lang }}" dir="{{ locale.direction }}">
+<html lang="{{ lang | escape }}" dir="{{ locale.direction }}">
     {%- comment -%}
     <!-- Layout: Profile layout used for the landing page / bio-link style homepage.
          - Purpose: Dedicated standalone layout with clean unconstrained centering.

@@ -34,6 +34,10 @@ module BilingualJekyllResumeTheme
     # anything else (`../x`, `a/b`, `*`) is rejected before it reaches the filesystem.
     LANG_KEY_REGEX = /\A[a-zA-Z0-9_-]+\z/
 
+    # Tracking IDs are emitted into inline scripts and URLs; only these shapes are accepted.
+    # gtag covers G-, AW- and similar measurement IDs.
+    ANALYTICS_ID_REGEXES = { "gtm" => /\AGTM-[A-Z0-9]+\z/, "gtag" => /\A[A-Za-z0-9-]+\z/ }.freeze
+
     LOCALE_DIR_REGEX = /\A[a-z]{2,3}(?:[-_][a-zA-Z0-9]{2,4})?\z/i
 
     # Only these three ISO shapes are accepted by validate_date; parse_date_safely's
@@ -209,6 +213,7 @@ module BilingualJekyllResumeTheme
       return [] unless config.is_a?(Hash)
 
       @default_lang = config["default_lang"]&.to_s
+      validate_analytics_ids(config["analytics"])
       return [] unless config["languages"].is_a?(Hash)
 
       # A language without data_path is reported once here and left out of the run.
@@ -224,6 +229,17 @@ module BilingualJekyllResumeTheme
 
         @lang_dirs[lang] = File.join(@data_dir, *data_path.to_s.split("."))
         lang
+      end
+    end
+
+    def validate_analytics_ids(analytics)
+      return unless analytics.is_a?(Hash)
+
+      ANALYTICS_ID_REGEXES.each do |key, regex|
+        value = analytics[key]
+        next if value.nil? || value.to_s.empty? || regex.match?(value.to_s)
+
+        add_error("Config", "analytics.#{key} #{value.to_s.inspect} is not a valid ID (expected #{regex.source}).")
       end
     end
 

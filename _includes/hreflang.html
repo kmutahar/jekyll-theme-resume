@@ -35,7 +35,7 @@ HOW IT WORKS:
       Print an 'alternate' tag for each page, using its
       'lang' (e.g., "en", "ar") and its full 'url'.
     {% endcomment %}
-    <link rel="alternate" hreflang="{{ t.lang }}" href="{{ t.url | absolute_url }}" />
+    <link rel="alternate" hreflang="{{ t.lang | escape }}" href="{{ t.url | absolute_url }}" />
   {% endfor %}
 
   {% comment %}

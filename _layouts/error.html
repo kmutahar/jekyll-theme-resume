@@ -30,7 +30,7 @@ provides an integer or string.
     language prefix (e.g. /whatever) falls back to default_lang.
     {%- endcomment -%}
     <div class="error-multilingual-group">
-        <div class="error-lang-block" id="error-lang-block" lang="{{ default_lang }}" dir="{{ default_locale.direction }}">
+        <div class="error-lang-block" id="error-lang-block" lang="{{ default_lang | escape }}" dir="{{ default_locale.direction }}">
             <h1 class="error-title">{{ default_locale.error_pages[code_str].title | default: "Error" | escape }}</h1>
             <p class="error-description">{{ default_locale.error_pages[code_str].message | default: "An error has occurred." | escape }}</p>
         </div>

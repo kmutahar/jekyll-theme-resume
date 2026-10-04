@@ -3,7 +3,7 @@
 {%- assign lang_cfg = site.languages[lang] -%}
 {% include data-loader.html path=lang_cfg.data_path %}
 <!DOCTYPE html>
-<html lang="{{ lang }}" dir="{{ locale.direction }}">
+<html lang="{{ lang | escape }}" dir="{{ locale.direction }}">
     <!-- This page was last updated on {{ "now" | date: "%Y-%m-%d %H:%M:%S" }}Z -->
 
     <head>

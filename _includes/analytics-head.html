@@ -14,14 +14,14 @@
             j.async = true;
             j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
             f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', '{{ site.analytics.gtm }}');
+        })(window, document, 'script', 'dataLayer', {{ site.analytics.gtm | jsonify | replace: '<', '\u003c' }});
     </script>
     <!-- End Google Tag Manager -->
 
 {%- elsif site.analytics.gtag and site.analytics.gtag != "" -%}
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.analytics.gtag }}"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.analytics.gtag | url_encode }}"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -30,7 +30,7 @@
         }
 
         gtag('js', new Date());
-        gtag('config', '{{ site.analytics.gtag }}');
+        gtag('config', {{ site.analytics.gtag | jsonify | replace: '<', '\u003c' }});
     </script>
 
 {%- endif -%}

@@ -289,6 +289,21 @@ class ResumeValidatorTest < Minitest::Test
     end
   end
 
+  def test_analytics_ids_are_validated
+    good = { "analytics" => { "gtm" => "GTM-AB12CD", "gtag" => "G-ABC123" } }
+    bad = [{ "gtm" => "GTM-X');alert(1)" }, { "gtm" => "x" }, { "gtag" => "G-1'</script>" }, { "gtag" => "G 1" }]
+    errors = lambda do |analytics|
+      Dir.mktmpdir("test_analytics_") do |tmp|
+        validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, config: analytics)
+        validator.validate(quiet: true)
+        validator.errors.select { |e| e[:message].include?("analytics.") }
+      end
+    end
+
+    assert_empty errors.call(good)
+    bad.each { |analytics| assert_equal 1, errors.call("analytics" => analytics).size, analytics.inspect }
+  end
+
   def test_regional_language_keys_are_valid
     %w[en zh-CN pt_BR].each do |key|
       assert_match BilingualJekyllResumeTheme::ResumeValidator::LANG_KEY_REGEX, key
