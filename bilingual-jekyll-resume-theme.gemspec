@@ -26,7 +26,8 @@ Gem::Specification.new do |spec|
   # (they check the theme's own templates against its own demo data — see
   # docs/reference/validator-cli.md) and are intentionally excluded from the packaged gem.
   tracked_files = `git ls-files -z`.split("\x0")
-  spec.files         = (tracked_files + Dir["_plugins/**/*", "lib/**/*", "bin/validate-resume"]).uniq.select do |f|
+  # Only git-tracked files ship, so untracked scratch files can never reach a release gem.
+  spec.files         = tracked_files.select do |f|
     f.match(%r!^(assets|_data|_layouts|_includes|_sass|_plugins|lib|bin|LICENSE|README|CHANGELOG|CODE_OF_CONDUCT|SECURITY|docs|_config\.sample\.yml|404|403|500)!i) &&
       File.file?(f) &&
       f != "bin/release" &&

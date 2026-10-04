@@ -368,7 +368,6 @@ The following hardening measures originate from the sandboxed security audit (`R
 | ID | Hardening Area | Target Files | Priority |
 |---|---|---|---|
 | SEC-04 | CI/CD and release workflow supply chain hardening | `.github/workflows/publish.yml`, `.github/workflows/ci.yml` | Medium |
-| SEC-07 | Gemspec packaging hygiene and untracked file exclusion | `bilingual-jekyll-resume-theme.gemspec`, `test/test_packaging.rb` | Low |
 | SEC-08 | Content Security Policy (CSP) guidance and inline script audits | `docs/reference/config.md`, `_layouts/*.html` | Low |
 
 ### Security Brief SEC-04: CI/CD & Supply Chain Hardening
@@ -386,20 +385,6 @@ The gem publication workflow allows manual dispatch from any ref without tag or 
 - [ ] Publication workflow cannot be triggered against arbitrary un-tagged branches.
 - [ ] All third-party actions use immutable commit SHAs.
 - [ ] Long-lived publishing secrets are replaced with OpenID Connect tokens.
-
-### Security Brief SEC-07: Gemspec Packaging Hygiene
-
-**Target files:** `bilingual-jekyll-resume-theme.gemspec`, `test/test_packaging.rb`
-
-The gemspec uses `Dir["_plugins/**/*", "lib/**/*"]` which risks packaging untracked local scratch files or temporary build artifacts into release gems.
-
-**Implementation contract:**
-- Tighten `spec.files` in the gemspec by anchoring file patterns or using git-tracked file manifests.
-- Update `test/test_packaging.rb` to assert that untracked or unwanted scratch files are excluded.
-
-**Acceptance criteria:**
-- [ ] `gem build` packages only intentionally distributed source files.
-- [ ] Packaging test passes with zero untracked artifacts.
 
 ### Security Brief SEC-08: Content Security Policy (CSP) Guidance
 

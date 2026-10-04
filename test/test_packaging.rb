@@ -50,6 +50,11 @@ class PackagingTest < Minitest::Test
     assert(files.none? { |file| file.start_with?("test/", "demo/", ".github/", "docs/adr/") })
   end
 
+  def test_gem_ships_only_git_tracked_files
+    tracked = Dir.chdir(ROOT) { `git ls-files -z`.split("\0") }
+    assert_empty spec.files - tracked, "spec.files must be a subset of tracked files"
+  end
+
   def test_only_the_validator_is_an_executable
     assert_equal ["validate-resume"], spec.executables
   end
