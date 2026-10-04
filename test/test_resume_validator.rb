@@ -255,6 +255,46 @@ class ResumeValidatorTest < Minitest::Test
     end
   end
 
+  def test_yaml_alias_in_config_is_a_friendly_error_not_a_crash
+    Dir.mktmpdir("test_alias_config_") do |tmp|
+      File.write(File.join(tmp, "_config.yml"), "a: &x {k: 1}\nb: *x\n")
+
+      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp)
+      exit_code = validator.validate(quiet: true)
+
+      assert_equal 1, exit_code
+      assert(validator.errors.any? { |e| e[:message].include?("Unsupported YAML") })
+    end
+  end
+
+  def test_unsafe_language_keys_are_rejected_before_touching_the_filesystem
+    ["../x", "a/b", "*", "en\0"].each do |bad|
+      config = { "languages" => { bad => { "data_path" => "en" } } }
+      Dir.mktmpdir("test_lang_key_") do |tmp|
+        validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, config: config)
+        validator.validate(quiet: true)
+
+        assert(validator.errors.any? { |e| e[:message].include?("Invalid language key") }, "#{bad.inspect} must be rejected")
+        refute(validator.errors.any? { |e| e[:message].include?("No locale found") }, "#{bad.inspect} must not reach locale lookup")
+      end
+    end
+  end
+
+  def test_unsafe_explicit_language_is_rejected
+    Dir.mktmpdir("test_lang_arg_") do |tmp|
+      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp)
+      validator.validate(languages: %w[../etc], quiet: true)
+
+      assert(validator.errors.any? { |e| e[:message].include?("Invalid language key") })
+    end
+  end
+
+  def test_regional_language_keys_are_valid
+    %w[en zh-CN pt_BR].each do |key|
+      assert_match BilingualJekyllResumeTheme::ResumeValidator::LANG_KEY_REGEX, key
+    end
+  end
+
   def test_invalid_url_format_is_an_error
     Dir.mktmpdir("test_invalid_url_") do |tmp|
       write_yaml(File.join(tmp, "en", "links.yml"),

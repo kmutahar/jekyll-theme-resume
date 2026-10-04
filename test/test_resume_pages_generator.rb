@@ -65,6 +65,14 @@ class ResumePagesGeneratorTest < Minitest::Test
     assert_equal "profile", profile.data["t_id"]
   end
 
+  def test_unsafe_language_key_generates_no_pages
+    site = build_site({ "en" => { "url" => "/en/cv/" }, "../x" => { "url" => "/x/cv/" } })
+
+    refute_nil page(site, "resume", "en")
+    assert_nil page(site, "resume", "../x")
+    assert_nil page(site, "profile", "../x")
+  end
+
   def test_non_default_language_profile_permalink_is_lang_prefixed
     site = build_site({
                         "en" => { "url" => "/en/cv/" },

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "../lib/bilingual-jekyll-resume-theme/resume_validator"
+
 module BilingualJekyllResumeTheme
   # Synthesizes a CV (layout: resume) and profile (layout: profile) page for every
   # languages.<lang> entry in _config.yml that doesn't already have a hand-authored one,
@@ -19,6 +21,12 @@ module BilingualJekyllResumeTheme
       default_lang = site.config["default_lang"] || "en"
 
       languages.each do |lang, lang_cfg|
+        unless ResumeValidator::LANG_KEY_REGEX.match?(lang.to_s)
+          Jekyll.logger.warn "ResumePagesGenerator:",
+                             "skipping language #{lang.to_s.inspect}: keys may only use letters, digits, '-' and '_'."
+          next
+        end
+
         lang_cfg ||= {}
         synthesize_or_warn(site, "resume", lang, lang_cfg["url"], lang_cfg)
 

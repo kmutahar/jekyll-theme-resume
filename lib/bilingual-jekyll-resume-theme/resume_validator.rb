@@ -30,6 +30,10 @@ module BilingualJekyllResumeTheme
       locales sample samples archive archives rawdata data assets images img css js
     ].freeze
 
+    # The one allowed shape for a language key. Keys are joined into file paths and globs, so
+    # anything else (`../x`, `a/b`, `*`) is rejected before it reaches the filesystem.
+    LANG_KEY_REGEX = /\A[a-zA-Z0-9_-]+\z/
+
     LOCALE_DIR_REGEX = /\A[a-z]{2,3}(?:[-_][a-zA-Z0-9]{2,4})?\z/i
 
     # Only these three ISO shapes are accepted by validate_date; parse_date_safely's
@@ -73,7 +77,7 @@ module BilingualJekyllResumeTheme
       end
 
       config_languages = load_language_config
-      explicit = Array(languages).map(&:to_s)
+      explicit = valid_language_keys(Array(languages).map(&:to_s))
       declared = explicit.empty? ? config_languages : explicit
 
       target_languages = resolve_target_languages(explicit, config_languages, all_locales)
@@ -210,6 +214,8 @@ module BilingualJekyllResumeTheme
       # A language without data_path is reported once here and left out of the run.
       config["languages"].filter_map do |lang, lang_cfg|
         lang = lang.to_s
+        next if valid_language_keys([lang]).empty?
+
         data_path = lang_cfg["data_path"] if lang_cfg.is_a?(Hash)
         if data_path.nil?
           add_error("Config", "languages.#{lang} has no 'data_path' (use \"\" for the data root).")
@@ -218,6 +224,16 @@ module BilingualJekyllResumeTheme
 
         @lang_dirs[lang] = File.join(@data_dir, *data_path.to_s.split("."))
         lang
+      end
+    end
+
+    # Reports every key that is not a plain language code and returns the rest.
+    def valid_language_keys(keys)
+      keys.select do |key|
+        next true if LANG_KEY_REGEX.match?(key)
+
+        add_error("Config", "Invalid language key #{key.inspect}: use only letters, digits, '-' and '_'.")
+        false
       end
     end
 
@@ -243,6 +259,9 @@ module BilingualJekyllResumeTheme
     rescue Psych::SyntaxError => e
       add_error(cfg_file, "YAML Syntax Error: line #{e.line}, col #{e.column}: #{e.problem}")
       nil
+    rescue Psych::Exception => e
+      add_error(cfg_file, "Unsupported YAML (aliases and custom classes are not allowed): #{e.message}")
+      nil
     end
 
     def read_locale_file(dir, lang)
@@ -256,6 +275,9 @@ module BilingualJekyllResumeTheme
       nil
     rescue Psych::SyntaxError => e
       add_error(path, "YAML Syntax Error: line #{e.line}, col #{e.column}: #{e.problem}")
+      nil
+    rescue Psych::Exception => e
+      add_error(path, "Unsupported YAML (aliases and custom classes are not allowed): #{e.message}")
       nil
     end
 
@@ -383,6 +405,8 @@ module BilingualJekyllResumeTheme
           validate_section(section_name, data, lang, file_path)
         rescue Psych::SyntaxError => e
           add_error("#{lang}/#{filename}", "YAML Syntax Error: line #{e.line}, col #{e.column}: #{e.problem}")
+        rescue Psych::Exception => e
+          add_error("#{lang}/#{filename}", "Unsupported YAML (aliases and custom classes are not allowed): #{e.message}")
         rescue StandardError => e
           add_error("#{lang}/#{filename}", "Error loading YAML: #{e.message}")
         end
@@ -391,8 +415,6 @@ module BilingualJekyllResumeTheme
 
     def load_yaml_file(file_path)
       YAML.load_file(file_path, permitted_classes: [Date, Time])
-    rescue ArgumentError
-      YAML.load_file(file_path)
     end
 
     def validate_section(section_name, data, lang, file_path)

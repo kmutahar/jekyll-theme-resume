@@ -370,7 +370,6 @@ The following hardening measures originate from the sandboxed security audit (`R
 | SEC-02 | Safe URL scheme allowlisting | `_includes/avatar.html`, `_includes/social-links.html`, `lib/.../resume_validator.rb` | High |
 | SEC-03 | Contextual Liquid escaping in HTML attributes and JS | `_includes/analytics-head.html`, `_layouts/resume.html`, `_includes/hreflang.html` | High |
 | SEC-04 | CI/CD and release workflow supply chain hardening | `.github/workflows/publish.yml`, `.github/workflows/ci.yml` | Medium |
-| SEC-05 | Ruby plugin path joins and YAML parsing safety | `lib/.../resume_validator.rb`, `_plugins/resume_pages_generator.rb` | Medium |
 | SEC-06 | JSON Resume export contact privacy documentation | `docs/reference/data-schemas.md`, `docs/how-to/publish-json-resume.md`, `docs/reference/json-resume-fields.md` | Medium |
 | SEC-07 | Gemspec packaging hygiene and untracked file exclusion | `bilingual-jekyll-resume-theme.gemspec`, `test/test_packaging.rb` | Low |
 | SEC-08 | Content Security Policy (CSP) guidance and inline script audits | `docs/reference/config.md`, `_layouts/*.html` | Low |
@@ -420,22 +419,6 @@ The gem publication workflow allows manual dispatch from any ref without tag or 
 - [ ] Publication workflow cannot be triggered against arbitrary un-tagged branches.
 - [ ] All third-party actions use immutable commit SHAs.
 - [ ] Long-lived publishing secrets are replaced with OpenID Connect tokens.
-
-### Security Brief SEC-05: Ruby Engine & Plugin Safety
-
-**Target files:** `lib/bilingual-jekyll-resume-theme/resume_validator.rb`, `_plugins/resume_pages_generator.rb`
-
-The validator retains an obsolete fallback to `YAML.load_file` that is unreachable on Ruby 3.3+. In addition, `load_site_config` rescues only `Psych::SyntaxError`, leaving alias errors uncaught, and `lang` strings are joined into filesystem paths without validation.
-
-**Implementation contract:**
-- Remove the legacy `YAML.load_file` fallback branch.
-- Expand YAML exception handling in `load_site_config` to rescue `Psych::Exception`.
-- Validate that `lang` keys match `/^[a-zA-Z0-9_-]+$/` before joining them into file paths or glob expressions in generators and validators.
-
-**Acceptance criteria:**
-- [ ] Bad YAML aliases in configuration produce friendly error messages rather than unhandled crashes.
-- [ ] Path traversal patterns in language identifiers are rejected before filesystem operations.
-- [ ] Dead code paths in `resume_validator.rb` are removed.
 
 ### Security Brief SEC-06: JSON Resume Privacy Documentation
 

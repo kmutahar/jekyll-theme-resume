@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "../lib/bilingual-jekyll-resume-theme/json_resume_exporter"
+require_relative "../lib/bilingual-jekyll-resume-theme/resume_validator"
 
 module BilingualJekyllResumeTheme
   class JsonResumePage < Jekyll::PageWithoutAFile
@@ -31,7 +32,7 @@ module BilingualJekyllResumeTheme
       return if options["enabled"] == false || !languages.is_a?(Hash)
 
       selected_languages(languages, options).each do |lang|
-        unless lang.to_s.match?(/\A[a-zA-Z0-9]+(?:[-_][a-zA-Z0-9]+)*\z/)
+        unless ResumeValidator::LANG_KEY_REGEX.match?(lang.to_s)
           Jekyll.logger.warn "JSON Resume:", "invalid language route; skipping export"
           next
         end
