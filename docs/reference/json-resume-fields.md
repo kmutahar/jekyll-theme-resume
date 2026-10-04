@@ -42,6 +42,27 @@ Discovery links on CV pages and the `application/json` hosting requirement are c
   This setting does not redact free-form narrative text, usernames, or arbitrary
   URLs, and it does not change the HTML site's contact visibility.
 
+### Contact fields by privacy setting
+
+Two settings decide what personal data leaves in `resume.json`: `display_header_contact_info` (and `resume_looking_for_work`) in `_config.yml`, and `json_resume.privacy.export_contact_info`. Each cell says whether the field is exported.
+
+| Field in `resume.json` | Source | Default export | `display_header_contact_info: false` | `export_contact_info: false` |
+|---|---|---|---|---|
+| `basics.phone` | `contact_info.phone` (or `phone_live`) | Only when `display_header_contact_info: true` | Omitted | Omitted |
+| `basics.email` | `contact_info.email` (or `email_live`) | When `display_header_contact_info: true` **or** `resume_looking_for_work: true` | Omitted unless `resume_looking_for_work: true` | Omitted |
+| `basics.location.address`, `postalCode`, `city`, `region`, `countryCode` | `languages.<lang>.address`, `postal_code`, `city`, `region`, `country_code` | Only when `display_header_contact_info: true` | Whole `location` object omitted | Whole `location` object omitted |
+| `basics.profiles[]` for `whatsapp` | `social_links.whatsapp` | Exported when configured | Exported | **Omitted** |
+| `basics.profiles[]` for every other network | `social_links.<network>` | Exported when configured | Exported | **Still exported** (including `telegram`, `website`, `twitter`) |
+| `basics.profiles[].username` | `social_usernames.<network>` | Exported with its profile | Exported with its profile | Exported with its profile |
+| `contact_info.dob` | `contact_info.dob` | Never exported | Never exported | Never exported |
+
+Things to know before publishing:
+
+- A postal address is exported whenever the CV header shows contact details, even if you only meant to show it on the page. Set `export_contact_info: false` to keep address, phone and email out of the JSON.
+- `export_contact_info: false` does not touch the HTML. The CV still shows whatever `display_header_contact_info` shows.
+- Only WhatsApp is treated as a contact channel. Any other `social_links` entry (for example a Telegram handle) is public in the JSON unless you remove it from `social_links`.
+- Free-form text (summaries, references, highlights) is exported as written. The setting does not redact it.
+
 The export is a supported subset of the CV, not a lossless representation; see [the data-driven model](../explanation/data-driven-model.md).
 
 ## Field mappings

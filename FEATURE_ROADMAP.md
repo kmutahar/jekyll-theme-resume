@@ -368,7 +368,6 @@ The following hardening measures originate from the sandboxed security audit (`R
 | ID | Hardening Area | Target Files | Priority |
 |---|---|---|---|
 | SEC-04 | CI/CD and release workflow supply chain hardening | `.github/workflows/publish.yml`, `.github/workflows/ci.yml` | Medium |
-| SEC-06 | JSON Resume export contact privacy documentation | `docs/reference/data-schemas.md`, `docs/how-to/publish-json-resume.md`, `docs/reference/json-resume-fields.md` | Medium |
 | SEC-07 | Gemspec packaging hygiene and untracked file exclusion | `bilingual-jekyll-resume-theme.gemspec`, `test/test_packaging.rb` | Low |
 | SEC-08 | Content Security Policy (CSP) guidance and inline script audits | `docs/reference/config.md`, `_layouts/*.html` | Low |
 
@@ -387,19 +386,6 @@ The gem publication workflow allows manual dispatch from any ref without tag or 
 - [ ] Publication workflow cannot be triggered against arbitrary un-tagged branches.
 - [ ] All third-party actions use immutable commit SHAs.
 - [ ] Long-lived publishing secrets are replaced with OpenID Connect tokens.
-
-### Security Brief SEC-06: JSON Resume Privacy Documentation
-
-**Target files:** `docs/reference/data-schemas.md`, `docs/how-to/publish-json-resume.md`, `docs/reference/json-resume-fields.md`
-
-Address details (city, region, postal code) are exported in the JSON Resume format when `display_header_contact_info: true`, and certain social platforms export even when `export_contact_info: false`. This behavior needs explicit documentation so site owners understand data visibility boundaries.
-
-**Implementation contract:**
-- Document field-by-field privacy and export rules in `docs/reference/data-schemas.md`.
-- Clarify contact export flags in `docs/how-to/publish-json-resume.md` and `docs/reference/json-resume-fields.md`.
-
-**Acceptance criteria:**
-- [ ] Documentation outlines exactly which fields are included under each privacy toggle.
 
 ### Security Brief SEC-07: Gemspec Packaging Hygiene
 

@@ -8,7 +8,7 @@ The routes the theme generates (`/<lang>/resume.json` for every language, plus `
 
 ## 1. Check the discovery links on CV pages
 
-Build the site and open `/en/resume.json` (for example `http://localhost:4000/en/resume.json` while serving locally). Which contact details appear depends on what the CV shows: see [Visibility and privacy](../reference/json-resume-fields.md#visibility-and-privacy). Entries in `references.yml` are exported exactly as written, so publish only what each referee agreed to make public.
+Build the site and open `/en/resume.json` (for example `http://localhost:4000/en/resume.json` while serving locally). Which contact details appear depends on what the CV shows: see [Visibility and privacy](../reference/json-resume-fields.md#visibility-and-privacy), and [Contact fields by privacy setting](../reference/json-resume-fields.md#contact-fields-by-privacy-setting) for a field-by-field table. To keep address, phone and email out of the JSON while the CV still shows them, set `json_resume.privacy.export_contact_info: false`; every `social_links` entry except WhatsApp is still exported. Entries in `references.yml` are exported exactly as written, so publish only what each referee agreed to make public.
 
 CV pages advertise only successfully generated localized exports:
 

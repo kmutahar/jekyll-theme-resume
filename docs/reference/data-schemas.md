@@ -522,7 +522,7 @@ Existing data does not need to change. Export mapping and rules: [`json-resume-f
 - Recognitions: an ISO `date`, independently of the display-oriented `year`.
 - Skills: textual `level_label` and an array of `keywords`. Numeric `level` retains its existing 1–5 meaning and is not converted to an invented proficiency label.
 - Interests: `keywords` as an array of strings.
-- Per-language config: `postal_code`, `city`, `country_code`, `region`.
+- Per-language config: `postal_code`, `city`, `country_code`, `region`. These are exported as `basics.location` whenever `display_header_contact_info: true`, unless `json_resume.privacy.export_contact_info: false`; see [Contact fields by privacy setting](json-resume-fields.md#contact-fields-by-privacy-setting).
 
 Use `startdate`/`enddate` consistently. No `start_date`/`end_date` aliases are added. The source validator checks added list fields, skill labels, project dates, recognition dates, and relevant URLs; the exporter also validates output formats.
 
