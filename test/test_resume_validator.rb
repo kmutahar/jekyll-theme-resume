@@ -289,6 +289,35 @@ class ResumeValidatorTest < Minitest::Test
     end
   end
 
+  def config_url_errors(config)
+    Dir.mktmpdir("test_config_urls_") do |tmp|
+      validator = BilingualJekyllResumeTheme::ResumeValidator.new(tmp, config: config)
+      validator.validate(quiet: true)
+      validator.errors.map { |e| e[:message] }.select { |m| m.include?("must be a relative path") }
+    end
+  end
+
+  def test_unsafe_url_schemes_in_config_are_errors_naming_the_setting
+    %w[javascript:alert(1) data:text/html,x vbscript:x file:///etc/passwd].push(" JavaScript:x ").each do |bad|
+      assert_equal 1, config_url_errors("avatar_url" => bad).size, "avatar_url #{bad}"
+      assert_equal 1, config_url_errors("avatar_link" => bad).size, "avatar_link #{bad}"
+      errors = config_url_errors("social_links" => { "github" => bad, "email" => bad })
+      assert_equal 2, errors.size
+      assert(errors.any? { |m| m.include?("social_links.github") })
+    end
+  end
+
+  def test_safe_url_values_in_config_pass
+    config = { "avatar_url" => "assets/me.jpg", "avatar_link" => "tel:+441234",
+               "social_links" => { "email" => "me@x.org", "github" => "HTTPS://github.com/me", "whatsapp" => "https://wa.me/1" } }
+
+    assert_empty config_url_errors(config)
+    assert_empty config_url_errors("avatar_url" => "/assets/me.jpg", "avatar_link" => false,
+                                   "social_links" => { "email" => "mailto:me@x.org" })
+    assert_equal 1, config_url_errors("avatar_url" => "mailto:me@x.org").size, "mailto is not an image scheme"
+    assert_equal 1, config_url_errors("social_links" => { "github" => "mailto:me@x.org" }).size
+  end
+
   def test_analytics_ids_are_validated
     good = { "analytics" => { "gtm" => "GTM-AB12CD", "gtag" => "G-ABC123" } }
     bad = [{ "gtm" => "GTM-X');alert(1)" }, { "gtm" => "x" }, { "gtag" => "G-1'</script>" }, { "gtag" => "G 1" }]

@@ -367,26 +367,10 @@ The following hardening measures originate from the sandboxed security audit (`R
 
 | ID | Hardening Area | Target Files | Priority |
 |---|---|---|---|
-| SEC-02 | Safe URL scheme allowlisting | `_includes/avatar.html`, `_includes/social-links.html`, `lib/.../resume_validator.rb` | High |
 | SEC-04 | CI/CD and release workflow supply chain hardening | `.github/workflows/publish.yml`, `.github/workflows/ci.yml` | Medium |
 | SEC-06 | JSON Resume export contact privacy documentation | `docs/reference/data-schemas.md`, `docs/how-to/publish-json-resume.md`, `docs/reference/json-resume-fields.md` | Medium |
 | SEC-07 | Gemspec packaging hygiene and untracked file exclusion | `bilingual-jekyll-resume-theme.gemspec`, `test/test_packaging.rb` | Low |
 | SEC-08 | Content Security Policy (CSP) guidance and inline script audits | `docs/reference/config.md`, `_layouts/*.html` | Low |
-
-### Security Brief SEC-02: Safe URL Scheme Filtering & Allowlisting
-
-**Target files:** `_includes/avatar.html`, `_includes/social-links.html`, `_includes/language-switcher.html`, `lib/bilingual-jekyll-resume-theme/resume_validator.rb`, `test/test_resume_validator.rb`
-
-Site configuration parameters such as `avatar_url`, `avatar_link`, and `social_links.*` could accept arbitrary schemes (such as `javascript:`) if configuration is multi-authored or ingested from external sources. The resume validator checks URLs in data files but skips config properties.
-
-**Implementation contract:**
-- Enforce allowed schemes (`http://`, `https://`, `mailto:`, `tel:`, or leading `/` for local paths) before rendering link tags in templates.
-- Extend `lib/bilingual-jekyll-resume-theme/resume_validator.rb` to validate URL fields found in `site.social_links`, `site.avatar_url`, and `site.avatar_link`.
-
-**Acceptance criteria:**
-- [ ] Config URLs with disallowed schemes are suppressed in templates or flagged by the validator.
-- [ ] Safe local paths (`/assets/...`) and external `https://` URLs render normally.
-- [ ] `rake validate` reports invalid URL protocols in site configuration.
 
 ### Security Brief SEC-04: CI/CD & Supply Chain Hardening
 

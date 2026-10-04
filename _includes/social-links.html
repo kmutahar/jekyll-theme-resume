@@ -27,7 +27,9 @@
      - The platform name comes from the page locale's `ui.social_labels.<key>`, falling back to the
        English `label` in `_data/social_networks.yml`. Variables are `social_`-prefixed because
        includes share scope with the calling layout.
-  6. Network List: platform key, icon filename, itemprop, and label all come from
+  6. URL Safety: values pass through safe-url.html (email: bare address or mailto:; others: http/https only);
+     a value with any other scheme renders no link at all.
+  7. Network List: platform key, icon filename, itemprop, and label all come from
      `_data/social_networks.yml` (one entry per platform) instead of one conditional
      block per platform here; see that file to add a new platform.
 {%- endcomment -%}
@@ -35,14 +37,17 @@
 {%- assign social_lang = page.lang | default: site.default_lang | default: 'en' -%}
 {%- assign social_locale = site.data.locales[social_lang] | default: site.data.locales[site.default_lang] -%}
 {% for network in site.data.social_networks %}
-  {% assign value = site.social_links[network.key] %}
+  {% if network.key == "email" %}{% assign social_schemes = "mailto" %}{% else %}{% assign social_schemes = "http,https" %}{% endif %}
+  {% assign social_raw = site.social_links[network.key] %}
+  {% include safe-url.html url=social_raw schemes=social_schemes %}
+  {% assign value = safe_url %}
   {% if value %}
     {%- assign social_label = social_locale.ui.social_labels[network.key] | default: network.label -%}
     <li class="icon-link-item">
         {% if network.key == "email" %}
-        <a href="mailto:{{ value }}" class="icon-link" itemprop="{{ network.itemprop }}" aria-label="{{ social_label }}" title="{{ social_label }}">{% include vendors/svg-icons/{{ network.icon }}.svg %}<span class="sr-only">{{ social_label }}</span></a>
+        <a href="{% unless value contains ':' %}mailto:{% endunless %}{{ value | escape }}" class="icon-link" itemprop="{{ network.itemprop }}" aria-label="{{ social_label }}" title="{{ social_label }}">{% include vendors/svg-icons/{{ network.icon }}.svg %}<span class="sr-only">{{ social_label }}</span></a>
         {% else %}
-        <a href="{{ value }}" class="icon-link" itemprop="{{ network.itemprop }}" target="_blank" rel="noopener nofollow noreferrer" aria-label="{{ social_label }}" title="{{ social_label }}">{% include vendors/svg-icons/{{ network.icon }}.svg %}<span class="sr-only">{{ social_label }}</span></a>
+        <a href="{{ value | escape }}" class="icon-link" itemprop="{{ network.itemprop }}" target="_blank" rel="noopener nofollow noreferrer" aria-label="{{ social_label }}" title="{{ social_label }}">{% include vendors/svg-icons/{{ network.icon }}.svg %}<span class="sr-only">{{ social_label }}</span></a>
         {% endif %}
     </li>
   {% endif %}

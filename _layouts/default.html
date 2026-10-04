@@ -31,7 +31,7 @@ Dynamic <html> tag:
         {% if site.social_links.mastodon %}
         <!-- rel="me" for Mastodon verification / IndieAuth -->
         {%- comment -%} Enables decentralized identity verification (IndieAuth / Fediverse rel="me" protocol) {%- endcomment -%}
-        <link rel="me" href="{{ site.social_links.mastodon }}">
+        {% include safe-url.html url=site.social_links.mastodon schemes="http,https" %}{% if safe_url %}<link rel="me" href="{{ safe_url | escape }}">{% endif %}
         {% endif %}
     </head>
 

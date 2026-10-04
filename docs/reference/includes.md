@@ -20,8 +20,10 @@ _layouts/resume.html
  ├── dark-mode-toggle.html   (floating theme toggle)
  ├── language-switcher.html  (dropdown links to the other languages)
  ├── avatar.html             (profile image)
+ │    └── safe-url.html      (URL scheme allowlist)
  ├── date-formatter.html     (date of birth)
  ├── social-links.html       (header social icons)
+ │    └── safe-url.html
  ├── resume-section.html     (one call per entry in resume_section_order)
  │    ├── grouped-item-list.html (Experience and Volunteering)
  │    │    └── date-formatter.html
@@ -52,9 +54,15 @@ _layouts/resume.html
 
 - **Consumed by:** `resume.html` and `profile.html` when `site.resume_avatar == true`.
 - **Parameters:** `lang` (default: active language), `link` (`false` renders a bare `<img>`), `class` (extra CSS classes).
-- **Source:** `site.avatar_url`, default `/assets/images/Profile-min.jpg` (the theme does not ship this file; supply it or set `avatar_url`). Values containing `://` are used as-is; others pass through `relative_url`.
+- **Source:** `site.avatar_url`, default `/assets/images/Profile-min.jpg` (the theme does not ship this file; supply it or set `avatar_url`). Values containing a scheme (`:`) are used as-is; others pass through `relative_url`. Only `http` and `https` are allowed; any other scheme drops the image.
 - **Alt text:** `languages.<lang>.avatar_alt`, then `languages.<lang>.name`, then `locale.ui.photo_alt`.
-- **Link:** wraps the image in a link to `site.avatar_link` (default `/`) with `site.avatar_link_target` (default `_self`), unless `site.avatar_link: false` or `link=false`.
+- **Link:** wraps the image in a link to `site.avatar_link` (default `/`) with `site.avatar_link_target` (default `_self`), unless `site.avatar_link: false` or `link=false`. `avatar_link` may use `http`, `https`, `mailto` or `tel`; any other scheme renders the image unlinked.
+
+### 3a. `safe-url.html`
+
+- **Consumed by:** `avatar.html`, `social-links.html`, and the Mastodon `rel="me"` link in `default.html` and `profile.html`.
+- **Parameters:** `url` (value to check), `schemes` (comma-separated allowlist, e.g. `"http,https"`).
+- **Output:** sets `safe_url` to the trimmed value, or nil when it is blank or disallowed. A value containing `:` must start with an allowed scheme (case-insensitive); a value without `:` is a relative path and passes. `ResumeValidator` applies the same rule to config.
 
 ```liquid
 {% include avatar.html lang=lang %}

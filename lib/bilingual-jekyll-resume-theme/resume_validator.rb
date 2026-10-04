@@ -38,6 +38,14 @@ module BilingualJekyllResumeTheme
     # gtag covers G-, AW- and similar measurement IDs.
     ANALYTICS_ID_REGEXES = { "gtm" => /\AGTM-[A-Z0-9]+\z/, "gtag" => /\A[A-Za-z0-9-]+\z/ }.freeze
 
+    # Allowed URL schemes per config setting; _includes/safe-url.html applies the same rule.
+    # Other social_links keys use SOCIAL_LINK_SCHEMES.
+    CONFIG_URL_SCHEMES = {
+      "avatar_url" => %w[http https], "avatar_link" => %w[http https mailto tel]
+    }.freeze
+    SOCIAL_LINK_SCHEMES = %w[http https].freeze
+    SOCIAL_EMAIL_SCHEMES = %w[mailto].freeze
+
     LOCALE_DIR_REGEX = /\A[a-z]{2,3}(?:[-_][a-zA-Z0-9]{2,4})?\z/i
 
     # Only these three ISO shapes are accepted by validate_date; parse_date_safely's
@@ -214,6 +222,7 @@ module BilingualJekyllResumeTheme
 
       @default_lang = config["default_lang"]&.to_s
       validate_analytics_ids(config["analytics"])
+      validate_config_urls(config)
       return [] unless config["languages"].is_a?(Hash)
 
       # A language without data_path is reported once here and left out of the run.
@@ -229,6 +238,26 @@ module BilingualJekyllResumeTheme
 
         @lang_dirs[lang] = File.join(@data_dir, *data_path.to_s.split("."))
         lang
+      end
+    end
+
+    # A value with ":" must start with an allowed scheme; one without is a relative path (or a
+    # bare email address) and is allowed. Mirrors _includes/safe-url.html.
+    def safe_url?(value, schemes)
+      text = value.to_s.strip
+      !text.include?(":") || schemes.include?(text.split(":").first.downcase)
+    end
+
+    def validate_config_urls(config)
+      checks = CONFIG_URL_SCHEMES.map { |key, schemes| [key, config[key], schemes] }
+      social = config["social_links"].is_a?(Hash) ? config["social_links"] : {}
+      social.each do |key, value|
+        checks << ["social_links.#{key}", value, key.to_s == "email" ? SOCIAL_EMAIL_SCHEMES : SOCIAL_LINK_SCHEMES]
+      end
+      checks.each do |name, value, schemes|
+        next if value.nil? || value == false || safe_url?(value, schemes)
+
+        add_error("Config", "#{name} #{value.to_s.inspect} must be a relative path or use #{schemes.join('/')}.")
       end
     end
 

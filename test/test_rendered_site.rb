@@ -773,6 +773,31 @@ class RenderedSiteTest < Minitest::Test
     end
   end
 
+  BAD_SCHEMES = ["javascript:alert(1)", "  JavaScript:alert(1)", "data:text/html,x", "vbscript:x", "file:///etc/passwd"].freeze
+
+  def test_unsafe_schemes_are_never_rendered
+    BAD_SCHEMES.each do |bad|
+      doc = html("index.html", "avatar_url" => bad, "avatar_link" => bad,
+                               "social_links" => { "github" => bad, "email" => bad, "linkedin" => "https://linkedin.com/in/jane" })
+      assert_nil doc.at_css("img.avatar"), "avatar_url #{bad.inspect} must drop the image"
+      assert_empty(doc.css("a[href]").select { |a| a["href"].downcase.strip.start_with?("javascript", "data", "vbscript", "file") })
+      assert_equal(["https://linkedin.com/in/jane"], doc.css("ul.social-links a").map { |a| a["href"] })
+      doc = html("index.html", "avatar_link" => bad)
+      assert doc.at_css("img.avatar"), "an unsafe avatar_link keeps the image"
+      assert_nil doc.at_css("a.avatar-link"), "avatar_link #{bad.inspect} must not be linked"
+    end
+  end
+
+  def test_safe_schemes_still_render
+    doc = html("index.html", "avatar_url" => "https://cdn.example.org/me.jpg", "avatar_link" => "MAILTO:jane@example.org",
+                             "social_links" => { "email" => "mailto:jane@example.org", "github" => "HTTPS://github.com/jane" })
+    assert_equal "https://cdn.example.org/me.jpg", doc.at_css("img.avatar")["src"]
+    assert_equal "MAILTO:jane@example.org", doc.at_css("a.avatar-link")["href"]
+    assert_equal(["mailto:jane@example.org", "HTTPS://github.com/jane"], doc.css("ul.social-links a").map { |a| a["href"] })
+    assert_equal "/assets/images/me.jpg", html("index.html").at_css("img.avatar")["src"], "relative paths keep working"
+    assert_equal "/", html("index.html").at_css("a.avatar-link")["href"]
+  end
+
   def test_server_error_page_puts_the_reload_button_first
     doc = html("500.html")
     assert_equal locale("en")["ui"]["reload_page"], doc.at_css("button.error-btn.primary").text.strip

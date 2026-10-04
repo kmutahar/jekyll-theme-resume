@@ -18,15 +18,23 @@ Include: Reusable Avatar Component
 {%- comment -%}
   Image Source Resolution Hierarchy & Subpath Safety:
   1. Priority: site.avatar_url (explicit configuration) -> '/assets/images/Profile-min.jpg' (bundled default).
-  2. Subpath Safety: If the avatar path contains '://', it is treated as an absolute external CDN URL and preserved as-is.
+  2. Scheme Safety: avatar_url allows only http/https and avatar_link http/https/mailto/tel (see safe-url.html);
+     anything else is dropped (no image, or an unlinked image), never rendered.
+  3. Subpath Safety: If the avatar path contains a scheme (':'), it is treated as an absolute external CDN URL and preserved as-is.
      Otherwise, it is piped through Liquid's `relative_url` filter to ensure correct resolution on GitHub Pages sites
      hosted under repository subpaths (e.g. username.github.io/project-name/).
 {%- endcomment -%}
-{% assign avatar_raw = site.avatar_url | default: '/assets/images/Profile-min.jpg' %}
-{% if avatar_raw contains "://" %}
-  {% assign avatar_src = avatar_raw %}
+{% include safe-url.html url=site.avatar_url schemes="http,https" %}
+{% if site.avatar_url == nil or site.avatar_url == "" %}{% assign safe_url = '/assets/images/Profile-min.jpg' %}{% endif %}
+{% if safe_url == nil %}
+  {% assign render_avatar = false %}
+{% else %}
+  {% assign render_avatar = true %}
+  {% if safe_url contains ":" %}
+    {% assign avatar_src = safe_url %}
   {% else %}
-  {% assign avatar_src = avatar_raw | relative_url %}
+    {% assign avatar_src = safe_url | relative_url %}
+  {% endif %}
 {% endif %}
 
 {%- comment -%}
@@ -48,23 +56,29 @@ Include: Reusable Avatar Component
 
 {%- comment -%}
   Avatar Markup Rendering:
+  - If the avatar_url scheme is not allowed, nothing is rendered.
   - If linked: Wraps <img> in <a> with subpath-safe href and tab-nabbing security (rel="noopener" if target != '_self').
   - If unlinked: Renders standalone <img>.
   Both branches include class="no-print" and itemprop="image".
 {%- endcomment -%}
 {% if render_link %}
-  {% assign avatar_link_raw = site.avatar_link | default: '/' %}
-  {% if avatar_link_raw contains "://" %}
-    {% assign avatar_href = avatar_link_raw %}
+  {% include safe-url.html url=site.avatar_link schemes="http,https,mailto,tel" %}
+  {% if site.avatar_link == nil or site.avatar_link == "" or site.avatar_link == true %}{% assign safe_url = '/' %}{% endif %}
+  {% if safe_url == nil %}
+    {% assign render_link = false %}
+  {% elsif safe_url contains ":" %}
+    {% assign avatar_href = safe_url %}
   {% else %}
-    {% assign avatar_href = avatar_link_raw | relative_url %}
+    {% assign avatar_href = safe_url | relative_url %}
   {% endif %}
   {% assign avatar_target = site.avatar_link_target | default: '_self' %}
+{% endif %}
 
-  <a href="{{ avatar_href }}" title="{{ link_title }}" class="avatar-link no-print"{% if avatar_target != '_self' %} target="{{ avatar_target }}" rel="noopener"{% endif %}>
-    <img src="{{ avatar_src }}" alt="{{ avatar_alt }}" class="avatar no-print{% if include.class %} {{ include.class }}{% endif %}" itemprop="image">
+{% if render_avatar and render_link %}
+  <a href="{{ avatar_href | escape }}" title="{{ link_title | escape }}" class="avatar-link no-print"{% if avatar_target != '_self' %} target="{{ avatar_target | escape }}" rel="noopener"{% endif %}>
+    <img src="{{ avatar_src | escape }}" alt="{{ avatar_alt | escape }}" class="avatar no-print{% if include.class %} {{ include.class | escape }}{% endif %}" itemprop="image">
   </a>
-{% else %}
-  <img src="{{ avatar_src }}" alt="{{ avatar_alt }}" class="avatar no-print{% if include.class %} {{ include.class }}{% endif %}" itemprop="image">
+{% elsif render_avatar %}
+  <img src="{{ avatar_src | escape }}" alt="{{ avatar_alt | escape }}" class="avatar no-print{% if include.class %} {{ include.class | escape }}{% endif %}" itemprop="image">
 {% endif %}
 

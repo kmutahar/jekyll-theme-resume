@@ -15,7 +15,7 @@
     {% for network in site.data.social_networks %}
       {% assign value = site.social_links[network.key] %}
       {% if value %}
-        <li><strong>{{ locale.ui.social_labels[network.key] }}</strong>: <span dir="ltr">{{ value }}</span></li>
+        <li><strong>{{ locale.ui.social_labels[network.key] }}</strong>: <span dir="ltr">{{ value | escape }}</span></li>
       {% endif %}
     {% endfor %}
 

@@ -1,0 +1,21 @@
+{%- comment -%}
+Include: URL scheme allowlist
+- Purpose: Stop `javascript:`, `data:` and similar schemes in config-supplied URLs reaching href/src.
+- Parameters:
+  - url: The value to check.
+  - schemes: Comma-separated allowed schemes, e.g. "http,https".
+- Output: sets `safe_url` to the trimmed value, or to nil when it is blank or its scheme is not allowed.
+- Rule: a value containing ":" must start with an allowed scheme (case-insensitive); a value without ":"
+  is a relative path and is allowed. Keep in sync with ResumeValidator.safe_url? (same rule, Ruby side).
+{%- endcomment -%}
+{%- assign safe_url = nil -%}
+{%- assign safe_url_raw = include.url | append: "" | strip -%}
+{%- if safe_url_raw contains ":" -%}
+  {%- assign safe_url_scheme = safe_url_raw | split: ":" | first | downcase -%}
+  {%- assign safe_url_allowed = include.schemes | split: "," -%}
+  {%- if safe_url_allowed contains safe_url_scheme -%}
+    {%- assign safe_url = safe_url_raw -%}
+  {%- endif -%}
+{%- elsif safe_url_raw != "" -%}
+  {%- assign safe_url = safe_url_raw -%}
+{%- endif -%}

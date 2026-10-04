@@ -93,8 +93,8 @@ Adding a language beyond the six shipped ones: [Add a language](../how-to/add-a-
 | Setting | Type | Default | Description |
 |---|---|---|---|
 | `resume_avatar` | Boolean | unset (hidden) | `true` shows the avatar in the resume header. Must be a Boolean. |
-| `avatar_url` | String | `"/assets/images/Profile-min.jpg"` | Local path (passed through `relative_url`) or external URL (anything containing `://`, used as-is). The theme does not ship the default file: supply it or set `avatar_url`. |
-| `avatar_link` | String / Boolean | `"/"` | Link destination. `false` renders a plain `<img>`. |
+| `avatar_url` | String | `"/assets/images/Profile-min.jpg"` | Local path (passed through `relative_url`) or external URL (anything containing a scheme, used as-is). Only `http`/`https` schemes are allowed: `javascript:`, `data:`, `file:` and others are a validator error and the avatar is not rendered. The theme does not ship the default file: supply it or set `avatar_url`. |
+| `avatar_link` | String / Boolean | `"/"` | Link destination: a relative path or `http`/`https`/`mailto`/`tel` URL. `false`, or a disallowed scheme, renders a plain `<img>`. |
 | `avatar_link_target` | String | `"_self"` | Link `target` attribute. |
 
 ```yaml
@@ -133,7 +133,7 @@ contact_info:
 
 [`_includes/social-links.html`](../../_includes/social-links.html) renders an icon for each configured platform; [`_includes/print-social-links.html`](../../_includes/print-social-links.html) prints the supported platform list as text, labelled from the locale's `ui.social_labels`. Only supported, configured platforms render. `mastodon` currently adds `rel="me"` metadata in the default and profile layouts; it has no social icon or print-list entry yet.
 
-`email` renders a `mailto:` link with an accessible label. Every other key takes a full URL.
+`email` renders a `mailto:` link with an accessible label. Every other key takes a full `http`/`https` URL (`whatsapp` is a URL such as `https://wa.me/1234567890`). A value with any other scheme is a validator error and renders no link.
 
 ```yaml
 social_links:
@@ -330,3 +330,4 @@ social_usernames:
 ```
 
 Routes, collision rules, visibility, and field mappings: [JSON Resume export configuration and privacy](json-resume-fields.md#configuration).
+

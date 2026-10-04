@@ -21,6 +21,7 @@ bilingual-jekyll-resume-theme/
 │   ├── data-loader.html          # Dot-path data resolution into resume_data
 │   ├── shared-head.html          # Meta, anti-FOUC script, favicons
 │   ├── avatar.html               # Profile picture
+│   ├── safe-url.html             # URL scheme allowlist (sets safe_url)
 │   ├── dark-mode-toggle.html     # Floating theme toggle
 │   ├── language-switcher.html    # Floating dropdown linking to every other configured language
 │   ├── social-links.html         # Social icons (email + 14 platforms)
