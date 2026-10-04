@@ -8,9 +8,11 @@ on:
     tags:
       - 'v*'
 
-# Grant write permissions to repository contents so GitHub Actions can create Releases
+# contents: write lets the workflow create Releases; id-token: write lets it
+# authenticate to RubyGems.org via OIDC (Trusted Publishing), so no API key is stored.
 permissions:
   contents: write
+  id-token: write
 
 jobs:
   build:
@@ -31,39 +33,25 @@ jobs:
         ruby-version: '3.4'
         bundler-cache: true # Automatically runs 'bundle install' and caches gems
 
-    # 3. Authenticate and Publish to RubyGems.org.
-    # Since we are in a headless CI environment, we manually create the credentials file
-    # that the 'gem' command-line tool expects to find.
+    # 3. Authenticate to RubyGems.org with a short-lived OIDC token (Trusted Publishing).
+    # The gem's Trusted Publisher on rubygems.org must list this repo and publish.yml.
+    - name: Configure RubyGems credentials
+      uses: rubygems/configure-rubygems-credentials@dc5a8d8553e6ee01fc26761a49e99e733d17954a # v2.1.0
+
+    # 4. Build the gem from the .gemspec and push it to RubyGems.org.
     - name: Publish to RubyGems
       run: |
-        # Create the .gem directory in the runner's home folder
-        mkdir -p $HOME/.gem
-        
-        # Create a credentials file and set strict permissions (required by RubyGems)
-        touch $HOME/.gem/credentials
-        chmod 0600 $HOME/.gem/credentials
-        
-        # Write the API key into the credentials file in YAML format
-        printf -- "---\n:rubygems_api_key: ${RUBYGEMS_API_KEY}\n" > $HOME/.gem/credentials
-        
-        # Build the gem based on your .gemspec file
         gem build *.gemspec
-        
-        # Push the generated .gem file to RubyGems.org
-        # Using a wildcard (*) ensures it grabs the versioned file we just built
         gem push *.gem
-      env:
-        # Pulls the secret stored in GitHub Settings > Secrets and variables > Actions
-        RUBYGEMS_API_KEY: "${{ secrets.RUBYGEMS_API_KEY }}"
 
-    # 4. Extract the top release section directly from CHANGELOG.md.
+    # 5. Extract the top release section directly from CHANGELOG.md.
     # Uses awk to grab the latest release notes section (from the first '## [' header down to the second)
     # ensuring 100% exact parity with your committed CHANGELOG.md file.
     - name: Extract Release Notes from CHANGELOG.md
       run: |
         awk '/^## \[/{if (count++) exit} count' CHANGELOG.md > RELEASE_NOTES.md
 
-    # 5. Automatically create a GitHub Release for the pushed tag (e.g. v0.8.0),
+    # 6. Automatically create a GitHub Release for the pushed tag (e.g. v0.8.0),
     # setting the release body description from RELEASE_NOTES.md and attaching the built .gem asset.
     - name: Create GitHub Release & Upload Gem Artifact
       uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
