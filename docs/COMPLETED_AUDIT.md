@@ -50,7 +50,7 @@ File names in older rows are historical (for example `resume-en.html`, replaced 
 | — | Single-caller head includes inlined | Delete-Zone #13 | `4513f29` |
 | F3.1 (#6) | Localized JSON Resume export | Export only what the HTML shows (active flag, section order, contact visibility); never publish a document that fails the pinned schema; never log resume values | `898dce1` |
 
-F3.1 design notes: YAML keys are translated, not migrated; `level_label` keeps the numeric skill `level` contract; `social_usernames` keeps social templates unchanged; the v1.0.0 schema (Draft 4, full certificate dates) is vendored with its license; generated pages bypass Liquid through renderer predicates. Details in [JSON_RESUME_EXPORT.md](reference/json-resume-fields.md).
+F3.1 design notes: YAML keys are translated, not migrated; `level_label` keeps the numeric skill `level` contract; `social_usernames` keeps social templates unchanged; the v1.0.0 schema (Draft 4, full certificate dates) is vendored with its license; generated pages bypass Liquid through renderer predicates. Details in [json-resume-fields.md](reference/json-resume-fields.md).
 
 ## Full code and test review (not yet released)
 

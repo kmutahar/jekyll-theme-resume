@@ -372,7 +372,7 @@ The following hardening measures originate from the sandboxed security audit (`R
 | SEC-03 | Contextual Liquid escaping in HTML attributes and JS | `_includes/analytics-head.html`, `_layouts/resume.html`, `_includes/hreflang.html` | High |
 | SEC-04 | CI/CD and release workflow supply chain hardening | `.github/workflows/publish.yml`, `.github/workflows/ci.yml` | Medium |
 | SEC-05 | Ruby plugin path joins and YAML parsing safety | `lib/.../resume_validator.rb`, `_plugins/resume_pages_generator.rb` | Medium |
-| SEC-06 | JSON Resume export contact privacy documentation | `docs/reference/data-schemas.md`, `JSON_RESUME_EXPORT.md` | Medium |
+| SEC-06 | JSON Resume export contact privacy documentation | `docs/reference/data-schemas.md`, `docs/how-to/publish-json-resume.md`, `docs/reference/json-resume-fields.md` | Medium |
 | SEC-07 | Gemspec packaging hygiene and untracked file exclusion | `bilingual-jekyll-resume-theme.gemspec`, `test/test_packaging.rb` | Low |
 | SEC-08 | Content Security Policy (CSP) guidance and inline script audits | `docs/reference/config.md`, `_layouts/*.html` | Low |
 
@@ -456,13 +456,13 @@ The validator retains an obsolete fallback to `YAML.load_file` that is unreachab
 
 ### Security Brief SEC-06: JSON Resume Privacy Documentation
 
-**Target files:** `docs/reference/data-schemas.md`, `JSON_RESUME_EXPORT.md`
+**Target files:** `docs/reference/data-schemas.md`, `docs/how-to/publish-json-resume.md`, `docs/reference/json-resume-fields.md`
 
 Address details (city, region, postal code) are exported in the JSON Resume format when `display_header_contact_info: true`, and certain social platforms export even when `export_contact_info: false`. This behavior needs explicit documentation so site owners understand data visibility boundaries.
 
 **Implementation contract:**
 - Document field-by-field privacy and export rules in `docs/reference/data-schemas.md`.
-- Clarify contact export flags in `JSON_RESUME_EXPORT.md`.
+- Clarify contact export flags in `docs/how-to/publish-json-resume.md` and `docs/reference/json-resume-fields.md`.
 
 **Acceptance criteria:**
 - [ ] Documentation outlines exactly which fields are included under each privacy toggle.
