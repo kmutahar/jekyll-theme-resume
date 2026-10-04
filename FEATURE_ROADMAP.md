@@ -280,15 +280,68 @@ Provide a side-by-side manual comparison of two existing resume pages or transla
 
 Allow additional sections such as patents or speaking without manually extending the standard dispatcher for each one.
 
-**Files:** Create `_includes/resume-custom-section.html`; extend `_includes/resume-section.html`, data validation, locale overrides, and config/data guides.
+**Status:** Designed, not started. Prerequisite met: #232 shipped, so the built-in list is final at 14 sections (experience, volunteering, education, skills, projects, languages, certifications, courses, associations, recognitions, interests, links, publications, references). Settings below do not exist until this ships.
 
-**Implementation contract:** Keep `resume_section_order` and section toggles. Proposed generic items contain `title`, `subtitle`, `date`, `url`, `description`, and `active`. Put custom headings under `locale.ui.section_titles` through site locale overrides, matching the current localization contract. The previous custom_section_titles global map would duplicate that source of truth. Define custom validation behavior alongside rendering.
+**Files:**
+
+- Create `_includes/resume-custom-section.html` (params `section_name`, `items`, `lang`).
+- Extend `_includes/resume-section.html`, `lib/bilingual-jekyll-resume-theme/resume_validator.rb`, `_config.sample.yml` (commented example).
+- Tests: `test/test_resume_validator.rb`, `test/test_rendered_site.rb`, `test/test_json_resume_exporter.rb`, `test/test_packaging.rb`.
+- Demo: `demo/_data/<lang>/speaking.yml`, `demo/_data/locales/<lang>.yml`, `demo/_config.yml` (6 languages).
+- Docs:
+  - Update: `data-schemas.md`, `config.md`, `locale-keys.md`, `override-locale-strings.md`, `includes.md`, `validator-cli.md`, `json-resume-fields.md`.
+  - Rewrite: `how-to/add-a-section.md`, which currently teaches hand-editing the dispatcher. Custom sections come first; dispatcher edits are only for typed sections.
+
+**Decisions (settled 2026-10-01; revisit D1 only deliberately):**
+
+| # | Decision |
+|---|---|
+| D1 | **Implicit declaration.** Any name in `resume_section_order` that is not a built-in or reserved name, with `resume_section.<name>: true`, is a custom section. No new config key. |
+| D2 | Item schema: `title` (required), `subtitle`, `date` (ISO), `enddate` (ISO or locale present value), `url`, `description` (plain text), `active`. Unknown extra keys are ignored. |
+| D3 | Heading is `locale.ui.section_titles[<name>]` from the consuming site's locale overrides (the `custom_section_titles` global map is rejected as a duplicate source of truth). Missing title for a target language is a validator **error**; the template falls back to the raw name so an `<h2>` still renders. |
+| D4 | Built-in names always win. `header`, `locales`, `lang_header` are reserved, so using one is a validator error. A configured custom section with no data file is a validator warning plus a silent skip at render. |
+| D5 | The custom schema is applied only to files named by a configured custom section. Other unknown YAML files stay unvalidated, as today. |
+| D6 | Custom sections are **not exported** to JSON Resume; document this. |
+| D7 | `description` is plain text. Markdown is a separate future feature (see below). |
+| D8 | Demo example: `speaking` (Holmes lectures), uses every field, in all 6 languages with site locale title overrides. |
+
+**Rendering contract:** `<section class="content-section">` → `<h2>` → per active item:
+
+- `h3.resume-item-title`: `title`, linked if `url` (`target="_blank" rel="noopener nofollow noreferrer"`), print-only URL span with `dir="ltr"` in RTL.
+- `h4.resume-item-details`: `subtitle • date – enddate|Present`, dates via `date-formatter.html` (MDY). Bullets appear only between non-empty parts; `date` without `enddate` renders one date.
+- `p.resume-item-copy`: `description`.
+- Skip the whole section if there is no data file or no active items.
+
+**Implementation contract and pitfalls (each needs a test):**
+
+- **Disabled built-in falls through the `elsif` chain** in `resume-section.html`, so a naive `{% else %}` would render it as custom. Use a separate post-chain `if`: name is not a built-in, not reserved, and its toggle is true. Dedicated rendered test.
+- **Validator dispatches by filename** and does not read `resume_section_order` or `resume_section` today (around `resume_validator.rb:201,424`). Load both in `load_language_config`, derive custom names, route to a new `validate_custom_entry`.
+- **Built-in list is needed in Liquid and Ruby** (Liquid can't read Ruby constants). Keep one list in each (`BUILTIN_SECTIONS` / `RESERVED_SECTIONS` in Ruby) plus a parity test in `test/test_packaging.rb`.
+- **Exporter must never pass a custom name to `FIELDS.fetch`** (raises `KeyError`). It iterates `SECTIONS` only, so no change is expected. Add a test proving custom sections are absent from the export.
+- **Section name is a filename and a Liquid key:** validator error unless it matches `/\A[a-z][a-z0-9_]*\z/`.
+- **`TemplateKeyChecker` does not trace bracket access** (`resume_data[section_name]`). That is acceptable (no false warnings); document it in `validator-cli.md`.
+- **Partial locale overrides** (title in only some languages) also trigger `validate_locale_parity` warnings. Keep both and word the D3 error clearly; avoid double-reporting where possible.
+- Reuse existing helpers (`validate_url`, `validate_date`, `validate_date_range`, `require_field`, `date-formatter.html`). `_sass/` probably needs no change; confirm RTL and print.
+
+**Delivery notes:**
+
+- Suggested commit split, each passing `rake` on its own:
+  1. Validator + its tests.
+  2. Include + dispatcher + packaging/exporter tests + `_config.sample.yml`.
+  3. Docs + demo bump + rendered-site tests + roadmap/audit rows.
+- Push order: demo repo first, then the theme branch.
+- Commit message for the demo repo: `feat(data): add speaking custom section example (6 languages)`.
+- Demo translations are drafted by agents; list every translated string in the PR body for native review.
+- `CHANGELOG.md` and version are untouched in the PR. This is a deliberate deviation from §4's changelog rule, to be stated in the PR body.
+
+**Future candidate (out of scope):** opt-in Markdown for text fields across all sections (`site.resume_markdown: true` using `markdownify`). Kramdown wraps output in `<p>`, which is invalid inside `h4` and inline contexts, so restrict to block fields or strip. Raw HTML passes through, making every field an HTML sink. The exporter would need `strip_html` (helper exists), and each section needs rendered tests.
 
 **Acceptance criteria:**
 
 - [ ] A configured custom section renders its localized heading and active items.
-- [ ] Existing section schemas and rendering remain compatible.
-- [ ] Unknown/missing data behaves predictably, and links/dates work in RTL and print.
+- [ ] All built-in schemas and rendering remain unchanged (existing tests pass).
+- [ ] Missing data, missing title, and reserved names behave per D3–D4; links and dates work in RTL and print.
+- [ ] A disabled built-in is never rendered as a custom section.
 
 ### Feature 4.8: Client-Side Site Search Index
 
@@ -304,7 +357,7 @@ Add localized resume search and an error-page search interface. The current erro
 
 - [ ] Queries return usable links for the selected language without a full navigation.
 - [ ] Empty, no-match, index-load-error, and JavaScript-disabled states are defined.
-- [ ] All twelve standard sections are represented with the correct visibility rules.
+- [ ] All standard sections are represented with the correct visibility rules.
 - [ ] Keyboard navigation, RTL, and baseurl hosting work.
 
 <a id="security"></a>
