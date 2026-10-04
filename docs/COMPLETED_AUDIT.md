@@ -66,3 +66,4 @@ A line-by-line review added rendered-HTML, validator-rule, generator and packagi
 | Error-page language detection strips `baseurl` | `/cv/ar/missing` showed the default language | — |
 | Removed dead `preferred-lang` storage write and unread locale keys | Nothing read them | Delete-Zone #15, #16 |
 | `test_resume_pages_generator.rb` fixture includes `_pages/` | The hand-authored-page test passed without ever reading the page | Fixtures must mirror consuming-site config |
+| Error-page JSON block and locale strings escaped (SEC-01) | `jsonify` leaves `</script>` intact, so a locale string could end the inline JSON block; HTML-position locale strings rendered raw | `<` → `\u003c` inside the JSON block only (never HTML-escape there: `.textContent` would double-encode); `\| escape` on error and skip-link text |

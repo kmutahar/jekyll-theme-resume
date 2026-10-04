@@ -367,7 +367,6 @@ The following hardening measures originate from the sandboxed security audit (`R
 
 | ID | Hardening Area | Target Files | Priority |
 |---|---|---|---|
-| SEC-01 | JSON script block breakout and attribute escaping | `_layouts/error.html`, `_layouts/default.html` | High |
 | SEC-02 | Safe URL scheme allowlisting | `_includes/avatar.html`, `_includes/social-links.html`, `lib/.../resume_validator.rb` | High |
 | SEC-03 | Contextual Liquid escaping in HTML attributes and JS | `_includes/analytics-head.html`, `_layouts/resume.html`, `_includes/hreflang.html` | High |
 | SEC-04 | CI/CD and release workflow supply chain hardening | `.github/workflows/publish.yml`, `.github/workflows/ci.yml` | Medium |
@@ -375,22 +374,6 @@ The following hardening measures originate from the sandboxed security audit (`R
 | SEC-06 | JSON Resume export contact privacy documentation | `docs/reference/data-schemas.md`, `docs/how-to/publish-json-resume.md`, `docs/reference/json-resume-fields.md` | Medium |
 | SEC-07 | Gemspec packaging hygiene and untracked file exclusion | `bilingual-jekyll-resume-theme.gemspec`, `test/test_packaging.rb` | Low |
 | SEC-08 | Content Security Policy (CSP) guidance and inline script audits | `docs/reference/config.md`, `_layouts/*.html` | Low |
-
-### Security Brief SEC-01: JSON Script Block Breakout & Attribute Escaping
-
-**Target files:** `_layouts/error.html`, `_layouts/default.html`, `test/test_rendered_site.rb`
-
-Liquid's `jsonify` filter does not escape `</script>`, `<!--`, or Unicode line separators (`U+2028`, `U+2029`). If site locale strings contain closing script tags, they can prematurely terminate `<script id="error-locales" type="application/json">`. Furthermore, some localized UI strings in error and default layouts render without explicit HTML escaping.
-
-**Implementation contract:**
-- In `_layouts/error.html`, sanitize jsonified locale dictionaries with `| replace: '<', '\u003c'`.
-- Ensure localized error titles and messages in `_layouts/error.html` and `_layouts/default.html` pass through `| escape`.
-- Add test assertions in `test/test_rendered_site.rb` verifying script breakout resistance.
-
-**Acceptance criteria:**
-- [ ] Locale dictionaries inside `<script type="application/json">` do not emit raw `<` characters.
-- [ ] Localized error strings in HTML attributes and elements are escaped.
-- [ ] Existing client-side error page localization behavior remains fully functional.
 
 ### Security Brief SEC-02: Safe URL Scheme Filtering & Allowlisting
 

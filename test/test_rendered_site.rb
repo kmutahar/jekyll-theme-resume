@@ -146,12 +146,23 @@ class RenderedSiteTest < Minitest::Test
       }
     end
 
+    # Deep-merges a patch (e.g. {"ui" => {...}}) into the fixture copy of the en locale file.
+    def patch_en_locale(source, patch)
+      file = File.join(source, "_data", "locales", "en.yml")
+      merged = YAML.load_file(file).merge(patch) { |_key, old, new| old.is_a?(Hash) ? old.merge(new) : new }
+      File.write(file, YAML.dump(merged))
+    end
+
+    # `_en_locale` in overrides is a test-only patch for the en locale, not a Jekyll config key.
     def build(overrides)
+      overrides = overrides.dup
+      en_locale_patch = overrides.delete("_en_locale")
       source = Dir.mktmpdir("rendered_site_src_")
       dest = Dir.mktmpdir("rendered_site_dest_")
       Minitest.after_run { [source, dest].each { |dir| FileUtils.rm_rf(dir) } }
 
       %w[_includes _layouts _sass _data assets].each { |dir| FileUtils.cp_r(File.join(ROOT, dir), source) }
+      patch_en_locale(source, en_locale_patch) if en_locale_patch
       { "en" => "EN", "ar" => "AR" }.each do |lang, tag|
         resume_data(tag).each { |section, data| write(File.join(source, "_data", lang, "#{section}.yml"), YAML.dump(data)) }
         write(File.join(source, "cv-#{lang}.html"),
@@ -715,6 +726,29 @@ class RenderedSiteTest < Minitest::Test
     page = html("404.html", "baseurl" => "/cv")
     lang, _title, home = run_error_script(page, "/cv/ar/missing")
     assert_equal %w[ar /cv/ar/], [lang, home]
+  end
+
+  HOSTILE = %(</script><img src=x onerror=alert(1)>)
+  HOSTILE_LOCALE = {
+    "ui" => { "home" => HOSTILE, "skip_to_content" => HOSTILE },
+    "error_pages" => { "404" => { "title" => HOSTILE, "message" => HOSTILE } }
+  }.freeze
+
+  def test_error_page_json_block_survives_hostile_locale_strings
+    page = html("404.html", "_en_locale" => HOSTILE_LOCALE)
+    json = page.at_css("#error-lang-i18n").text
+    refute_includes json, "<", "no raw < may reach the JSON script block"
+    assert_equal HOSTILE, JSON.parse(json)["en"]["title"], "JSON.parse must decode the original string"
+    assert_empty page.css("img"), "hostile markup must not become elements"
+    assert_equal locale("ar")["error_pages"]["404"]["title"], JSON.parse(json)["ar"]["title"]
+  end
+
+  def test_hostile_locale_strings_are_escaped_in_html_positions
+    page = html("404.html", "_en_locale" => HOSTILE_LOCALE)
+    assert_equal HOSTILE, page.at_css("h1.error-title").text
+    assert_equal HOSTILE, page.at_css(".error-description").text
+    assert_equal HOSTILE, page.at_css("#error-home-btn").text.strip
+    assert_equal HOSTILE, page.at_css("a.skip-link").text
   end
 
   def test_server_error_page_puts_the_reload_button_first

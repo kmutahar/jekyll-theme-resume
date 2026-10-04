@@ -41,7 +41,7 @@ Dynamic <html> tag:
     {%- endcomment -%}
     <body class="layout-{{ page.layout | default: 'default' }}{% if page.class %} {{ page.class }}{% endif %}">
         <!-- Accessible skip-to-content link (WCAG 2.4.1) -->
-        <a href="#main-content" class="skip-link no-print">{{ locale.ui.skip_to_content }}</a>
+        <a href="#main-content" class="skip-link no-print">{{ locale.ui.skip_to_content | escape }}</a>
 
         <!-- Analytics body snippet (noscript, dataLayer, etc.) -->
         {% include analytics-body.html %}
