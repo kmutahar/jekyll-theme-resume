@@ -7,7 +7,7 @@
 | Phase | ID | Planned feature | Issue |
 |---|---|---|---|
 | P1 | 1.1 | Predefined Color Themes Palette Engine (5 Palettes) | [#7](https://github.com/kmutahar/jekyll-theme-resume/issues/7) |
-| P1 | 1.3 | Expanded Modern Social Media Platforms (9 Platforms) | [#204](https://github.com/kmutahar/jekyll-theme-resume/issues/204) |
+| P1 | 1.3 | Expanded Modern Social Media Platforms (7 Remaining) | [#204](https://github.com/kmutahar/jekyll-theme-resume/issues/204) |
 | P1 | 1.5 | Dynamic Contact / Resume QR Code Component | [#14](https://github.com/kmutahar/jekyll-theme-resume/issues/14) |
 | P1 | 1.6 | Achievement Badges & Credential Icons | [#19](https://github.com/kmutahar/jekyll-theme-resume/issues/19) |
 | P2 | 2.2 | Skills Level Indicators & Visual Progress Bars | [#10](https://github.com/kmutahar/jekyll-theme-resume/issues/10) |
@@ -15,12 +15,26 @@
 | P2 | 2.5 | Skills Taxonomy & Categorized Tagging System | [#18](https://github.com/kmutahar/jekyll-theme-resume/issues/18) |
 | P2 | 2.6 | Social Media Cards (Open Graph & Twitter) | [#22](https://github.com/kmutahar/jekyll-theme-resume/issues/22) |
 | P2 | 2.9 | Dual Gregorian / Hijri (Islamic) Calendar Localization | [#218](https://github.com/kmutahar/jekyll-theme-resume/issues/218) |
+| P2 | 2.11 | CEFR Language Proficiency Framework Support | [#235](https://github.com/kmutahar/jekyll-theme-resume/issues/235) |
+| P2 | 2.12 | Client-Side Contact Info Anti-Scraping & Obfuscation | [#236](https://github.com/kmutahar/jekyll-theme-resume/issues/236) |
+| P2 | 2.13 | Right-to-Left (RTL) Specialized Web Typography & Custom Font Stacks | [#237](https://github.com/kmutahar/jekyll-theme-resume/issues/237) |
+| P3 | 3.2 | Automated Headless PDF Generation in CI/CD (GitHub Actions / Playwright) | [#238](https://github.com/kmutahar/jekyll-theme-resume/issues/238) |
+| P3 | 3.3 | Digital Contact Card (vCard / `.vcf`) Generator & Download | [#239](https://github.com/kmutahar/jekyll-theme-resume/issues/239) |
+| P3 | 3.4 | ATS Plain-Text & Markdown Resume Export (`resume.txt` / `resume.md`) | [#240](https://github.com/kmutahar/jekyll-theme-resume/issues/240) |
+| P3 | 3.5 | JSON Resume Importer CLI (`bin/import-json-resume`) | [#241](https://github.com/kmutahar/jekyll-theme-resume/issues/241) |
+| P3 | 3.6 | Automated ATS Compatibility Linter (`bin/lint-ats`) | [#242](https://github.com/kmutahar/jekyll-theme-resume/issues/242) |
 | P4 | 4.2 | Interactive Career Timeline Visualization | [#16](https://github.com/kmutahar/jekyll-theme-resume/issues/16) |
 | P4 | 4.3 | Contact Form Integration (Formspree / Netlify) | [#20](https://github.com/kmutahar/jekyll-theme-resume/issues/20) |
 | P4 | 4.4 | Privacy-First Resume Engagement Analytics | [#17](https://github.com/kmutahar/jekyll-theme-resume/issues/17) |
 | P4 | 4.5 | Resume Comparison View | [#23](https://github.com/kmutahar/jekyll-theme-resume/issues/23) |
 | P4 | 4.7 | Dynamic Custom Resume Sections Engine | [#219](https://github.com/kmutahar/jekyll-theme-resume/issues/219) |
 | P4 | 4.8 | Client-Side Site Search Index | [#225](https://github.com/kmutahar/jekyll-theme-resume/issues/225) |
+| P4 | 4.10 | Interactive Cross-Section Skill Highlighting | [#243](https://github.com/kmutahar/jekyll-theme-resume/issues/243) |
+| P4 | 4.11 | Project Portfolio Media Previews & Modal Lightbox | [#244](https://github.com/kmutahar/jekyll-theme-resume/issues/244) |
+| P4 | 4.12 | Audience Scope & Target Role Switcher (1-Page Summary vs Detailed CV) | [#245](https://github.com/kmutahar/jekyll-theme-resume/issues/245) |
+| P5 | 5.1 | Paired Cover Letter Layout (`_layouts/cover-letter.html`) | [#246](https://github.com/kmutahar/jekyll-theme-resume/issues/246) |
+| P5 | 5.2 | BibTeX Publication Citations & Interactive DOI Resolver | [#247](https://github.com/kmutahar/jekyll-theme-resume/issues/247) |
+| P5 | 5.3 | Patents & Research Grants Dedicated Schemas (JSON Resume Compatible) | [#248](https://github.com/kmutahar/jekyll-theme-resume/issues/248) |
 
 <a id="status-delete-zone"></a>
 ## Status Delete-Zone (Intentional Removals & Deprecations)
@@ -65,20 +79,20 @@ Add the planned default, modern-blue, emerald-green, corporate-navy, and warm-bu
 - [ ] Light, system-dark, pinned-dark, and print states retain readable colors.
 - [ ] Omitting the setting preserves the existing appearance.
 
-### Feature 1.3: Expanded Modern Social Media Platforms (9 Platforms)
+### Feature 1.3: Expanded Modern Social Media Platforms (7 Remaining)
 
 **Issue:** [#204](https://github.com/kmutahar/jekyll-theme-resume/issues/204) · **Branch:** `feature/expanded-social-icons` · **Closure:** `Closes #204`
 
-Add icon and print-list support for Mastodon, Discord, Bluesky, Threads, Substack, GitLab, Google Scholar, ORCID, and Behance. Mastodon already has rel="me" head metadata in default/profile layouts; icon and print support remains planned.
+Add icon and print-list support for Mastodon, Bluesky, Threads, Substack, GitLab, Google Scholar, and ORCID. Discord and Behance shipped (commit 49ede2c). Mastodon already has rel="me" head metadata in default/profile layouts; icon and print support remains planned.
 
 **Files:** Add entries to `_data/social_networks.yml` and SVGs to `_includes/vendors/svg-icons/` (`social-links.html` and `print-social-links.html` already loop over that data file and need no per-platform edits); update all `_data/locales/*.yml` (`ui.social_labels`), `_config.sample.yml`, and `docs/reference/config.md`.
 
-**Implementation contract:** Extend `social_links` with `mastodon`, `discord`, `bluesky`, `threads`, `substack`, `gitlab`, `google_scholar`, `orcid`, and `behance`. Keep accessible names, hidden decorative SVGs, and safe external links. Use locale labels and bidi isolation for printed URLs.
+**Implementation contract:** Extend `social_links` with `mastodon`, `bluesky`, `threads`, `substack`, `gitlab`, `google_scholar`, and `orcid`. Keep accessible names, hidden decorative SVGs, and safe external links. Use locale labels and bidi isolation for printed URLs.
 
 **Acceptance criteria:**
 
 - [ ] Only configured platforms render, without blank placeholders.
-- [ ] All nine have accessible names and printable URLs in LTR/RTL.
+- [ ] All seven have accessible names and printable URLs in LTR/RTL.
 - [ ] Mastodon identity links preserve rel="me".
 
 ### Feature 1.5: Dynamic Contact / Resume QR Code Component
@@ -192,6 +206,147 @@ Offer Gregorian, Hijri, or dual display and optional numeral styling without cha
 - [ ] Gregorian remains the default and fallback when Hijri text is absent.
 - [ ] Present markers retain their locale labels in every calendar mode.
 - [ ] Dual dates and numeral choices work in Arabic and Urdu without language-specific templates.
+
+### Feature 2.11: CEFR Language Proficiency Framework Support
+
+**Issue:** [#235](https://github.com/kmutahar/jekyll-theme-resume/issues/235) · **Branch:** `feature/cefr-languages` · **Closure:** `Closes #235`
+
+Add structured CEFR (Common European Framework of Reference) proficiency indicators (A1, A2, B1, B2, C1, C2, Native) to languages.yml entries as an optional standard companion to the existing free-text fluency field.
+
+**Files:** Update `_includes/resume-section.html`, `lib/jekyll-theme-resume/resume_validator.rb`, all six `_data/locales/*.yml` (`ui.cefr_labels`), `_config.sample.yml`, and `docs/reference/data-schemas.md`.
+
+**Implementation contract:** Keep `fluency` as the canonical plain-text descriptor for backward compatibility. Add optional `cefr` string field validated against the standard set `["A1", "A2", "B1", "B2", "C1", "C2", "native"]` (case-insensitive in validator, stored uppercase). Render as a localized badge or abbreviation alongside the language name, with full level name (e.g. "Proficient User / C2") in an accessible title or aria-label pulled from `locale.ui.cefr_labels`. Works identically across all 6 locales in LTR and RTL.
+
+**Acceptance criteria:**
+
+- [ ] Languages with `cefr` render standard badges with localized accessible tooltips.
+- [ ] Omitting `cefr` preserves the existing plain-text fluency display without empty tags.
+- [ ] Invalid CEFR strings trigger a validator warning or error.
+- [ ] Badge styling respects light mode, dark mode, RTL direction, and print styles.
+
+### Feature 2.12: Client-Side Contact Info Anti-Scraping & Obfuscation
+
+**Issue:** [#236](https://github.com/kmutahar/jekyll-theme-resume/issues/236) · **Branch:** `feature/contact-obfuscation` · **Closure:** `Closes #236`
+
+Protect public resume contact details (email address and phone number) from automated harvester bots and web scrapers on static hosting (GitHub Pages).
+
+**Files:** Update `_layouts/resume.html`, `_includes/shared-head.html` or inline contact rendering, `_sass/_resume-ltr.scss`, `_sass/_resume-rtl.scss`, `_config.sample.yml`, and all `_data/locales/*.yml`.
+
+**Implementation contract:** Config toggle: `site.obfuscate_contact` (default false). When enabled, email and phone links are not output as plain `mailto:` or `tel:` hrefs in static HTML. Use accessible CSS direction reversal (`unicode-bidi: bidi-override`) combined with character entity encoding or a lightweight click-to-reveal button (`<button class="contact-reveal" aria-expanded="false">`). In print mode (`@media print`), contact details must automatically un-obfuscate and display clear readable text without requiring JavaScript interaction.
+
+**Acceptance criteria:**
+
+- [ ] Raw HTML contains no plain-text mailto: or harvestable email strings when enabled.
+- [ ] Human visitors can click or view contact details seamlessly with keyboard and screen reader accessibility.
+- [ ] Print output displays clear, un-obfuscated email and phone text.
+- [ ] Disabling the setting preserves direct plain-text links.
+
+### Feature 2.13: Right-to-Left (RTL) Specialized Web Typography & Custom Font Stacks
+
+**Issue:** [#237](https://github.com/kmutahar/jekyll-theme-resume/issues/237) · **Branch:** `feature/rtl-typography` · **Closure:** `Closes #237`
+
+Provide dedicated typography font stacks for Arabic (ar) and Urdu (ur) to replace generic system sans-serif fallbacks that cause typographical degradation in Nastaliq and Arabic scripts.
+
+**Files:** Update `_sass/_resume-rtl.scss`, `_sass/_variables.scss`, `assets/css/resume-rtl.scss`, `_config.sample.yml`, and `docs/explanation/multilingual-and-rtl-design.md`.
+
+**Implementation contract:** Introduce language-specific font tokens under `html[lang="ar"]` and `html[lang="ur"]`. Urdu defaults to modern Nastaliq stacks (e.g. `'Noto Nastaliq Urdu', 'Jameel Noori Nastaliq', serif`), while Arabic uses high-legibility Naskh stacks (e.g. `'Noto Sans Arabic', 'Amiri', system-ui, sans-serif`). Allow consuming sites to configure font sources via `site.rtl_fonts.arabic` and `site.rtl_fonts.urdu` in `_config.yml`. Do not hardcode remote CDN font imports unless configured by the site owner; provide clean system and webfont fallback cascades.
+
+**Acceptance criteria:**
+
+- [ ] Arabic and Urdu resumes render with distinct, script-appropriate typographic font stacks.
+- [ ] Custom font families can be overridden in `_config.yml` without modifying theme SCSS.
+- [ ] Line heights and baseline alignments are adjusted to avoid Nastaliq diacritic clipping.
+- [ ] LTR locales remain completely unaffected.
+
+### Feature 3.2: Automated Headless PDF Generation in CI/CD (GitHub Actions / Playwright)
+
+**Issue:** [#238](https://github.com/kmutahar/jekyll-theme-resume/issues/238) · **Branch:** `feature/ci-pdf-generation` · **Closure:** `Closes #238`
+
+Provide a turnkey GitHub Actions workflow and theme integration that automatically renders and outputs downloadable vector PDFs (`resume-en.pdf`, `resume-ar.pdf`, etc.) using headless Chromium upon site build.
+
+**Files:** Create `.github/workflows/generate-pdf.yml` (and template for consuming sites), update `_layouts/resume.html`, `_config.sample.yml`, `docs/how-to/publish-json-resume.md`, and all `_data/locales/*.yml`.
+
+**Implementation contract:** Workflow builds Jekyll site, launches Playwright or Puppeteer in headless mode, sets `emulateMediaType('print')`, iterates through every configured locale (`languages.<lang>.url`), and outputs `resume-<lang>.pdf` to `_site/assets/pdf/`. The theme template inspects `site.resume_download_pdf` (default false): when true, it renders a localized "Download PDF" button in the header linking to `/assets/pdf/resume-{{ lang }}.pdf`.
+
+**Acceptance criteria:**
+
+- [ ] The workflow generates valid, searchable vector PDF artifacts for all active locales.
+- [ ] Multi-page pagination and margins in generated PDFs match the theme's print stylesheet.
+- [ ] The header "Download PDF" button is localized, accessible, and hidden from print output.
+- [ ] Sites without PDF generation enabled render no broken download links.
+
+### Feature 3.3: Digital Contact Card (vCard / `.vcf`) Generator & Download
+
+**Issue:** [#239](https://github.com/kmutahar/jekyll-theme-resume/issues/239) · **Branch:** `feature/vcard-generator` · **Closure:** `Closes #239`
+
+Generate standard digital contact card (`.vcf`) files from `header.yml` data for each configured language, allowing recruiters to save candidate contact details to their address book in one tap.
+
+**Files:** Create `_plugins/vcard_generator.rb`, update `_layouts/resume.html`, `_config.sample.yml`, all `_data/locales/*.yml`, and `docs/reference/config.md`.
+
+**Implementation contract:** The Jekyll generator reads candidate metadata (`name`, `position`, `email`, `telephone`, `website`, `address`, `avatar_url`) from `_data/<lang>/header.yml` and outputs `/contacts/<lang>.vcf` in RFC 6350 (vCard 4.0/3.0) format with UTF-8 encoding. The theme provides an optional "Save Contact / vCard" button in the header or alongside the QR code component (Feature 1.5).
+
+**Acceptance criteria:**
+
+- [ ] Generated `.vcf` files parse cleanly on iOS, Android, macOS Contacts, and Outlook.
+- [ ] Non-ASCII characters (Arabic, Urdu, accented Latin names) are correctly encoded.
+- [ ] Contact button respects all-locale parity and print hiding rules.
+- [ ] Private or omitted fields in `header.yml` leave no empty vCard fields.
+
+### Feature 3.4: ATS Plain-Text & Markdown Resume Export (`/resume.txt` / `/resume.md`)
+
+**Issue:** [#240](https://github.com/kmutahar/jekyll-theme-resume/issues/240) · **Branch:** `feature/ats-plaintext-export` · **Closure:** `Closes #240`
+
+Generate clean, machine-parseable plain-text (`.txt`) and Markdown (`.md`) resume files for each locale, formatted specifically for direct copy-pasting into corporate ATS application portals.
+
+**Files:** Create `_plugins/ats_export_generator.rb` or template pages `assets/exports/resume.txt`, update `_config.sample.yml`, `docs/reference/config.md`, and all `_data/locales/*.yml`.
+
+**Implementation contract:** Read the active language resume data and render an unstyled, plain-text document with standardized uppercase section titles (e.g., `EXPERIENCE`, `EDUCATION`, `SKILLS`), standardized bullet points, and tab-separated date alignments. Exclude HTML tags, SVG markup, and styling artifacts. Files are emitted at `/exports/<lang>/resume.txt` and `/exports/<lang>/resume.md`.
+
+**Acceptance criteria:**
+
+- [ ] Generated `.txt` and `.md` files contain zero HTML tags or Liquid artifacts.
+- [ ] Section titles follow standard ATS parsing conventions in English and localized equivalents.
+- [ ] Character encoding is strict UTF-8 with clean line endings (LF).
+- [ ] All active resume sections appear in the configured `resume_section_order`.
+
+### Feature 3.5: JSON Resume Importer CLI (`bin/import-json-resume`)
+
+**Issue:** [#241](https://github.com/kmutahar/jekyll-theme-resume/issues/241) · **Branch:** `feature/json-resume-importer` · **Closure:** `Closes #241`
+
+Provide a command-line utility to bootstrap a new resume from an existing JSON Resume (`resume.json`) file or URL, mapping standard schema fields into the theme's modular YAML data structure.
+
+**Files:** Create `bin/import-json-resume`, `lib/jekyll-theme-resume/json_resume_importer.rb`, `test/test_json_resume_importer.rb`, and `docs/how-to/import-json-resume.md`.
+
+**Implementation contract:** The CLI takes an input JSON Resume file or HTTP URL and target language code (default `en`): `bin/import-json-resume <input.json> --lang en [--dest _data] [--overwrite]`. It reverse-maps JSON Resume sections (`basics` → `header.yml`, `work` → `experience.yml`, `education` → `education.yml`, `skills` → `skills.yml`, `projects` → `projects.yml`, etc.) into YAML files conforming to the theme's data schemas. Runs the validator (`ResumeValidator`) on generated output to ensure compliance before saving.
+
+**Acceptance criteria:**
+
+- [ ] Valid JSON Resume inputs produce compliant YAML files across all mapped sections.
+- [ ] Generated YAML passes `bin/validate-resume` without warnings or errors.
+- [ ] Existing files are not overwritten unless `--overwrite` is explicitly passed.
+- [ ] Clear error reporting for malformed JSON or unsupported schema versions.
+
+### Feature 3.6: Automated ATS Compatibility Linter (`bin/lint-ats`)
+
+**Issue:** [#242](https://github.com/kmutahar/jekyll-theme-resume/issues/242) · **Branch:** `feature/ats-linter` · **Closure:** `Closes #242`
+
+Introduce a specialized linter CLI that audits the rendered resume HTML and data against industry-standard Applicant Tracking System (ATS) parsing heuristics.
+
+**Files:** Create `bin/lint-ats`, `lib/jekyll-theme-resume/ats_linter.rb`, `test/test_ats_linter.rb`, and `docs/reference/validator-cli.md`.
+
+**Implementation contract:** Operates on built HTML or data files. Evaluates:
+1. Standard Section Titles: Checks if section titles match recognizable ATS headings.
+2. Single-Column Flow: Warns if reading order is broken by multi-column CSS or absolute positioning.
+3. Contact Information: Checks for essential parsed fields (full name, email, phone, location).
+4. Date Parsing: Verifies that job dates use recognizable ISO or Month Year formats without ambiguous abbreviations.
+5. Icon-Only Information: Flags any content conveyable only via SVG icons without text alternatives.
+
+**Acceptance criteria:**
+
+- [ ] Outputs a structured PASS/WARN/FAIL score report with specific remediation advice.
+- [ ] Runs across all configured locales without language bias.
+- [ ] Integrates as an optional check in `bin/verify` or Rake task (`rake ats:lint`).
+- [ ] Zero dependencies outside the theme's standard Ruby gems.
 
 ### Feature 4.2: Interactive Career Timeline Visualization
 
@@ -342,6 +497,111 @@ Add localized resume search and an error-page search interface. The current erro
 - [ ] Empty, no-match, index-load-error, and JavaScript-disabled states are defined.
 - [ ] All standard sections are represented with the correct visibility rules.
 - [ ] Keyboard navigation, RTL, and baseurl hosting work.
+
+### Feature 4.10: Interactive Cross-Section Skill Highlighting
+
+**Issue:** [#243](https://github.com/kmutahar/jekyll-theme-resume/issues/243) · **Branch:** `feature/interactive-skills` · **Closure:** `Closes #243`
+
+Connect technical skills with real-world applications by interactively highlighting experience and project entries when a corresponding skill badge is clicked.
+
+**Files:** Create `assets/js/skill-highlight.js`, update `_includes/resume-section.html`, `_sass/_resume-ltr.scss`, `_sass/_resume-rtl.scss`, `_config.sample.yml`, and `docs/reference/data-schemas.md`.
+
+**Implementation contract:** Allow optional `skills: ["Ruby", "Docker"]` list on items in `experience.yml` and `projects.yml`. When `site.resume_interactive_skills: true` (default false), each skill pill in the skills section gains an interactive button role. Clicking a skill toggles a `.skill-active` class and adds a visual accent highlight (with accessible text badge) to all matching cards across the page. Fully zero-dependency vanilla JS; degrades gracefully to static display if JS is disabled.
+
+**Acceptance criteria:**
+
+- [ ] Clicking a skill highlights all associated experience and project items.
+- [ ] Keyboard navigation (Enter, Space, Escape to clear) and ARIA states (`aria-pressed`) function accessibly.
+- [ ] Visual highlights adapt to light and dark theme palettes.
+- [ ] Completely inert when disabled or in print mode.
+
+### Feature 4.11: Project Portfolio Media Previews & Modal Lightbox
+
+**Issue:** [#244](https://github.com/kmutahar/jekyll-theme-resume/issues/244) · **Branch:** `feature/project-previews` · **Closure:** `Closes #244`
+
+Add optional image previews, screenshots, and an accessible modal lightbox to project portfolio items.
+
+**Files:** Create `_includes/project-lightbox.html`, update `_includes/resume-section.html`, shared SCSS, validator rules, `_config.sample.yml`, and `docs/reference/data-schemas.md`.
+
+**Implementation contract:** Add optional `image:` or `screenshots:` list to `projects.yml` schema (`url`, `alt`, `caption`). Images render as thumbnail cards within project items. Clicking a thumbnail opens an accessible native HTML `<dialog>` or accessible lightbox modal showing the full image, caption, and navigation controls. Resolves images via `relative_url`. Print stylesheet suppresses dialog markup and scales thumbnails cleanly.
+
+**Acceptance criteria:**
+
+- [ ] Project thumbnails render neatly in both LTR and RTL layouts without layout breakage.
+- [ ] Lightbox opens with focus trapping, Escape key closing, and visible close controls.
+- [ ] Missing images render clean text-only project cards as before.
+- [ ] All images have required, localized `alt` descriptions verified by the validator.
+
+### Feature 4.12: Audience Scope & Target Role Switcher (1-Page Summary vs Detailed CV)
+
+**Issue:** [#245](https://github.com/kmutahar/jekyll-theme-resume/issues/245) · **Branch:** `feature/role-scope-switcher` · **Closure:** `Closes #245`
+
+Allow visitors and recruiters to toggle between an executive 1-Page Summary view and a Comprehensive Detailed CV view on the live site from a unified resume dataset.
+
+**Files:** Create `assets/js/scope-switcher.js`, `_includes/scope-switcher.html`, update `_includes/resume-section.html`, all `_data/locales/*.yml`, `_config.sample.yml`, and `docs/reference/data-schemas.md`.
+
+**Implementation contract:** Add optional `scope: summary | detailed` or `roles: [...]` tag on items across experience, projects, and education. When `site.resume_scope_switcher: true` (default false), the header displays a localized segmented control: `[Summary (1-Page) | Comprehensive]`. Toggling filters the visible DOM items with CSS transitions while preserving layout integrity and heading hierarchy. Print media query respects the currently active toggle state or defaults to a configured print scope.
+
+**Acceptance criteria:**
+
+- [ ] Switching between summary and comprehensive modes dynamically updates visible entries without page reloads.
+- [ ] Items without an explicit `scope` tag remain visible in both modes.
+- [ ] Segmented control is fully accessible via keyboard (`role="radiogroup"` or `role="tablist"`).
+- [ ] All controls and mode labels are localized across all 6 locales.
+
+### Feature 5.1: Paired Cover Letter Layout (`_layouts/cover-letter.html`)
+
+**Issue:** [#246](https://github.com/kmutahar/jekyll-theme-resume/issues/246) · **Branch:** `feature/cover-letter-layout` · **Closure:** `Closes #246`
+
+Provide a dedicated, printable Cover Letter layout that matches the typography, header branding, contact info, dark mode, and color theme of the resume.
+
+**Files:** Create `_layouts/cover-letter.html`, `_sass/_cover-letter.scss`, `_plugins/cover_letter_generator.rb` (optional page auto-generator), `_config.sample.yml`, `docs/how-to/create-a-cover-letter.md`, and sample data `_data/<lang>/cover_letter.yml`.
+
+**Implementation contract:** Layout renders `_data/<lang>/cover_letter.yml` with schema: `recipient: {name, title, company, address}`, `date` (ISO), `subject`, `opening`, `paragraphs: [...]`, `closing`, `signature_url`. Reuses `_includes/shared-head.html`, theme variables, and direction stylesheets. Formatted with professional margins and page-break controls to guarantee a clean 1-page printout on A4 and US Letter.
+
+**Acceptance criteria:**
+
+- [ ] Cover letter renders with identical brand typography, headers, and colors as the resume.
+- [ ] Single-page print styling guarantees no overflow onto a second page for standard letter lengths.
+- [ ] RTL layouts (Arabic and Urdu) mirror margins, signature alignment, and recipient headers correctly.
+- [ ] Data validation in `ResumeValidator` checks required cover letter fields when present.
+
+### Feature 5.2: BibTeX Publication Citations & Interactive DOI Resolver
+
+**Issue:** [#247](https://github.com/kmutahar/jekyll-theme-resume/issues/247) · **Branch:** `feature/bibtex-publications` · **Closure:** `Closes #247`
+
+Enhance the publications section for researchers and academics with rich citation rendering, direct DOI link resolution, candidate author name bolding, and a one-click "Cite" BibTeX popover.
+
+**Files:** Update `_includes/resume-section.html`, `_sass/_resume-ltr.scss`, `_sass/_resume-rtl.scss`, `lib/jekyll-theme-resume/resume_validator.rb`, `_config.sample.yml`, and `docs/reference/data-schemas.md`.
+
+**Implementation contract:** Extend `publications.yml` schema with optional `doi:`, `bibtex:`, `authors: [...]`, `journal:`, and `pdf_url:`. When `doi` is present, automatically render an authenticated DOI resolver link (`https://doi.org/...`). When `authors` list contains candidate's name (matching `header.name`), bold the candidate's name. Provide an accessible "Cite" button opening a clean copyable BibTeX modal or popover with a 1-click clipboard copy action.
+
+**Acceptance criteria:**
+
+- [ ] DOI links resolve cleanly without duplicate URL prefixes.
+- [ ] Candidate's name is highlighted in author lists across all configured language forms.
+- [ ] The "Cite" button exposes formatted BibTeX text with an accessible copy confirmation.
+- [ ] Basic publication entries without academic fields continue to render identically to existing output.
+
+### Feature 5.3: Patents & Research Grants Dedicated Schemas (JSON Resume Compatible)
+
+**Issue:** [#248](https://github.com/kmutahar/jekyll-theme-resume/issues/248) · **Branch:** `feature/patents-and-grants` · **Closure:** `Closes #248`
+
+Introduce first-class, structured schemas for patents and research grants with full validation and JSON Resume standard export support.
+
+**Files:** Extend `lib/jekyll-theme-resume/resume_validator.rb`, `lib/jekyll-theme-resume/json_resume_exporter.rb`, `_includes/resume-section.html`, `_data/locales/*.yml`, `_config.sample.yml`, and `docs/reference/data-schemas.md`.
+
+**Implementation contract:**
+- Patents schema (`patents.yml`): `title` (required), `patent_number`, `jurisdiction` (e.g. USPTO, EPO, WIPO), `date` (filing or grant date), `url`, `status` (`pending` / `granted`), `description`, `active`.
+- Grants schema (`grants.yml`): `title` (required), `funder` / `agency`, `grant_number`, `amount`, `role` (e.g. Principal Investigator, Co-PI), `date`, `enddate`, `url`, `description`, `active`.
+- Add `patents` and `grants` to standard section order. Map `patents` directly to JSON Resume `patents` array in exporter.
+
+**Acceptance criteria:**
+
+- [ ] `patents.yml` and `grants.yml` are validated for field types, date ranges, and URL formats.
+- [ ] Sections render with localized headings and status badges in both LTR and RTL.
+- [ ] Patents cleanly export to the official JSON Resume `patents` standard schema.
+- [ ] All 6 locale files define section titles and status labels with full parity.
 
 <a id="security"></a>
 ## 3. Security
