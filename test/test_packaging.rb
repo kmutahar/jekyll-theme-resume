@@ -90,7 +90,8 @@ class PackagingTest < Minitest::Test
 
   def test_every_social_network_has_an_icon_and_a_label_in_every_locale
     YAML.safe_load_file(File.join(ROOT, "_data", "social_networks.yml")).each do |network|
-      assert File.exist?(File.join(ROOT, "_includes", "vendors", "svg-icons", "#{network['icon']}.svg")), network["icon"]
+      icon = File.join(ROOT, "_includes", "vendors", "svg-icons", "#{network['icon']}.svg")
+      assert_includes File.read(icon, 200), 'aria-hidden="true"', network["icon"]
       LOCALES.each { |lang| refute_empty locale(lang)["ui"]["social_labels"][network["key"]].to_s, "#{lang}: #{network['key']}" }
     end
   end

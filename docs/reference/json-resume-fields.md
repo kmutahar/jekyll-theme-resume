@@ -95,10 +95,8 @@ camelCase names on the right belong only to the JSON output.
 | `references.name`, `reference` | `references[].name`, `reference` |
 
 Experience and volunteering remain one record per role; company groups and
-newest-first role ordering follow the HTML renderer. Supported social networks
-are the ones rendered by the existing social include: GitHub, LinkedIn,
-Telegram, Twitter, Medium, Dribbble, Facebook, Instagram, Website, WhatsApp,
-Dev.to, Flickr, Pinterest, and YouTube. Their configured keys identify networks
+newest-first role ordering follow the HTML renderer. Every network in `_data/social_networks.yml` except
+`email` is exported. Their configured keys identify networks
 in the export. Social URLs remain strings; nested `{url, username}` objects are
 not introduced by this feature.
 

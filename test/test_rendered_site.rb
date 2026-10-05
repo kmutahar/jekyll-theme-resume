@@ -627,16 +627,6 @@ class RenderedSiteTest < Minitest::Test
     icons.each { |a| refute_empty a["aria-label"].to_s, "icon-only links need an accessible name" }
   end
 
-  def test_discord_and_behance_icons_render_with_hidden_svg_and_localized_names
-    links = { "discord" => "https://discord.gg/jane", "behance" => "https://behance.net/jane" }
-    page = cv("ar", "social_links" => links)
-    links.each do |key, url|
-      a = page.at_css(%(ul.social-links a[href="#{url}"]))
-      assert_equal locale("ar")["ui"]["social_labels"][key], a["aria-label"]
-      assert_equal "true", a.at_css("svg")["aria-hidden"]
-    end
-  end
-
   def test_social_icon_accessible_names_are_localized
     labels = locale("ar")["ui"]["social_labels"]
     github = cv("ar").at_css('ul.social-links a[href="https://github.com/jane"]')

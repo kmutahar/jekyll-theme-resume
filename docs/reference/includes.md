@@ -101,7 +101,7 @@ _layouts/resume.html
 ### 7. `social-links.html`
 
 - **Consumed by:** `resume.html` and `profile.html`, inside `<ul class="social-links">`, when `site.social_links` is set.
-- `email` renders a `mailto:` link with `itemprop="email"`. The other 16 platforms (`github`, `linkedin`, `telegram`, `twitter`, `medium`, `dribbble`, `facebook`, `instagram`, `website`, `whatsapp`, `devto`, `flickr`, `pinterest`, `youtube`, `discord`, `behance`) open in a new tab with `rel="noopener nofollow noreferrer"`.
+- `email` renders a `mailto:` link with `itemprop="email"`. Every other platform in `_data/social_networks.yml` opens in a new tab with `rel="noopener nofollow noreferrer"`.
 - Every icon link carries `aria-label`, `title`, and a `.sr-only` text span, all taken from the page locale's `ui.social_labels.<key>` (falling back to the English `label` in `_data/social_networks.yml`).
 - `profile.html` adds one extra email icon for `contact_info.email` only when `social_links.email` is not set, so the profile never shows two email icons.
 
