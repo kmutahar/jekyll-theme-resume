@@ -272,6 +272,15 @@ class RenderedSiteTest < Minitest::Test
     assert cv("ar").at_css('link[href="/assets/css/cv-rtl.css"]'), "RTL CV must link cv-rtl.css"
   end
 
+  def test_cv_print_css_paginates_and_never_collapses_line_height
+    %w[cv-ltr cv-rtl].each do |bundle|
+      css = File.read(File.join(self.class.fixture[:dest], "assets", "css", "#{bundle}.css"))
+      assert_match(/@page\s*\{/, css, "#{bundle}.css must set the print page box")
+      assert_includes css, "break-after: avoid", "#{bundle}.css must keep headings with their content"
+      refute_match(/line-height:\s*0?\.7em/, css, "#{bundle}.css: .7em print line-height makes lines overlap")
+    end
+  end
+
   def test_locale_font_and_line_height_become_css_variables
     ar_style = cv("ar").at_css("head style").text
     assert_includes ar_style, "--font-locale: #{locale('ar')['font_family']}"

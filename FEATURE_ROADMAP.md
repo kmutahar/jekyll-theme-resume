@@ -149,15 +149,17 @@ Add optional visual skill proficiency indicators alongside skill names and descr
 
 Improve the existing print styles with explicit page-break and typography controls.
 
-**Files:** Create `_sass/_print-optimization.scss` if a separate module is useful; update `assets/css/cv-ltr.scss`, `assets/css/cv-rtl.scss`, `_sass/_resume-ltr.scss`, `_sass/_resume-rtl.scss`, and a new `docs/PRINT_GUIDE.md`.
+**Files:** Create `_sass/_print.scss`; update `assets/css/cv-ltr.scss`, `assets/css/cv-rtl.scss`, `_sass/_resume-ltr.scss` (print rules moved out), and add `docs/how-to/print-your-resume.md`.
 
 **Implementation contract:** Keep headings with following content, use break-inside/break-after deliberately, and avoid forcing oversized groups onto one page. Preserve locale typography, especially Arabic and Urdu; do not reuse the old fixed .7em line-height example.
 
 **Acceptance criteria:**
 
-- [ ] Check multi-page A4 and Letter output for all six locales.
-- [ ] No clipped text or stranded headings; long entries can still paginate.
-- [ ] Controls remain hidden and printed links remain directionally correct.
+- [x] Check multi-page A4 and Letter output for all six locales.
+- [x] No clipped text or stranded headings; long entries can still paginate.
+- [x] Controls remain hidden and printed links remain directionally correct.
+- [x] Print guide and Sass reference updated.
+- [x] `bin/verify` passes. Commit pending approval.
 
 ### Feature 2.5: Skills Taxonomy & Categorized Tagging System
 
@@ -274,6 +276,13 @@ Provide a turnkey GitHub Actions workflow and theme integration that automatical
 - [ ] Multi-page pagination and margins in generated PDFs match the theme's print stylesheet.
 - [ ] The header "Download PDF" button is localized, accessible, and hidden from print output.
 - [ ] Sites without PDF generation enabled render no broken download links.
+- [ ] ATS check: run `pdftotext` on each PDF and confirm text extracts in logical order. Arabic and Urdu headings already mis-extract (letter swap) in the 2.3 baseline, so compare against the baseline rather than expecting a perfect result.
+
+**Deferred from 2.3:** a running footer and page numbers. CSS margin boxes (`@page` `@bottom-center`) only work in Chrome, and ATS parsers often skip header and footer regions, so they add little.
+
+**Render option without npm:** `google-chrome --headless=new --no-pdf-header-footer --print-to-pdf=<out>.pdf <url>`, with an injected `@page { size: A4 }` (or Letter) to fix the paper size. This needs no npm dependency and is an alternative to Playwright.
+
+**2.3 baseline A4 page counts (compare PDFs against these):** en 3.46, ar 3.27, es 3.50, fr 3.48, de 3.56, ur 3.28.
 
 ### Feature 3.3: Digital Contact Card (vCard / `.vcf`) Generator & Download
 

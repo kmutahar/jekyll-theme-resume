@@ -29,3 +29,6 @@
 @use "resume-ltr";
 
 @use "all-pages";
+
+// Print rules last so they override screen styles
+@use "print";
