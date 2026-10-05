@@ -68,7 +68,8 @@ The locale schema is in [Locale keys](locale-keys.md); the `languages` schema is
   - Loads `locale.font_url` when set, else the default Lora and Open Sans stylesheet; neither loads when `disable_google_fonts: true` or `resume_theme: no-custom-fonts`.
   - Emits `--font-locale` (from `locale.font_family`, when non-empty) and `--line-height-locale` (from `locale.line_height`) in an inline `:root` style.
   - Links `assets/css/cv-{{ locale.direction }}.css`, so LTR locales get `cv-ltr.css` and RTL locales get `cv-rtl.css`.
-  - Includes [`hreflang.html`](../../_includes/hreflang.html), `{% seo %}`, and the analytics head include.
+  - Includes [`hreflang.html`](../../_includes/hreflang.html), `{% seo %}`, [`json-ld-resume.html`](../../_includes/json-ld-resume.html) (after `{% seo %}`), and the analytics head include.
+- **Person microdata:** the `.wrapper` element is a Schema.org `Person` with `itemid` set to the JSON-LD Person `@id` (`<site url>/<path>/#person`), so parsers merge it with the JSON-LD block. The `itemid` is omitted when no absolute URL is available. Microdata `telephone` and `address` are emitted only when `display_header_contact_info: true`; `email` also when `resume_looking_for_work: true`. This is the same rule as the [JSON Resume export](json-resume-fields.md#visibility-and-privacy).
 - **Header:** avatar (when `resume_avatar: true`), `lang_cfg.name`, the contact row (when `display_header_contact_info: true`), the header language list (when `display_header_contact_info: true` and `resume_section.lang_header` is set), `lang_cfg.resume_title`, social icons (when `social_links` is set), the `header.yml` intro (when `lang_cfg.header_intro: true`), and the contact button (per `resume_looking_for_work`).
 - **Contact row:** icon first, then text, in every direction. Phone numbers and emails carry `dir="ltr"`. The date of birth goes through [`date-formatter.html`](../../_includes/date-formatter.html).
 - **Body:** loops `site.resume_section_order` through [`resume-section.html`](../../_includes/resume-section.html), then the print-only social links section when `resume_print_social_links` is set.
@@ -122,7 +123,7 @@ The order of operations for one resume page:
 
 ```text
 1. Resolve lang, locale, lang_cfg; load resume_data from lang_cfg.data_path
-2. <head>: shared-head, locale font + CSS variables, cv-<direction>.css, hreflang, SEO, analytics
+2. <head>: shared-head, locale font + CSS variables, cv-<direction>.css, hreflang, SEO, JSON-LD, analytics
 3. Body start: analytics-body, dark-mode-toggle, language-switcher
 4. Header: avatar, name, contact row, header languages, title, social icons, intro, contact button
 5. Sections: for each name in site.resume_section_order

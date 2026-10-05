@@ -333,6 +333,23 @@ social_usernames:
 
 Routes, collision rules, visibility, and field mappings: [JSON Resume export configuration and privacy](json-resume-fields.md#configuration).
 
+### 13a. JSON-LD structured data
+
+On by default. The key is optional.
+
+| Setting | Type | Default | Description |
+|---|---|---|---|
+| `json_ld.enabled` | Boolean | `true` | `false` removes the `application/ld+json` block from every CV page. |
+
+`json_ld` is independent of `json_resume.enabled` and `json_resume.languages`: turning off the JSON Resume files does not turn off JSON-LD, and every configured language whose export passes validation gets a block. It does honor `json_resume.privacy.export_contact_info`: with `false`, the block omits email, phone, address and the WhatsApp profile.
+
+```yaml
+json_ld:
+  enabled: true
+```
+
+Output shape, field mappings and limits: [JSON-LD fields reference](json-ld-fields.md). Checking the output: [Validate structured data](../how-to/validate-structured-data.md).
+
 ### 14. Content Security Policy
 
 The theme ships no CSP header (static sites set headers at the host). It does emit inline code, so a strict `script-src` needs a hash for each inline script, or `'unsafe-inline'`.
@@ -343,6 +360,7 @@ The theme ships no CSP header (static sites set headers at the host). It does em
 | Dark-mode toggle handler | `dark-mode-toggle.html`, when the toggle is enabled | `script-src` |
 | Error-page language detection | `404`/`403`/`500`/`503` pages (`error.html`) | `script-src` |
 | Google Tag Manager or `gtag` snippet | `analytics-head.html`, when `analytics.gtm` / `analytics.gtag` is set | `script-src`, plus `connect-src`/`img-src`/`frame-src` for Google hosts |
+| JSON-LD block (`<script type="application/ld+json">`, `json-ld-resume.html`) | `<head>` of CV pages | None. It is a data block that browsers never run, so `script-src` does not govern it and it needs no hash |
 | Locale font and line-height variables | `<style>` in `resume.html` | `style-src` |
 | `onclick="window.location.reload();"` on the error-page Reload button | 500/503 error pages | `script-src-attr` |
 | Some `style="..."` attributes (project and association titles, GTM `<noscript>` iframe) | resume sections, `analytics-body.html` | `style-src-attr` |

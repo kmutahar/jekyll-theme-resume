@@ -326,6 +326,11 @@ json_resume:
   languages: [] # Empty/missing: all configured languages
   privacy:
     export_contact_info: true # False removes email, phone, location, WhatsApp from JSON
+# JSON-LD (Schema.org ProfilePage + Person) in each CV page's <head>.
+# Independent of json_resume.enabled; honors json_resume.privacy.export_contact_info.
+# Details: docs/reference/json-ld-fields.md in the theme repository.
+json_ld:
+  enabled: true
 # Optional; social_links values remain URL strings.
 # social_usernames:
 #   github: octocat

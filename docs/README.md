@@ -35,6 +35,7 @@ Steps for one task each.
 | [Show language proficiency in the header](how-to/show-language-proficiency-in-header.md) | Site owners | Show a one-line language summary in the resume header. |
 | [Switch resume versions](how-to/switch-resume-versions.md) | Site owners | Load a different set of resume data for a language. |
 | [Troubleshoot builds](how-to/troubleshoot-builds.md) | Site owners and theme developers | Diagnose a build problem from the symptom. |
+| [Validate structured data](how-to/validate-structured-data.md) | Site owners | Check the JSON-LD block of a CV page and turn it off. |
 | [Validate resume data in CI](how-to/validate-in-ci.md) | Site owners and theme developers | Gate builds on validation and run the checks in GitHub Actions. |
 | [Verify accessibility](how-to/verify-accessibility.md) | Site owners and theme developers | Run the automated and manual accessibility checks. |
 
@@ -48,6 +49,7 @@ Facts to look up: keys, schemas, flags, and structure.
 | [Data schemas](reference/data-schemas.md) | Site owners | The YAML schema of every resume data file. |
 | [Locale keys](reference/locale-keys.md) | Site owners and theme developers | The locale file schema, shipped locales, and override rules. |
 | [JSON Resume export reference](reference/json-resume-fields.md) | Site owners | Export configuration, privacy, and field mappings. |
+| [JSON-LD fields reference](reference/json-ld-fields.md) | Site owners | The JSON-LD output, field mappings, and privacy rules. |
 | [Validator and build checks](reference/validator-cli.md) | Site owners and theme developers | `validate-resume`, `check-data-keys`, rules by section, and the Ruby API. |
 | [Accessibility coverage](reference/accessibility-coverage.md) | Site owners and theme developers | What the theme implements and what the automated checks cover. |
 | [Layouts reference](reference/layouts.md) | Site owners and theme developers | The layouts, language resolution, and data loading. |

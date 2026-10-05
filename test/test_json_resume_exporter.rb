@@ -392,4 +392,69 @@ class JsonResumeExporterTest < Minitest::Test
     refute File.exist?(File.join(@site.dest, "resume.json"))
     refute_includes File.read(File.join(@site.dest, "en/cv/index.html")), 'type="application/json"'
   end
+
+  def json_ld(lang = "en")
+    JSON.parse(@site.config["json_ld_pages"][lang]["script"])
+  end
+
+  def test_json_ld_published_for_every_language_and_independent_of_json_resume_settings
+    @site.config["languages"]["ar"] = @site.config["languages"]["en"].merge("name" => "عربي")
+    generate
+    assert_equal %w[ar en], @site.config["json_ld_pages"].keys.sort
+    assert_equal "Jane", json_ld.dig("mainEntity", "name")
+    assert_equal "https://example.org/cv/en/cv/#person", @site.config["json_ld_pages"]["en"]["person_id"]
+
+    @site.pages.clear
+    @site.config["json_resume"] = { "enabled" => false }
+    generate
+    assert_empty generated
+    assert_equal %w[ar en], @site.config["json_ld_pages"].keys.sort
+
+    @site.config["json_resume"] = { "languages" => ["en"] }
+    generate
+    assert_equal %w[ar en], @site.config["json_ld_pages"].keys.sort
+  end
+
+  def test_json_ld_disabled
+    @site.config["json_ld"] = { "enabled" => false }
+    generate
+    assert_equal({}, @site.config["json_ld_pages"])
+    refute_empty generated
+  end
+
+  def test_each_language_exported_once
+    @site.data["en"]["certifications"][0]["issue_date"] = "2020-02"
+    generate
+    assert_equal 1, @log.string.scan("en.certifications.issue_date").size
+  end
+
+  def test_json_ld_honors_contact_privacy
+    @site.config["json_resume"] = { "privacy" => { "export_contact_info" => false } }
+    generate
+    person = json_ld["mainEntity"]
+    %w[email telephone address].each { |field| refute person.key?(field) }
+    assert_equal ["https://github.com/jane"], person["sameAs"]
+  end
+
+  def test_json_ld_uses_live_contacts
+    @site.config["enable_live"] = true
+    generate
+    assert_equal "live@example.org", json_ld.dig("mainEntity", "email")
+    assert_equal "456", json_ld.dig("mainEntity", "telephone")
+  end
+
+  def test_invalid_language_key_gets_no_json_ld
+    @site.config["languages"]["../x"] = @site.config["languages"]["en"]
+    generate
+    assert_equal ["en"], @site.config["json_ld_pages"].keys
+  end
+
+  def test_failed_export_omits_json_ld
+    invalid_time = Object.new
+    def invalid_time.getutc = self
+    def invalid_time.iso8601 = 42
+    @site.time = invalid_time
+    generate
+    assert_equal({}, @site.config["json_ld_pages"])
+  end
 end

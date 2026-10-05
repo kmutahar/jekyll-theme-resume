@@ -27,6 +27,7 @@ jekyll-theme-resume/
 │   ├── social-links.html         # Social icons (email + 14 platforms)
 │   ├── print-social-links.html   # Print-only social links text list
 │   ├── hreflang.html             # Alternate-language SEO links
+│   ├── json-ld-resume.html       # Schema.org JSON-LD script for a CV page
 │   ├── analytics-head.html       # GTM / GA4 head script
 │   ├── analytics-body.html       # GTM noscript body fallback
 │   └── vendors/svg-icons/        # Bundled Lineicons SVGs (MIT; see ATTRIBUTION.md inside)
@@ -57,13 +58,14 @@ jekyll-theme-resume/
 │
 ├── _plugins/
 │   ├── error_pages_generator.rb  # Synthesizes missing HTTP error pages
-│   ├── json_resume_generator.rb  # Publishes /<lang>/resume.json (and /resume.json for default_lang) via JsonResumeExporter
+│   ├── json_resume_generator.rb  # Publishes /<lang>/resume.json (and /resume.json for default_lang) via JsonResumeExporter, and site.json_ld_pages for the JSON-LD include
 │   ├── resume_pages_generator.rb # Synthesizes missing CV/profile pages per language
 │   └── resume_validator.rb       # Build-time validation (on by default)
 │
 ├── lib/
 │   ├── jekyll-theme-resume.rb          # Gem entrypoint
 │   └── jekyll-theme-resume/
+│       ├── json_ld_builder.rb      # Maps the JSON Resume export to a Schema.org ProfilePage + Person
 │       ├── json_resume_exporter.rb # Maps resume data to a JSON Resume v1.0.0 document
 │       ├── resume_validator.rb   # Validator engine
 │       ├── template_key_checker.rb # Template checker (repository-only)

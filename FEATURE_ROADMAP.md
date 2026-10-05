@@ -10,7 +10,6 @@
 | P1 | 1.3 | Expanded Modern Social Media Platforms (9 Platforms) | [#204](https://github.com/kmutahar/jekyll-theme-resume/issues/204) |
 | P1 | 1.5 | Dynamic Contact / Resume QR Code Component | [#14](https://github.com/kmutahar/jekyll-theme-resume/issues/14) |
 | P1 | 1.6 | Achievement Badges & Credential Icons | [#19](https://github.com/kmutahar/jekyll-theme-resume/issues/19) |
-| P2 | 2.1 | Comprehensive JSON-LD Structured Data | [#9](https://github.com/kmutahar/jekyll-theme-resume/issues/9) |
 | P2 | 2.2 | Skills Level Indicators & Visual Progress Bars | [#10](https://github.com/kmutahar/jekyll-theme-resume/issues/10) |
 | P2 | 2.3 | Professional Print Pagination & Spacing Engine | [#12](https://github.com/kmutahar/jekyll-theme-resume/issues/12) |
 | P2 | 2.5 | Skills Taxonomy & Categorized Tagging System | [#18](https://github.com/kmutahar/jekyll-theme-resume/issues/18) |
@@ -113,22 +112,6 @@ Add optional badge images to certifications and recognitions while retaining the
 - [ ] Entries with badges align with their headings in LTR and RTL.
 - [ ] Missing badges leave no gaps or empty image elements.
 - [ ] Verification links and printed text remain usable without images.
-
-### Feature 2.1: Comprehensive JSON-LD Structured Data
-
-**Issue:** [#9](https://github.com/kmutahar/jekyll-theme-resume/issues/9) · **Branch:** `feature/json-ld-structured-data` · **Closure:** `Closes #9`
-
-Extend machine-readable resume data beyond current Person/Organization microdata and jekyll-seo-tag output. JSON-LD alone does not guarantee ATS acceptance or search rich results.
-
-**Files:** Create `_includes/json-ld-resume.html`; integrate with `_layouts/resume.html`, its resolved `resume_data`/`lang_cfg`, and a new `docs/SEO_GUIDE.md`.
-
-**Implementation contract:** Serialize safely with jsonify, filter inactive entries, use the active language’s data, and respect existing contact substitutions. Reconcile with jekyll-seo-tag’s JSON-LD rather than emitting contradictory identities or duplicate canonical tags. Verify Schema.org vocabulary when implementing.
-
-**Acceptance criteria:**
-
-- [ ] Each CV emits parseable JSON-LD with the correct person, locale, and URLs.
-- [ ] Quotes, HTML-containing summaries, and non-Latin text serialize correctly.
-- [ ] Inactive entries stay out; structured contact values agree with visible content.
 
 ### Feature 2.2: Skills Level Indicators & Visual Progress Bars
 

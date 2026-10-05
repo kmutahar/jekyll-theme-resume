@@ -37,6 +37,7 @@ class PackagingTest < Minitest::Test
     %w[_layouts/resume.html _includes/resume-section.html _sass/_resume-rtl.scss assets/css/cv-rtl.scss
        _data/social_networks.yml bin/validate-resume lib/jekyll-theme-resume.rb
        lib/jekyll-theme-resume/resume_validator.rb lib/jekyll-theme-resume/json_resume_exporter.rb
+       lib/jekyll-theme-resume/json_ld_builder.rb _includes/json-ld-resume.html
        lib/jekyll-theme-resume/schemas/json_resume_v1.0.0.json _plugins/error_pages_generator.rb
        _plugins/resume_pages_generator.rb _plugins/resume_validator.rb _plugins/json_resume_generator.rb
        _config.sample.yml 404.html LICENSE.txt README.md docs/README.md
