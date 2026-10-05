@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [1.3.1] - 2026-10-05
+
+### Added
+* Add Rule 9, release files are owned by bin/release ([`4324433`](https://github.com/kmutahar/jekyll-theme-resume/commit/43244338cc4a027a8c2296f4a028ef0ce67dd4ee))
+
+
+### Changed
+* Stop tracking local implementation plan ([`0ad72dc`](https://github.com/kmutahar/jekyll-theme-resume/commit/0ad72dc330ca8205b248c382c9980462ba6eb557))
+
+* Publish to RubyGems via Trusted Publishing (SEC-04) ([`02a4c4b`](https://github.com/kmutahar/jekyll-theme-resume/commit/02a4c4bec139568aae4c673bf7d00bbafd85a71b))
+
+
+### Fixed
+* Read files as UTF-8 so the gem loads under a US-ASCII default encoding ([`0fb3e43`](https://github.com/kmutahar/jekyll-theme-resume/commit/0fb3e43d9943021308150e93b25bed54d5a0fc57))
+
 ## [1.3.0] - 2026-10-04
 
 ### Added
@@ -476,6 +491,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Initial commit (New Theme Template) ([`00af662`](https://github.com/kmutahar/jekyll-theme-resume/commit/00af6628dfec7aefe0ef7d7083bf98c9713a5ffd))
 
+[1.3.1]: https://github.com/kmutahar/jekyll-theme-resume/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/kmutahar/jekyll-theme-resume/compare/v1.1.0...v1.3.0
 [1.1.0]: https://github.com/kmutahar/jekyll-theme-resume/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/kmutahar/jekyll-theme-resume/compare/v1.0.1...v1.0.2
