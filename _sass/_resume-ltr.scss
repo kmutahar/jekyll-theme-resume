@@ -4,7 +4,7 @@
 // Core stylesheet shared by every locale (_layouts/resume.html, and
 // portfolio landing pages). Provides the default LTR positioning; _resume-rtl.scss layers
 // mirrored positioning on top for right-to-left locales. Manages header typography, section
-// dividers, unboxed card items, responsive tables, social icons, and print media optimizations.
+// dividers, unboxed card items, responsive tables, and social icons (print rules live in _print.scss).
 // Text typography (font-family, line-height) reads from the --font-locale / --line-height-locale
 // CSS custom properties, set per language from _data/locales/<lang>.yml (see IMPLEMENTATION_PLAN.md
 // Section 4.1); the values below are the fallbacks used when a locale does not set them.
@@ -318,29 +318,6 @@ body {
 
     .languages-table tr { margin-bottom: 0.5rem; }
   }
-
-  /* Print-specific: keep two columns side-by-side (do not stack) */
-  @media print {
-    .languages-table {
-      display: table;
-      table-layout: fixed;
-      border-collapse: separate;
-      border-spacing: 1rem 0.5rem;
-      width: 100%;
-      page-break-inside: avoid;
-    }
-
-    .languages-table tbody { display: table-row-group; }
-
-    .languages-table tr { display: table-row; }
-
-    .languages-table td {
-      display: table-cell !important;
-      width: 50%;
-      vertical-align: top;
-      padding: 0.4rem 0.8rem;
-    }
-  }
 }
 
 // footer styles
@@ -351,86 +328,4 @@ body {
 // declared once, globally, in _all-pages.scss; only the resume-specific divider lives here.
 .page-footer {
   border-top: 4px solid var(--border-color, #c7c7c7);
-}
-
-// ==========================================================================
-// Print Visibility Utility Classes
-// ==========================================================================
-// Hidden by default on digital screens; revealed during physical printing / PDF generation.
-.print-only,
-.print-only-inline {
-  display: none !important
-}
-
-// ==========================================================================
-// Print Media Overrides (@media print)
-// ==========================================================================
-// Tightens spacing and downscales typography to fit CV content cleanly onto A4 / US Letter paper.
-@media print {
-  // Suppress interactive elements and digital-only buttons.
-  .no-print {
-    display: none !important
-  }
-
-  // Reveal plaintext contact data and printable URLs.
-  .print-only {
-    display: block !important
-  }
-
-  .print-only-inline {
-    display: inline !important
-  }
-
-  // Base print typography: scales down to 12px for compact multi-column printable density.
-  body {
-    font-size: 12px;
-    line-height: 1rem;
-  }
-
-  // Reduced padding on page header to conserve physical page budget.
-  .page-header {
-    padding: 1rem 0 .2rem;
-
-    .header-name {
-      @include mixins.sans_bold;
-      font-size: 2rem;
-      margin: 0 0 .2rem;
-    }
-  }
-
-  // Switch thick decorative borders to 1px hairline rules.
-  .section-header {
-    @include mixins.section_border_thin;
-    margin-bottom: 1rem;
-
-    h2 {
-      font-size: 1.2rem;
-      line-height: 1.5rem;
-    }
-  }
-
-  // Tighten margins across items and scale down titles.
-  .content-section {
-    margin: 0 0 1rem;
-
-    .resume-item {
-      margin-bottom: 1rem;
-    }
-
-    .resume-item-title {
-      font-size: 16px;
-      line-height: .7em;
-    }
-
-    .resume-item-details {
-      font-size: 12px;
-      margin: 0 0 .75rem;
-      line-height: .7em;
-      font-style: italic;
-
-      &.award-title {
-        font-size: 11px;
-      }
-    }
-  }
 }

@@ -73,21 +73,46 @@ Steps: [Override Sass partials](../how-to/override-sass-partials.md).
 ### 5. `_layout.scss`
 
 - **File:** [`_sass/_layout.scss`](../../_sass/_layout.scss)
-- **Role:** Floating language switcher component (`.language-switcher`, fixed top-left, hidden in print). The former grid classes (`.container`, `.columns`, `.one-third`, and so on) were removed.
+- **Role:** Floating language switcher component (`.language-switcher`, fixed top-left, hidden in print; this hiding stays here because other bundles compile `_layout.scss`). The former grid classes (`.container`, `.columns`, `.one-third`, and so on) were removed.
 
 ---
 
 ### 6. `_resume-ltr.scss`
 
 - **File:** [`_sass/_resume-ltr.scss`](../../_sass/_resume-ltr.scss)
-- **Role:** The main resume stylesheet: every shared rule plus LTR positioning. Both entrypoints load it; `cv-rtl.scss` then layers `_resume-rtl.scss` on top.
+- **Role:** The main resume stylesheet: every shared screen rule plus LTR positioning. It holds no print rules; those live in [`_print.scss`](#6a-_printscss). Both entrypoints load it; `cv-rtl.scss` then layers `_resume-rtl.scss` on top.
 - **Typography:** resume text reads `var(--font-locale, <default stack>)` and `var(--line-height-locale, <default>)`, so each locale's font and line height apply without per-language rules.
 - **Components Styled:**
   - Header: Avatar (`.avatar`), candidate name, contact info row, and social links bar.
   - Contact CTA button (`.contact-button`) and "not looking" modifier.
   - Section headers (`.section-header`) and item cards (`.resume-item`).
   - Two-column responsive Languages table.
-  - Print-specific media overrides (`@media print`).
+
+---
+
+### 6a. `_print.scss`
+
+- **File:** [`_sass/_print.scss`](../../_sass/_print.scss)
+- **Role:** Every `@media print` rule and print-visibility class (`.print-only`, `.print-only-inline`, `.no-print`) for the resume layout. `cv-ltr.scss` and `cv-rtl.scss` load it last so print overrides win the cascade.
+- **Kept elsewhere on purpose:** the `.language-switcher` hiding stays in `_layout.scss` and the light colour tokens stay in `_dark-mode.scss`, because other bundles compile those partials and do not load `_print.scss`.
+
+#### Print rules
+
+| Selector | Rule | Why |
+|---|---|---|
+| `@page` | `size: auto; margin: 15mm 14mm` | Paper size follows the printer dialog (A4 or Letter); the page margin is the only margin |
+| `.wrapper` | `padding: 0` | Avoids doubling the `@page` margin |
+| `.section-header`, `.resume-item-title`, `.resume-item-details` | `break-after: avoid` | Keeps a heading with the entry that follows |
+| `.resume-item`, `.resume-item-list li` | `break-inside: avoid` | Keeps entries whole; a hint, so an entry longer than a page still splits |
+| `.resume-item-copy`, `.resume-item-list li` | `orphans: 3; widows: 3` | No one- or two-line fragments at a page edge |
+| `body` | `font-size: 10pt; line-height: calc(var(--line-height-locale, 1.5) * .9)` | Compact density; locale line height is kept (Urdu Nastaliq needs the room) |
+| `.page-header` | Reduced padding; name `2rem` | Saves page space |
+| `.section-header` | Hairline border; `h2` at `13pt`, line height `calc(var(--line-height-locale, 1.5) * .9)` | Lighter rules for paper |
+| `.resume-item-title` | `12pt`; line height `calc(var(--line-height-locale, 1.5) * .8)` | Locale-driven, so Nastaliq does not overflow |
+| `.resume-item-details` | `10pt` italic (`9pt` for `.award-title`); line height `calc(var(--line-height-locale, 1.5) * .8)` | Same as the title |
+| `.languages-table` | Stays a two-column table; `break-inside: avoid` | Does not stack to one column on paper |
+| `.no-print` | `display: none` | Hides interactive controls |
+| `.print-only`, `.print-only-inline` | Hidden on screen; shown (`block`, `inline`) in print | Printed contact text and URLs |
 
 ---
 
@@ -206,7 +231,7 @@ Why activation has two tiers: [Dark mode approach](../explanation/dark-mode-appr
 
 ### Print Media Resets
 
-When printing to physical paper or PDF, [`_sass/_dark-mode.scss`](../../_sass/_dark-mode.scss) enforces a strict print reset:
+The colour reset for print lives in [`_sass/_dark-mode.scss`](../../_sass/_dark-mode.scss) (all other print rules are in [`_print.scss`](#6a-_printscss)):
 
 ```scss
 @media print {
