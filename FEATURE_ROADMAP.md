@@ -603,30 +603,7 @@ Introduce first-class, structured schemas for patents and research grants with f
 - [ ] Patents cleanly export to the official JSON Resume `patents` standard schema.
 - [ ] All 6 locale files define section titles and status labels with full parity.
 
-<a id="security"></a>
-## 3. Security
-
-The following hardening measures originate from the sandboxed security audit (`REPORT.md`). The theme operates as a static site generator with no runtime server or database boundaries, so the findings below are proactive hardening tasks rather than critical vulnerabilities.
-
-| ID | Hardening Area | Target Files | Priority |
-|---|---|---|---|
-| SEC-04 | RubyGems Trusted Publishing (OIDC) for the publish workflow | `.github/workflows/publish.yml`, `.github/workflows/ci.yml` | Medium |
-
-### Security Brief SEC-04: CI/CD & Supply Chain Hardening
-
-**Target files:** `.github/workflows/publish.yml`, `.github/workflows/ci.yml`
-
-The publish workflow still writes a static `RUBYGEMS_API_KEY` to `~/.gem/credentials`. Manual dispatch is gone (releases come only from `v*` tag pushes) and all third-party actions are pinned to commit SHAs.
-
-**Implementation contract:**
-- Register the gem's Trusted Publisher on rubygems.org (Settings → Trusted Publishers → GitHub Actions: owner `kmutahar`, repo `jekyll-theme-resume`, workflow `publish.yml`).
-- In `publish.yml`, add `id-token: write`, use a pinned `rubygems/configure-rubygems-credentials` step, and keep `gem push`. Do not use `rubygems/release-gem` (it builds, tags and pushes, which conflicts with the tag-triggered flow).
-- Keep `RUBYGEMS_API_KEY` until one OIDC release succeeds, then delete the secret.
-
-**Acceptance criteria:**
-- [ ] Long-lived publishing secrets are replaced with OpenID Connect tokens.
-
-## 4. Verification and Delivery
+## 3. Verification and Delivery
 
 Follow [AGENTS.md](AGENTS.md) for the commit-approval and delivery rules. A documentation blueprint is not proof that a feature exists. Update current guides and `_config.sample.yml` only when implementation lands. When a feature ships, delete its brief and matrix row here, and add one row to [docs/COMPLETED_AUDIT.md](docs/COMPLETED_AUDIT.md) plus the changelog entry.
 
