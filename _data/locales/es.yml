@@ -53,6 +53,8 @@ ui:
     pinterest: "Pinterest"
     telegram: "Telegram"
     youtube: "YouTube"
+    discord: "Discord"
+    behance: "Behance"
 error_pages:
   "404":
     title: "Página No Encontrada"

@@ -53,6 +53,8 @@ ui:
     pinterest: "بينتيريست"
     telegram: "تيليجرام"
     youtube: "يوتيوب"
+    discord: "ديسكورد"
+    behance: "بيهانس"
 error_pages:
   "404":
     title: "الصفحة غير موجودة"

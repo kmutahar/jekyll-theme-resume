@@ -152,6 +152,8 @@ social_links:
   dribbble: https://dribbble.com/yourhandle
   flickr: https://flickr.com/people/yourhandle
   pinterest: https://pinterest.com/yourhandle
+  discord: https://discord.gg/yourinvite
+  behance: https://behance.net/yourhandle
   # mastodon emits <link rel="me"> in default.html and profile.html for Fediverse verification:
   mastodon: https://mastodon.social/@yourhandle
 ```

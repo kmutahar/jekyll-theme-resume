@@ -7,10 +7,20 @@
 # itemprop: schema.org microdata value social-links.html sets on the <a>
 # label: English fallback for the icon's aria-label/title; each locale's
 #        ui.social_labels.<key> wins when present (print labels use it too)
+- key: behance
+  icon: behance
+  itemprop: sameAs
+  label: Behance
+
 - key: devto
   icon: dev
   itemprop: url
   label: Dev.to
+
+- key: discord
+  icon: discord
+  itemprop: url
+  label: Discord
 
 - key: dribbble
   icon: dribbble-symbol

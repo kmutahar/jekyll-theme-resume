@@ -27,6 +27,8 @@ folders. Original folder (version) each file shipped in:
 | `flickr.svg` | `vendors/lineicons-v5.1/` |
 | `pinterest.svg` | `vendors/lineicons-v5.1/` |
 | `youtube.svg` | `vendors/lineicons-v5.1/` |
+| `discord.svg` | `vendors/lineicons-v5.1/` |
+| `behance.svg` | `vendors/lineicons-v5.1/` |
 
 To add a new icon (from Lineicons or elsewhere), drop the SVG into this folder and reference it
 by filename — from `_data/social_networks.yml` for a social platform, or directly via

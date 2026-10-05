@@ -53,6 +53,8 @@ ui:
     pinterest: "پن ٹریسٹ"
     telegram: "ٹیلیگرام"
     youtube: "یوٹیوب"
+    discord: "ڈسکورڈ"
+    behance: "بیہانس"
 error_pages:
   "404":
     title: "صفحہ نہیں ملا"
