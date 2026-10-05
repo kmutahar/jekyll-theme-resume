@@ -34,3 +34,6 @@
 
 // RTL-specific positioning overrides
 @use "resume-rtl";
+
+// Print rules last so they override screen styles
+@use "print";

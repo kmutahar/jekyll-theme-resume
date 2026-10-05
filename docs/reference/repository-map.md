@@ -37,7 +37,8 @@ jekyll-theme-resume/
 │   ├── _dark-mode.scss           # Color tokens, overrides, print reset
 │   ├── _base.scss                # Reset, .sr-only, base typography
 │   ├── _layout.scss              # Floating language-switcher styles
-│   ├── _resume-ltr.scss          # Main resume styles + LTR positioning
+│   ├── _resume-ltr.scss          # Main resume styles + LTR positioning (screen)
+│   ├── _print.scss               # All print rules (CV bundles, loaded last)
 │   ├── _resume-rtl.scss          # Language-neutral RTL overrides
 │   ├── _profile-page.scss        # Landing page styles
 │   ├── _all-pages.scss           # Shared markdown typography, icon links, footer, error-page styles
