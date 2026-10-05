@@ -71,6 +71,7 @@ Use the following index to find specific architecture details, schemas, and conf
 | **Validator CLI & Build Checks** | [`docs/reference/validator-cli.md`](docs/reference/validator-cli.md) | Reference |
 | **Accessibility Verification** | [`docs/reference/accessibility-coverage.md`](docs/reference/accessibility-coverage.md), [`docs/how-to/verify-accessibility.md`](docs/how-to/verify-accessibility.md) | Reference, How-to |
 | **JSON Resume Export** | [`docs/reference/json-resume-fields.md`](docs/reference/json-resume-fields.md), [`docs/how-to/publish-json-resume.md`](docs/how-to/publish-json-resume.md) | Reference, How-to |
+| **JSON-LD Structured Data** | [`docs/reference/json-ld-fields.md`](docs/reference/json-ld-fields.md), [`docs/how-to/validate-structured-data.md`](docs/how-to/validate-structured-data.md) | Reference, How-to |
 | **Active Feature Blueprints** | [`FEATURE_ROADMAP.md`](FEATURE_ROADMAP.md) | Status |
 | **Historical Fixes & Remediations** | [`docs/COMPLETED_AUDIT.md`](docs/COMPLETED_AUDIT.md) | History |
 

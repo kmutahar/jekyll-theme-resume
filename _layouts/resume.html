@@ -12,6 +12,7 @@
         - shared-head: Shared charset, viewport, SEO base, and favicon links
         - Locale web font (locale.font_url) and locale-driven CSS (assets/css/cv-{{ locale.direction }}.css)
         - seo: Jekyll SEO tag for social graph, search indexing, and canonical URLs
+        - json-ld-resume: Schema.org ProfilePage + Person JSON-LD for this CV (built in Ruby from the JSON Resume export)
         - analytics-head: Google Analytics / GTM tracking scripts (optional)
         {%- endcomment -%}
         {% include shared-head.html %}
@@ -41,6 +42,8 @@
 
         {% seo %}
 
+        {% include json-ld-resume.html lang=lang %}
+
         {% include analytics-head.html %}
     </head>
 
@@ -51,28 +54,35 @@
         <!-- Analytics body snippet (noscript, dataLayer, etc.) -->
         {% include analytics-body.html %}
 
-        <div class="wrapper" itemscope itemtype="https://schema.org/Person">
+        {%- assign person_id = site.json_ld_pages[lang].person_id -%}
+        <div class="wrapper" itemscope itemtype="https://schema.org/Person"{% if person_id %} itemid="{{ person_id | escape }}"{% endif %}>
             {% include dark-mode-toggle.html %}
             {% include language-switcher.html %}
 
             {%- comment -%}
             Schema.org Microdata & Live Contact Protection:
+            Telephone and address are emitted only when site.display_header_contact_info is true;
+            email also when site.resume_looking_for_work is true (same rule as the JSON Resume export).
             When site.enable_live is true, phone_live and email_live are used for privacy.
             Fallback to standard phone/email if live versions are not provided.
             {%- endcomment -%}
-            {% if site.enable_live == true and site.contact_info.phone_live %}
-            <meta itemprop="telephone" content="{{ site.contact_info.phone_live }}" />
-            {% elsif site.contact_info.phone %}
-            <meta itemprop="telephone" content="{{ site.contact_info.phone }}" />
+            {% if site.display_header_contact_info == true %}
+                {% if site.enable_live == true and site.contact_info.phone_live %}
+                <meta itemprop="telephone" content="{{ site.contact_info.phone_live }}" />
+                {% elsif site.contact_info.phone %}
+                <meta itemprop="telephone" content="{{ site.contact_info.phone }}" />
+                {% endif %}
             {% endif %}
 
-            {% if site.enable_live == true and site.contact_info.email_live %}
-            <meta itemprop="email" content="{{ site.contact_info.email_live }}" />
-            {% elsif site.contact_info.email %}
-            <meta itemprop="email" content="{{ site.contact_info.email }}" />
+            {% if site.display_header_contact_info == true or site.resume_looking_for_work == true %}
+                {% if site.enable_live == true and site.contact_info.email_live %}
+                <meta itemprop="email" content="{{ site.contact_info.email_live }}" />
+                {% elsif site.contact_info.email %}
+                <meta itemprop="email" content="{{ site.contact_info.email }}" />
+                {% endif %}
             {% endif %}
 
-            {% if lang_cfg.address %}
+            {% if site.display_header_contact_info == true and lang_cfg.address %}
             <meta itemprop="address" content="{{ lang_cfg.address }}" />
             {% endif %}
 

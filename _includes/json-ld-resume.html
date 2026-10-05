@@ -1,0 +1,12 @@
+{%- comment -%}
+Include: JSON-LD structured data (Schema.org ProfilePage + Person) for a CV page.
+- Parameters: lang: the active language key.
+- Source: site.json_ld_pages[lang].script, built in Ruby by JsonLdBuilder from the JSON Resume export,
+  so inactive entries, live contacts and privacy match /<lang>/resume.json. Already JSON-escaped
+  ("<" as \u003c): print it as is, never through jsonify or escape.
+- Emits nothing when json_ld.enabled is false or the language has no export.
+{%- endcomment -%}
+{%- assign json_ld_page = site.json_ld_pages[include.lang] -%}
+{%- if json_ld_page.script -%}
+<script type="application/ld+json">{{ json_ld_page.script }}</script>
+{%- endif -%}

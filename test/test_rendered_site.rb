@@ -9,6 +9,7 @@ require "tmpdir"
 require "yaml"
 require "open3"
 require "json"
+require_relative "../_plugins/json_resume_generator"
 
 # End-user behavior: builds one Jekyll site from the theme's real _layouts/_includes/_sass/_data
 # plus fixture resume data, then asserts on the generated HTML a visitor actually receives.
@@ -802,5 +803,115 @@ class RenderedSiteTest < Minitest::Test
     doc = html("500.html")
     assert_equal locale("en")["ui"]["reload_page"], doc.at_css("button.error-btn.primary").text.strip
     refute_includes doc.at_css("#error-home-btn")["class"], "primary"
+  end
+
+  # --- JSON-LD structured data -----------------------------------------------------------------
+
+  JSON_LD_BREAKOUT = { "url" => "",
+                       "languages" => base_config["languages"].merge(
+                         "en" => base_config["languages"]["en"].merge("name" => "A </script x")
+                       ) }.freeze
+
+  def json_ld(doc)
+    doc.css('script[type="application/ld+json"]').map { |node| JSON.parse(node.text) }
+       .select { |graph| graph["@type"] == "ProfilePage" }
+  end
+
+  def profile_page(doc)
+    graphs = json_ld(doc)
+    assert_equal 1, graphs.size
+    graphs.first
+  end
+
+  def test_cv_emits_one_profile_page_json_ld_whose_urls_and_language_match_the_page
+    { "en" => "https://example.org/en/cv/", "ar" => "https://example.org/ar/cv/" }.each do |lang, url|
+      doc = cv(lang)
+      graph = profile_page(doc)
+      canonical = doc.css('link[rel="canonical"]')
+      assert_equal 1, canonical.size
+      assert_equal canonical.first["href"], graph["url"]
+      assert_equal url, graph["@id"]
+      assert_equal "#{url}#person", graph.dig("mainEntity", "@id")
+      assert_equal doc.at_css("html")["lang"], graph["inLanguage"]
+    end
+  end
+
+  def test_json_ld_person_matches_visible_header_and_serializes_rtl
+    %w[en ar].each do |lang|
+      doc = cv(lang)
+      person = profile_page(doc)["mainEntity"]
+      assert_equal doc.at_css("h1.header-name").text.strip, person["name"]
+      assert_equal doc.at_css("h2.header-title").text.strip, person["jobTitle"]
+    end
+    arabic = profile_page(cv("ar"))["mainEntity"]
+    assert_equal "جين دو", arabic["name"]
+    assert_equal "AR intro paragraph for the fixture resume.", arabic["description"]
+  end
+
+  def test_json_ld_excludes_inactive_entries
+    %w[en ar].each do |lang|
+      text = cv(lang).css('script[type="application/ld+json"]').map(&:text).join
+      refute_match(/hidden-/, text)
+    end
+  end
+
+  def test_contact_structured_data_follows_visibility
+    [[true, true], [true, false], [false, true], [false, false]].each do |header, looking|
+      doc = cv("en", "display_header_contact_info" => header, "resume_looking_for_work" => looking)
+      person = profile_page(doc)["mainEntity"]
+      tel = doc.at_css('.header-contact-info a[href^="tel:"]')
+      mail = doc.at_css('.header-contact-info a[href^="mailto:"], a.contact-button[href^="mailto:"]')
+      label = "display_header_contact_info=#{header} resume_looking_for_work=#{looking}"
+      assert_equal !tel.nil?, person.key?("telephone"), label
+      assert_equal !tel.nil?, !doc.at_css('meta[itemprop="telephone"]').nil?, label
+      assert_equal !mail.nil?, person.key?("email"), label
+      assert_equal !mail.nil?, !doc.at_css('meta[itemprop="email"]').nil?, label
+      assert_equal header, person.key?("address"), label
+      assert_equal header, !doc.at_css('meta[itemprop="address"]').nil?, label
+    end
+  end
+
+  def test_live_contacts_agree_across_outputs
+    doc = cv("en", LIVE)
+    person = profile_page(doc)["mainEntity"]
+    assert_equal "222", person["telephone"]
+    assert_equal "222", doc.at_css('meta[itemprop="telephone"]')["content"]
+    assert_equal "tel:222", doc.at_css('.header-contact-info a[href^="tel:"]')["href"]
+    assert_equal "live@example.org", person["email"]
+    assert_equal "live@example.org", doc.at_css('meta[itemprop="email"]')["content"]
+    assert_equal "mailto:live@example.org", doc.at_css('.header-contact-info a[href^="mailto:"]')["href"]
+  end
+
+  def test_microdata_person_shares_json_ld_id
+    doc = cv
+    assert_equal profile_page(doc).dig("mainEntity", "@id"), doc.at_css(".wrapper[itemscope]")["itemid"]
+    assert_nil cv("en", JSON_LD_BREAKOUT).at_css(".wrapper[itemscope]")["itemid"]
+  end
+
+  def test_json_ld_cannot_break_out_of_script
+    # The visible header prints the name verbatim (existing behavior), so scope the check to our script block.
+    raw = File.read(File.join(self.class.fixture(JSON_LD_BREAKOUT)[:dest], "en/cv/index.html"))
+    ours = raw.scan(%r{<script type="application/ld\+json">(.*?)</script>}m).flatten.find { |body| body.include?("ProfilePage") }
+    refute_nil ours
+    refute_includes ours, "<"
+    assert_includes ours, "\\u003c"
+    doc = cv("en", JSON_LD_BREAKOUT)
+    graph = profile_page(doc)
+    assert_equal "A </script x", graph["mainEntity"]["name"]
+    assert_nil graph["@id"], "no site.url means no ids"
+    assert doc.at_css("body main"), "the DOM after the script block must still parse"
+  end
+
+  def test_profile_and_error_pages_have_no_theme_json_ld
+    %w[index.html 404.html 500.html].each { |file| assert_empty json_ld(html(file)), file }
+  end
+
+  def test_json_ld_disabled_renders_nothing_but_keeps_seo_tag_output
+    overrides = { "json_ld" => { "enabled" => false } }
+    doc = cv("en", overrides)
+    assert_empty json_ld(doc)
+    assert_nil doc.at_css(".wrapper[itemscope]")["itemid"]
+    assert doc.at_css('script[type="application/ld+json"]'), "jekyll-seo-tag still emits its own block"
+    assert_equal 1, doc.css('link[rel="canonical"]').size
   end
 end

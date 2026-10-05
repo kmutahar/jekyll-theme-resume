@@ -15,6 +15,7 @@ _layouts/resume.html
  ├── data-loader.html        (binds resume_data from languages.<lang>.data_path)
  ├── shared-head.html        (anti-FOUC script, metadata, favicon suite)
  ├── hreflang.html           (alternate-language links)
+ ├── json-ld-resume.html     (Schema.org JSON-LD script for this CV)
  ├── analytics-head.html     (GTM / GA4 head script)
  ├── analytics-body.html     (GTM noscript iframe)
  ├── dark-mode-toggle.html   (floating theme toggle)
@@ -44,6 +45,15 @@ _layouts/resume.html
 - **Anti-FOUC script:** reads `localStorage['color-scheme']` synchronously and sets `data-color-scheme` / `data-theme` on `<html>` before CSS loads.
 - **Favicons:** `favicon`, `apple_touch_icon`, `favicon_32`, `favicon_16`, and the web manifest, all through `relative_url`.
 - **Robots:** `noindex noarchive nosnippet noimageindex` when `page.noindex: true`.
+
+### 1a. `json-ld-resume.html`
+
+- **Consumed by:** `resume.html`, right after `{% seo %}`.
+- **Parameters:** `lang` (the active language key).
+- **Source:** `site.json_ld_pages[lang].script`, built in Ruby by `JsonLdBuilder` from the JSON Resume export and published by `json_resume_generator.rb`.
+- **Output:** one `<script type="application/ld+json">` block. Nothing is emitted when `json_ld.enabled` is `false` or the language has no export.
+- **Escaping:** the script is already JSON-escaped (`<` as `\u003c`). Print it as is; do not pass it through `jsonify` or `escape`.
+- **Override:** a site can replace the include by adding `_includes/json-ld-resume.html`. The override then owns the output and its escaping. See [JSON-LD fields](json-ld-fields.md).
 
 ### 2. Stylesheet links (inline in each layout)
 

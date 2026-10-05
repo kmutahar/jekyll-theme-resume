@@ -17,6 +17,7 @@ Inspired by and originally forked from [Joel Glovier’s resume template](https:
 - **Modern favicon suite**: High-resolution favicons (Apple touch icon, 32x32, 16x16, webmanifest) with subpath-safe URLs and `_config.yml` override support
 - **Print-friendly**: Optimized for PDF generation and printing with bidirectional text isolation (`dir="ltr"`) for URLs
 - **SEO ready**: Built-in support for multilingual SEO, standardized canonical tags via `jekyll-seo-tag`, sitemaps, and feeds
+- **JSON-LD structured data**: Each CV page carries a Schema.org `ProfilePage` + `Person` block built from the same data as the JSON Resume export (on by default; opt out with `json_ld.enabled: false`). It does not guarantee ATS parsing or rich results.
 - **JSON Resume Export**: Multilingual builds generate standards-validated JSON Resume files at `/<lang>/resume.json` (on by default; opt out with `json_resume.enabled: false`).
 - **Automatic pages**: Missing CV and profile pages are generated for each configured language; hand-authored pages take precedence.
 - **Data validation**: `validate-resume` CLI and build-time checks for schemas, dates, URLs, and parity across every configured language

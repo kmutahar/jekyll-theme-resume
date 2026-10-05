@@ -19,6 +19,8 @@ collection document, or existing generated page preserves that resource and logs
 a warning. A collision at the localized route also suppresses its root copy.
 A root-only collision does not suppress the localized export.
 
+The same export also feeds the CV page's [JSON-LD block](json-ld-fields.md), so the visibility and privacy rules below apply to both.
+
 Discovery links on CV pages and the `application/json` hosting requirement are covered in [Publish the JSON Resume export](../how-to/publish-json-resume.md).
 
 ## Visibility and privacy
