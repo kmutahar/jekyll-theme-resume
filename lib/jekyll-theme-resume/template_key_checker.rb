@@ -127,9 +127,11 @@ module JekyllThemeResume
     # needs those. `.field` ACCESSES appear in both `{% if x.field %}` conditions and
     # `{{ x.field }}` output/attribute interpolation, so the check pass needs both kinds.
     def run_checks(template_files, known_keys)
-      logic_bodies_by_file = template_files.to_h { |file| [File.basename(file), File.read(file).scan(TAG_REGEX).flatten] }
+      logic_bodies_by_file = template_files.to_h do |file|
+        [File.basename(file), File.read(file, encoding: "UTF-8").scan(TAG_REGEX).flatten]
+      end
       all_bodies_by_file = template_files.to_h do |file|
-        content = File.read(file)
+        content = File.read(file, encoding: "UTF-8")
         [File.basename(file), content.scan(TAG_REGEX).flatten + content.scan(OUTPUT_REGEX).flatten]
       end
 

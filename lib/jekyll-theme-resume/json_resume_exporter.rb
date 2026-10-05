@@ -13,7 +13,7 @@ module JekyllThemeResume
   # Returns nil when final validation fails; callers must never publish that export.
   class JsonResumeExporter
     SCHEMA_URL = "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json"
-    SCHEMA = JSONSchemer.schema(JSON.parse(File.read(File.join(__dir__, "schemas/json_resume_v1.0.0.json"))))
+    SCHEMA = JSONSchemer.schema(JSON.parse(File.read(File.join(__dir__, "schemas/json_resume_v1.0.0.json"), encoding: "UTF-8")))
     SECTIONS = {
       "experience" => "work", "volunteering" => "volunteer", "education" => "education",
       "certifications" => "certificates", "recognitions" => "awards", "skills" => "skills",
