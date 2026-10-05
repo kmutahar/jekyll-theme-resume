@@ -49,6 +49,9 @@ Decompose complex, multi-faceted tasks into focused sub-tasks. If your platform 
 ### Rule 8: Clean Workspace & Artifact Hygiene
 Always leave the git working directory clean. Remove temporary test outputs, scratch files, and build caches (`.jekyll-cache`) before declaring a task complete or presenting commit proposals. Keep the `demo/` submodule pointer clean unless updating the demo site is an explicit requirement.
 
+### Rule 9: Release Files Are Owned by `bin/release`
+Never edit `CHANGELOG.md` or the version number in `jekyll-theme-resume.gemspec` (`spec.version`). Both are handled by `bin/release`; hand edits conflict with it.
+
 ## 2. Context Pointers & Master Index
 
 Use the following index to find specific architecture details, schemas, and configurations. Do not guess schemas or layout mechanics; load the relevant file.
