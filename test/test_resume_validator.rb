@@ -544,6 +544,12 @@ class ResumeValidatorTest < Minitest::Test
     assert_clean("education", { "uni" => "MIT", "degree" => "BSc", "startdate" => "2010" })
   end
 
+  def test_education_awards_must_be_award_hashes
+    assert_error("education", VALID["education"].merge("awards" => ["Dean's list"]), "'awards' must be a list")
+    assert_error("education", VALID["education"].merge("awards" => [{ "award" => " " }]), "'awards' must be a list")
+    assert_clean("education", VALID["education"].merge("awards" => [{ "award" => "Dean's list" }]))
+  end
+
   def test_urls_must_be_http_or_https
     { "links" => "url", "projects" => "url", "associations" => "url", "certifications" => "credential_url",
       "courses" => "credential_url", "publications" => "url", "experience" => "url", "education" => "url",

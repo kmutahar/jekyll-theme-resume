@@ -624,6 +624,14 @@ module JekyllThemeResume
       validate_date(entry["startdate"], context, "startdate") if entry["startdate"]
       validate_date_or_present(entry["enddate"], context, "enddate", lang: lang) if entry["enddate"]
       validate_date_range(entry["startdate"], entry["enddate"], context, lang: lang) if entry["startdate"] && entry["enddate"]
+      validate_education_awards(entry["awards"], context) if entry.key?("awards")
+    end
+
+    # The template prints `award.award`, so plain strings would render as empty bullets.
+    def validate_education_awards(awards, context)
+      return if awards.is_a?(Array) && awards.all? { |award| award.is_a?(Hash) && !award["award"].to_s.strip.empty? }
+
+      add_error(context, "'awards' must be a list of `- award: text` items")
     end
 
     def validate_certification_entry(entry, context, lang: nil)
