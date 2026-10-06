@@ -1,0 +1,9 @@
+# Replace with your roles. Set `active: false` to hide an entry.
+- company: "Company 1"
+  position: "Job Title"
+  startdate: 2022-01-01
+  enddate: 2024-01-01
+  location: "City, Country"
+  active: true
+  summary: >-
+    What you did and what you achieved.

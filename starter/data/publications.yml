@@ -1,0 +1,6 @@
+- name: "Publication 1"
+  publisher: "Publisher"
+  release_date: 2023-01-01
+  url: "https://example.com/publication-1"
+  summary: "One-line description."
+  active: true

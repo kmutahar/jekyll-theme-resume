@@ -1,0 +1,135 @@
+# Starter configuration. Replace every "Your ..." value, then edit _data/<lang>/*.yml.
+# Full reference: https://github.com/kmutahar/jekyll-theme-resume/blob/master/docs/reference/config.md
+theme: jekyll-theme-resume
+title: "Your Name"
+description: "Your job title"
+url: "https://USERNAME.github.io" # your site's origin
+baseurl: "" # "/REPO" for a project site, "" for USERNAME.github.io
+timezone: UTC
+
+resume_avatar: false
+
+contact_info:
+  email: "you@example.com"
+
+social_links:
+  email: "you@example.com"
+
+# One entry per language. Delete the languages you do not need, together with
+# their _data/<lang>/ folder. Names and text below are placeholders.
+languages:
+  en:
+    data_path: en
+    url: /en/cv/
+    header_intro: true
+    name: "Your Name"
+    resume_title: "Your Job Title"
+    address: "City, Country"
+    about: >-
+      A short summary of who you are.
+  ar:
+    data_path: ar
+    url: /ar/cv/
+    header_intro: true
+    name: "Your Name"
+    resume_title: "Your Job Title"
+    address: "City, Country"
+    about: >-
+      A short summary of who you are.
+  es:
+    data_path: es
+    url: /es/cv/
+    header_intro: true
+    name: "Your Name"
+    resume_title: "Your Job Title"
+    address: "City, Country"
+    about: >-
+      A short summary of who you are.
+  fr:
+    data_path: fr
+    url: /fr/cv/
+    header_intro: true
+    name: "Your Name"
+    resume_title: "Your Job Title"
+    address: "City, Country"
+    about: >-
+      A short summary of who you are.
+  de:
+    data_path: de
+    url: /de/cv/
+    header_intro: true
+    name: "Your Name"
+    resume_title: "Your Job Title"
+    address: "City, Country"
+    about: >-
+      A short summary of who you are.
+  ur:
+    data_path: ur
+    url: /ur/cv/
+    header_intro: true
+    name: "Your Name"
+    resume_title: "Your Job Title"
+    address: "City, Country"
+    about: >-
+      A short summary of who you are.
+
+default_lang: en
+resume_auto_generate_pages: true
+
+resume_language_switcher: true
+display_header_contact_info: true
+enable_summary: true
+validate_resume: true
+
+# Hide a section by setting it to false; reorder the list to reorder the CV.
+resume_section:
+  associations: true
+  certifications: true
+  courses: true
+  education: true
+  experience: true
+  interests: true
+  lang_header: true
+  languages: true
+  links: true
+  projects: true
+  publications: true
+  recognitions: true
+  references: true
+  skills: true
+  volunteering: true
+
+resume_section_order:
+  - experience
+  - education
+  - certifications
+  - courses
+  - volunteering
+  - projects
+  - associations
+  - skills
+  - recognitions
+  - languages
+  - interests
+  - links
+  - publications
+  - references
+
+dark_mode: enabled
+
+plugins:
+  - jekyll-theme-resume
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-redirect-from
+
+exclude:
+  - README.md
+  - Gemfile*
+  - vendor/
+  - node_modules/
+
+json_resume:
+  enabled: true
+  root_export: true

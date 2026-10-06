@@ -1,0 +1,9 @@
+- degree: "Degree Name"
+  uni: "University 1"
+  year: "2016 &ndash; 2020"
+  location: "City, Country"
+  active: true
+  awards:
+    - award: "Award or honor"
+  summary: >-
+    Focus of study and notable work.

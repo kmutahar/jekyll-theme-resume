@@ -1,0 +1,7 @@
+- name: "Certificate 1"
+  active: true
+  issuing_organization: "Issuing Organization"
+  credential_id: "ID-0001"
+  issue_date: 2023-01-01
+  summary: >-
+    What the certificate covers.

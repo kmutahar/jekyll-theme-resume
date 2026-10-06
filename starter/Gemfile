@@ -1,0 +1,25 @@
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+# Must be in the :jekyll_plugins group so the theme's generators and validator load.
+group :jekyll_plugins do
+  gem "jekyll-theme-resume", "~> 1.0"
+end
+
+gem "jekyll", "~> 4.4"
+gem "webrick", "~> 1.8"
+
+gem "jekyll-feed", "~> 0.17"
+gem "jekyll-seo-tag", "~> 2.9"
+gem "jekyll-sitemap", "~> 1.4"
+gem "jekyll-redirect-from", "~> 0.16"
+
+# Windows and JRuby do not include zoneinfo files, so bundle tzinfo-data.
+platforms :windows, :jruby do
+  gem "tzinfo"
+  gem "tzinfo-data"
+end
+
+# Faster directory watching on Windows
+gem "wdm", platforms: [:windows]

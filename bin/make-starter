@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Builds the starter template (placeholder data, plain Gemfile and config) into OUT_DIR.
+# Shared files come from the demo submodule; everything that differs lives in starter/.
+# Usage: bin/make-starter OUT_DIR
+set -euo pipefail
+cd "$(dirname "$0")/.."
+out=${1:?usage: bin/make-starter OUT_DIR}
+[ -z "$(ls -A "$out" 2>/dev/null)" ] || { echo "$out is not empty" >&2; exit 1; }
+[ -f demo/_config.yml ] || { echo "demo submodule is missing: git submodule update --init" >&2; exit 1; }
+mkdir -p "$out"
+
+# Demo files that carry over (.gitignore, .ruby-version, ...). Pages are auto-generated.
+git -C demo ls-files -z |
+  grep -zvE '^(_data/|_pages/|assets/images/|_config\.yml$|Gemfile$|README\.md$)' |
+  (cd demo && xargs -0 cp --parents -t "$out")
+
+cp starter/Gemfile starter/_config.yml starter/README.md "$out"
+for dir in demo/_data/*/; do
+  lang=$(basename "$dir")
+  mkdir -p "$out/_data/$lang"
+  cp starter/data/*.yml "$out/_data/$lang/"
+done
+
+bin/validate-resume "$out/_data" --all-locales --fail-on-warnings
+echo "Starter written to $out"

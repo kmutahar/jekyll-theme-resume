@@ -1,0 +1,6 @@
+- award: "Award 1"
+  active: true
+  organization: "Awarding Body"
+  year: "2023"
+  summary: >-
+    Why you received it.

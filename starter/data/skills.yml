@@ -1,0 +1,6 @@
+- skill: "Skill 1"
+  active: true
+  level_label: "Advanced"
+  keywords: ["Keyword 1", "Keyword 2"]
+  description: >-
+    What you can do with it.

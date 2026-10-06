@@ -1,0 +1,4 @@
+- language: "Language 1"
+  active: true
+  description: "Native proficiency"
+  descrp_short: "Native"

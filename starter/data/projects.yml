@@ -1,0 +1,9 @@
+- project: "Project 1"
+  active: true
+  startdate: "2023"
+  enddate: "2024"
+  role: "Your Role"
+  duration: "2023 &ndash; 2024"
+  url: "https://example.com/project-1"
+  description: >-
+    What the project is and what you built.
