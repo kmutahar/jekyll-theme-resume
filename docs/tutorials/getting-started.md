@@ -42,6 +42,15 @@ source "https://rubygems.org"
 group :jekyll_plugins do
   gem "jekyll-theme-resume"
 end
+
+# Windows and JRuby do not include zoneinfo files, so bundle tzinfo-data.
+platforms :windows, :jruby do
+  gem "tzinfo"
+  gem "tzinfo-data"
+end
+
+# Faster directory watching on Windows
+gem "wdm", platforms: [:windows]
 ```
 
 The theme must be inside `group :jekyll_plugins`. That group loads the theme's build-time generators and validator. A plain `gem` line outside the group does not load them.
