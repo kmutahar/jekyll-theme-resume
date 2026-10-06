@@ -102,14 +102,16 @@ Steps: [Override Sass partials](../how-to/override-sass-partials.md).
 |---|---|---|
 | `@page` | `size: auto; margin: 15mm 14mm` | Paper size follows the printer dialog (A4 or Letter); the page margin is the only margin |
 | `.wrapper` | `padding: 0` | Avoids doubling the `@page` margin |
+| `.page-footer.print-only` | `padding-top: 0; margin-bottom: 0` | Keeps the permalink footer from adding a blank trailing page |
 | `.section-header`, `.resume-item-title`, `.resume-item-details` | `break-after: avoid` | Keeps a heading with the entry that follows |
 | `.resume-item`, `.resume-item-list li` | `break-inside: avoid` | Keeps entries whole; a hint, so an entry longer than a page still splits |
 | `.resume-item-copy`, `.resume-item-list li` | `orphans: 3; widows: 3` | No one- or two-line fragments at a page edge |
 | `body` | `font-size: 10pt; line-height: calc(var(--line-height-locale, 1.5) * .9)` | Compact density; locale line height is kept (Urdu Nastaliq needs the room) |
-| `.page-header` | Reduced padding; name `2rem` | Saves page space |
+| `.page-header` | Reduced padding; name `2rem` with the existing print sans stack | Saves page space; Arabic name extracts correctly from Chromium PDFs |
 | `.section-header` | Hairline border; `h2` at `13pt`, line height `calc(var(--line-height-locale, 1.5) * .9)` | Lighter rules for paper |
 | `.resume-item-title` | `12pt`; line height `calc(var(--line-height-locale, 1.5) * .8)` | Locale-driven, so Nastaliq does not overflow |
 | `.resume-item-details` | `10pt` italic (`9pt` for `.award-title`); line height `calc(var(--line-height-locale, 1.5) * .8)` | Same as the title |
+| `.lang-entry` | Locale line height × .9 | Overrides compact screen spacing for printed language descriptions |
 | `.languages-table` | Stays a two-column table; `break-inside: avoid` | Does not stack to one column on paper |
 | `.no-print` | `display: none` | Hides interactive controls |
 | `.print-only`, `.print-only-inline` | Hidden on screen; shown (`block`, `inline`) in print | Printed contact text and URLs |

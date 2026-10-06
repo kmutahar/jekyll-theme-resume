@@ -73,6 +73,13 @@
     padding: 0;
   }
 
+  // The shared footer's screen padding and bottom margin can create an empty
+  // trailing page after the canonical URL on dense CVs (observed on Urdu A4).
+  .page-footer.print-only {
+    padding-top: 0;
+    margin-bottom: 0;
+  }
+
   // Pagination: keep headings with their content and entries whole.
   // "avoid" is a hint, so an entry longer than a page still splits.
   .section-header,
@@ -104,6 +111,7 @@
     padding: 1rem 0 .2rem;
 
     .header-name {
+      // The sans stack preserves Arabic name extraction in Chromium PDFs.
       @include mixins.sans_bold;
       font-size: 2rem;
       margin: 0 0 .2rem;
@@ -134,7 +142,8 @@
       line-height: calc(var(--line-height-locale, 1.5) * .8); // en 1.2, ar 1.28, ur 1.6 (Nastaliq overflows 1.2)
     }
 
-    .resume-item-details {
+    .resume-item-details,
+    .languages-table .resume-item-details {
       font-size: 10pt;
       margin: 0 0 .35rem;
       line-height: calc(var(--line-height-locale, 1.5) * .8); // en 1.2, ar 1.28, ur 1.6 (Nastaliq overflows 1.2)
@@ -143,6 +152,11 @@
       &.award-title {
         font-size: 9pt;
       }
+    }
+
+    // The screen table uses a fixed 1.25 line height, which crowds RTL scripts.
+    .lang-entry {
+      line-height: calc(var(--line-height-locale, 1.5) * .9);
     }
   }
 }
