@@ -24,6 +24,7 @@ Steps for one task each.
 | [Add a custom section](how-to/add-a-section.md) | Site owners and theme developers | Add a resume section that renders in every language. |
 | [Add a social platform](how-to/add-a-social-platform.md) | Theme developers | Add a social network icon and label. |
 | [Add a test](how-to/add-a-test.md) | Theme developers | Run the test suites and add a test for a change. |
+| [Build the starter template](how-to/build-the-starter-template.md) | Theme developers | Generate a placeholder-data site for a GitHub template repository. |
 | [Create a custom layout](how-to/create-a-custom-layout.md) | Theme developers | Add a page design that still renders in every language. |
 | [Enable dark mode](how-to/enable-dark-mode.md) | Site owners and theme developers | Show the dark mode toggle site-wide or on one page. |
 | [Link translations with hreflang](how-to/link-translations-with-hreflang.md) | Site owners | Connect the translations of a page for the language switcher and `hreflang` tags. |

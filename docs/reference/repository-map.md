@@ -76,7 +76,10 @@ jekyll-theme-resume/
 ├── bin/
 │   ├── validate-resume           # Validator CLI (gem executable)
 │   ├── check-data-keys           # Template checker (repository-only)
+│   ├── make-starter              # Builds the placeholder-data starter template from the demo
 │   └── release                   # Release script (not packaged)
+│
+├── starter/                      # Starter template sources: Gemfile, _config.yml, README, placeholder data/
 │
 ├── test/                         # Minitest suites; see reference/testing-suites.md
 └── Rakefile                      # validate, check_data_keys, test, rubocop, proof, default
