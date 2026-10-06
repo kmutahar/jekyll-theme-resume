@@ -156,10 +156,10 @@ Improve the existing print styles with explicit page-break and typography contro
 **Acceptance criteria:**
 
 - [x] Check multi-page A4 and Letter output for all six locales.
-- [x] No clipped text or stranded headings; long entries can still paginate.
+- [x] No clipped text, stranded headings, or blank trailing pages; long entries can still paginate.
 - [x] Controls remain hidden and printed links remain directionally correct.
 - [x] Print guide and Sass reference updated.
-- [x] `bin/verify` passes. Commit pending approval.
+- [x] `bin/verify` passes.
 
 ### Feature 2.5: Skills Taxonomy & Categorized Tagging System
 
@@ -276,13 +276,13 @@ Provide a turnkey GitHub Actions workflow and theme integration that automatical
 - [ ] Multi-page pagination and margins in generated PDFs match the theme's print stylesheet.
 - [ ] The header "Download PDF" button is localized, accessible, and hidden from print output.
 - [ ] Sites without PDF generation enabled render no broken download links.
-- [ ] ATS check: run `pdftotext` on each PDF and confirm text extracts in logical order. Arabic and Urdu headings already mis-extract (letter swap) in the 2.3 baseline, so compare against the baseline rather than expecting a perfect result.
+- [ ] ATS check: run `pdftotext` on each PDF and confirm text extracts in logical order. Arabic and Urdu headings already mis-extract in the pre-2.3 baseline. Compare every expected item and the relative order of all extractable items against that baseline; do not stop at the first known failure.
 
-**Deferred from 2.3:** a running footer and page numbers. CSS margin boxes (`@page` `@bottom-center`) only work in Chrome, and ATS parsers often skip header and footer regions, so they add little.
+**Deferred from 2.3:** a running footer and page numbers. Evaluate browser support for CSS margin boxes (`@page` `@bottom-center`) and extraction order before adding them; keep essential contact information in the page body.
 
 **Render option without npm:** `google-chrome --headless=new --no-pdf-header-footer --print-to-pdf=<out>.pdf <url>`, with an injected `@page { size: A4 }` (or Letter) to fix the paper size. This needs no npm dependency and is an alternative to Playwright.
 
-**2.3 baseline A4 page counts (compare PDFs against these):** en 3.46, ar 3.27, es 3.50, fr 3.48, de 3.56, ur 3.28.
+**Pre-2.3 A4 page counts (historical, not post-feature acceptance thresholds):** en 3.46, ar 3.27, es 3.50, fr 3.48, de 3.56, ur 3.28.
 
 ### Feature 3.3: Digital Contact Card (vCard / `.vcf`) Generator & Download
 

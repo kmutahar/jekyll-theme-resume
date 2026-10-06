@@ -32,6 +32,7 @@ File names in older rows are historical (for example `resume-en.html`, replaced 
 
 | ID | Change | Keep | Release · commit |
 |---|---|---|---|
+| 2.3 (#12) | Shared CV print partial with physical margins, break hints and locale-scaled typography; review retained the extractable print name font and corrected language-table cascade overrides and trailing blank-page footer spacing | Print rules load last in both CV bundles; retain locale spacing and Arabic name extraction, screen behavior, and oversized-entry fragmentation | unreleased · pending |
 | F4.1 (#15) | One locale-driven layout for every language; six locale files; `languages.<lang>` config | Rule 1 all-locale parity; no per-language templates or `*_<lang>` keys (Delete-Zone #11, #12) | v1.0.0 · `54b40a4`…`5188e96` |
 | F3.2 (#232) | Typed `publications` and `references` sections: validator rules, JSON Resume export (`publications[]`, `references[]`), localized titles in all six locales, demo data | Publication `summary` is always shown; references render and export exactly as authored (no config); no extra fields beyond the JSON Resume mapping | unreleased · pending |
 | 2.1 (#9) | JSON-LD ProfilePage/Person built from the JSON Resume export; Person microdata shares the JSON-LD @id and only publishes visible contact values; json_ld.enabled toggle | JSON-LD and JSON Resume never disagree on inactive entries, live contacts, or privacy; microdata `itemid` links Person to `@id` | unreleased · pending |
