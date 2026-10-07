@@ -421,6 +421,17 @@ class RenderedSiteTest < Minitest::Test
     assert_nil cv("en", "resume_looking_for_work" => nil).at_css("a.contact-button")
   end
 
+  def test_download_pdf_button_is_opt_in_localized_and_honors_baseurl
+    assert_nil cv("en").at_css("a.pdf-button")
+    %w[en ar].each do |lang|
+      button = cv(lang, "resume_download_pdf" => true, "baseurl" => "/cv").at_css("a.pdf-button")
+      assert_equal locale(lang)["ui"]["download_pdf"], button.text.strip
+      assert_equal "/cv/assets/pdf/resume-#{lang}.pdf", button["href"]
+      assert_includes button["class"].split, "no-print"
+    end
+    %w[en ar es fr de ur].each { |lang| refute_empty locale(lang)["ui"]["download_pdf"].to_s, "#{lang} ui.download_pdf" }
+  end
+
   def test_avatar_can_be_disabled_unlinked_external_or_open_in_a_new_tab
     assert_nil cv("en", "resume_avatar" => false).at_css("img.avatar")
     unlinked = cv("en", "avatar_link" => false)

@@ -10,6 +10,7 @@ ui:
   date_of_birth: "Date de naissance :"
   languages: "Langues :"
   contact_me: "Me contacter"
+  download_pdf: "Télécharger le PDF"
   cv_button: "CV"
   not_looking_for_work: "Je ne suis pas activement à la recherche d'un emploi."
   social_links: "Liens Sociaux"
