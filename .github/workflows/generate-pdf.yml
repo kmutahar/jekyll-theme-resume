@@ -1,0 +1,65 @@
+name: Generate PDFs
+
+# Smoke test for bin/generate-pdf: builds the demo, prints one A4 PDF per language with headless
+# Chrome, checks the PDFs' extracted text, and uploads them as artifacts. It does not deploy anything.
+on:
+  pull_request:
+    paths:
+      - 'bin/generate-pdf'
+      - 'test/ats_check.rb'
+      - 'test/ats_baseline.yml'
+      - '_sass/**'
+      - 'assets/**'
+      - '_layouts/**'
+      - '_includes/**'
+      - '_plugins/**'
+      - 'lib/**'
+      - '_data/**'
+      - '_config.sample.yml'
+      - 'demo'
+      - 'Gemfile'
+      - '.github/workflows/generate-pdf.yml'
+  schedule:
+    - cron: '0 6 * * 1' # weekly, to catch Chrome or runner-font drift
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pdf:
+    name: Build PDFs & check extracted text
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: true
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3d138a4ef85c8 # v1.327.0
+        with:
+          ruby-version: '3.4'
+          bundler-cache: true
+
+      - name: Install poppler and Arabic/Urdu fonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils fonts-noto-core fonts-noto-ui-core
+
+      - name: Build demo site
+        run: bundle exec jekyll build --source demo --destination _site --strict_front_matter --trace
+
+      - name: Generate PDFs (Chrome ships on ubuntu-latest)
+        run: ruby bin/generate-pdf _site demo/_config.yml
+
+      - name: Check PDF text (en/es/fr/de strict, ar/ur against baseline)
+        run: bundle exec ruby test/ats_check.rb _site _site/assets/pdf demo/_config.yml
+
+      - name: Upload PDFs
+        # TODO before merge: pin to a full commit SHA like the other actions (SEC-04).
+        uses: actions/upload-artifact@v4
+        with:
+          name: resume-pdfs
+          path: _site/assets/pdf/*.pdf
