@@ -76,6 +76,7 @@ jekyll-theme-resume/
 │
 ├── bin/
 │   ├── validate-resume           # Validator CLI (gem executable)
+│   ├── generate-pdf              # Prints each language's CV to an A4 PDF with headless Chrome
 │   ├── check-data-keys           # Template checker (repository-only)
 │   └── release                   # Release script (not packaged)
 │
