@@ -31,6 +31,7 @@ Steps for one task each.
 | [Override locale strings](how-to/override-locale-strings.md) | Site owners | Change UI text, fonts, error-page copy, or accepted "present" words. |
 | [Override Sass partials](how-to/override-sass-partials.md) | Site owners | Change theme styles, including the accent color, without forking the gem. |
 | [Print your resume](how-to/print-your-resume.md) | Site owners | Print or save a PDF with clean page breaks. |
+| [Generate PDFs in CI](how-to/generate-pdf-in-ci.md) | Site owners | Build `resume-<lang>.pdf` after `jekyll build` and add a Download PDF button. |
 | [Proof the built HTML and lint the Ruby](how-to/proof-built-html.md) | Theme developers | Check a built site for dead links and missing assets, and run RuboCop. |
 | [Publish the JSON Resume export](how-to/publish-json-resume.md) | Site owners | Serve the generated `resume.json` files. |
 | [Show language proficiency in the header](how-to/show-language-proficiency-in-header.md) | Site owners | Show a one-line language summary in the resume header. |

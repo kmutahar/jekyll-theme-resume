@@ -38,3 +38,5 @@ Printed only: the plain-text social links when `resume_print_social_links` is `t
 1. Open the print preview for each language you publish.
 2. Look for a heading alone at the bottom of a page, or an entry cut in half.
 3. For Arabic and Urdu, check that lines do not overlap.
+
+To publish a PDF per language from your build, see [Generate PDFs in CI](generate-pdf-in-ci.md).
