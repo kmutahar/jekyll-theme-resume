@@ -170,6 +170,7 @@ social_links:
 | `enable_summary` | Boolean | `false` | Show `summary` fields under roles and courses. |
 | `enable_live` | Boolean | unset | `true` uses `phone_live` and `email_live` instead of `phone` and `email`. An explicit `false` also adds the print-only footer with the page's canonical URL (omitting the key does not). |
 | `resume_print_social_links` | Boolean | unset (hidden) | `true` prints the text list of social links on paper and PDF. |
+| `resume_download_pdf` | Boolean | `false` | `true` adds a localized "Download PDF" button linking to `/assets/pdf/resume-<lang>.pdf`. The file comes from `bin/generate-pdf` (see [Generate PDFs in CI](../how-to/generate-pdf-in-ci.md)); without it the link returns 404. |
 
 The header intro toggle is per language: `languages.<lang>.header_intro` (section 3).
 
@@ -180,6 +181,7 @@ resume_looking_for_work: true
 enable_summary: false
 enable_live: false
 resume_print_social_links: true
+resume_download_pdf: false
 ```
 
 ---

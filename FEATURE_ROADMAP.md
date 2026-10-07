@@ -262,11 +262,11 @@ Provide dedicated typography font stacks for Arabic (ar) and Urdu (ur) to replac
 
 ### Feature 3.2: Automated Headless PDF Generation in CI/CD (GitHub Actions / Playwright)
 
-**Issue:** [#238](https://github.com/kmutahar/jekyll-theme-resume/issues/238) · **Branch:** `feature/ci-pdf-generation` · **Closure:** `Closes #238`
+**Issue:** [#238](https://github.com/kmutahar/jekyll-theme-resume/issues/238) · **Branch:** `feature/print-and-pdf` (shared with 2.3) · **Closure:** `Closes #238`
 
 Provide a turnkey GitHub Actions workflow and theme integration that automatically renders and outputs downloadable vector PDFs (`resume-en.pdf`, `resume-ar.pdf`, etc.) using headless Chromium upon site build.
 
-**Files:** Create `.github/workflows/generate-pdf.yml` (and template for consuming sites), update `_layouts/resume.html`, `_config.sample.yml`, `docs/how-to/publish-json-resume.md`, and all `_data/locales/*.yml`.
+**Files:** Create `.github/workflows/generate-pdf.yml`, update `_layouts/resume.html`, `_config.sample.yml`, and all `_data/locales/*.yml`; add `bin/generate-pdf`, `test/ats_check.rb` and `docs/how-to/generate-pdf-in-ci.md`.
 
 **Implementation contract:** Workflow builds Jekyll site, launches Playwright or Puppeteer in headless mode, sets `emulateMediaType('print')`, iterates through every configured locale (`languages.<lang>.url`), and outputs `resume-<lang>.pdf` to `_site/assets/pdf/`. The theme template inspects `site.resume_download_pdf` (default false): when true, it renders a localized "Download PDF" button in the header linking to `/assets/pdf/resume-{{ lang }}.pdf`.
 
