@@ -23,7 +23,7 @@ The paper size follows the dialog: pick A4 or Letter there. The theme sets its o
 
 ## Do not edit the data to fit pages
 
-Do not add blank lines, shorten entries, or reword text to move a page break. The theme asks the browser to keep section headings with the following content and entries together when they fit on a page. Experience and volunteering group roles by company; a company group longer than a page can split within a role. These are browser pagination hints, so check the preview for unusually long content.
+Do not add blank lines, shorten entries, or reword text to move a page break. The theme asks the browser to keep section headings with the following content and bullets together when they fit on a page. Experience and volunteering group roles by company; a company group can start on one page and continue on the next, between roles or between bullets. These are browser pagination hints, so check the preview for unusually long content.
 
 ## What is not printed
 
