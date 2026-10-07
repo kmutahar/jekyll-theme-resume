@@ -1,0 +1,139 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Prints every language's resume page of a built site to an A4 PDF with headless Chrome:
+#   bin/generate-pdf <site_dir> [config.yml[,more.yml]]   (config defaults to ./_config.yml)
+# Output: <site_dir>/assets/pdf/resume-<lang>.pdf. The PDF is the browser's print output, so it
+# matches print preview; the only addition is `@page { size: A4 }`, injected in memory.
+require "fileutils"
+require "socket"
+require "tmpdir"
+require "uri"
+require "yaml"
+
+MIME = { "html" => "text/html; charset=utf-8", "css" => "text/css", "js" => "text/javascript",
+         "json" => "application/json", "svg" => "image/svg+xml", "png" => "image/png",
+         "jpg" => "image/jpeg", "jpeg" => "image/jpeg", "webp" => "image/webp", "ico" => "image/x-icon",
+         "woff" => "font/woff", "woff2" => "font/woff2", "ttf" => "font/ttf", "otf" => "font/otf" }.freeze
+ATTEMPTS = 3
+TIMEOUT = Integer(ENV.fetch("PDF_TIMEOUT", 60))
+
+def die(message)
+  warn "generate-pdf: #{message}"
+  exit 1
+end
+
+def chrome_binary
+  candidates = [ENV.fetch("CHROME", nil), "google-chrome", "google-chrome-stable", "chromium", "chromium-browser"]
+  candidates.compact.find { |bin| system("command -v #{bin} > /dev/null 2>&1") } ||
+    die("Chrome not found; install google-chrome/chromium or set CHROME=/path/to/chrome")
+end
+
+def load_config(paths)
+  paths.reduce({}) do |config, path|
+    die("config not found: #{path}") unless File.file?(path)
+    config.merge(YAML.safe_load_file(path, aliases: true) || {})
+  end
+end
+
+def read_file(root, relative)
+  path = File.expand_path(relative.delete_prefix("/"), root)
+  path = File.join(path, "index.html") if File.directory?(path)
+  File.binread(path) if path.start_with?("#{root}/") && File.file?(path)
+end
+
+# Maps a request path to a file under root. Only paths inside baseurl (matched by segment) exist.
+def asset_path(request_path, baseurl)
+  return request_path if baseurl.empty?
+
+  request_path.delete_prefix(baseurl) if request_path == baseurl || request_path.start_with?("#{baseurl}/")
+end
+
+def respond(client, root, baseurl, injected)
+  target = client.gets.to_s.split[1].to_s.split("?").first.to_s
+  request_path = URI.decode_uri_component(target)
+  while (line = client.gets) && line != "\r\n"; end
+  page = injected[request_path]
+  relative = asset_path(request_path, baseurl)
+  body = page || (relative && read_file(root, relative))
+  warn "generate-pdf: 404 #{request_path}" unless body
+  type = page ? MIME["html"] : MIME.fetch(File.extname(request_path).delete("."), MIME["html"])
+  client.write "HTTP/1.1 #{body ? '200 OK' : '404 Not Found'}\r\nContent-Type: #{type}\r\n" \
+               "Content-Length: #{body.to_s.bytesize}\r\nConnection: close\r\n\r\n#{body}"
+rescue StandardError => e
+  warn "generate-pdf: server error for #{request_path.inspect}: #{e.message}"
+ensure
+  client.close
+end
+
+# Minimal static server so root-relative asset URLs (and baseurl) resolve as they do when hosted.
+def serve(root, baseurl, injected)
+  server = TCPServer.new("127.0.0.1", 0)
+  Thread.new do
+    loop { Thread.new(server.accept) { |client| respond(client, root, baseurl, injected) } }
+  end
+  server
+end
+
+# Runs one Chrome attempt in its own process group so a timeout also kills its renderer/GPU children.
+def run_chrome(chrome, url, destination)
+  Dir.mktmpdir("resume-pdf-chrome-") do |profile|
+    log = File.join(profile, "chrome.log")
+    pid = spawn(chrome, "--headless=new", "--no-sandbox", "--disable-dev-shm-usage", "--no-pdf-header-footer",
+                "--virtual-time-budget=10000", "--user-data-dir=#{profile}", "--print-to-pdf=#{destination}", url,
+                pgroup: true, %i[out err] => log)
+    deadline = Time.now + TIMEOUT
+    status = Process.wait2(pid, Process::WNOHANG)&.last
+    until status || Time.now > deadline
+      sleep 0.2
+      status = Process.wait2(pid, Process::WNOHANG)&.last
+    end
+    unless status
+      Process.kill("KILL", -pid)
+      Process.wait(pid)
+      warn "generate-pdf: Chrome timed out after #{TIMEOUT}s for #{url}"
+    end
+    ok = status&.success? && File.size?(destination)
+    warn "generate-pdf: Chrome failed for #{url}: #{File.read(log).lines.last(5).join}" if status && !ok
+    ok
+  end
+end
+
+# Chrome occasionally hangs or exits non-zero in CI; retry before failing.
+def pdf_printed?(chrome, url, destination)
+  ATTEMPTS.times do
+    FileUtils.rm_f(destination)
+    return true if run_chrome(chrome, url, destination)
+  end
+  false
+end
+
+site, config_arg = ARGV
+die("usage: generate-pdf <site_dir> [config.yml[,more.yml]]") if site.nil? || ARGV.length > 2
+die("site directory not found: #{site}") unless File.directory?(site)
+root = File.realpath(site)
+
+config = load_config((config_arg || "_config.yml").split(","))
+baseurl = config["baseurl"].to_s.chomp("/")
+pages = (config["languages"] || {}).filter_map { |lang, cfg| [lang, cfg["url"]] if cfg.is_a?(Hash) && cfg["url"] }
+die("no languages.<lang>.url entries in the config") if pages.empty?
+
+injected = {}
+pages.each do |lang, url|
+  html = read_file(root, url) || die("built page missing for #{lang}: #{url}")
+  route = "#{baseurl}#{url}"
+  die("no </head> in #{url}; cannot set the A4 page size") unless html.match?(%r{</head>}i)
+  injected[route] = injected[route.chomp("/")] = html.sub(%r{</head>}i, "<style>@page { size: A4; }</style></head>")
+end
+
+chrome = chrome_binary
+out_dir = File.join(root, "assets", "pdf")
+FileUtils.mkdir_p(out_dir)
+port = serve(root, baseurl, injected).addr[1]
+failed = pages.reject do |lang, url|
+  destination = File.join(out_dir, "resume-#{lang}.pdf")
+  ok = pdf_printed?(chrome, "http://127.0.0.1:#{port}#{baseurl}#{url}", destination)
+  puts "#{ok ? 'wrote' : 'FAILED'} #{destination}"
+  ok
+end
+die("could not print: #{failed.map(&:first).join(', ')}") unless failed.empty?
