@@ -100,17 +100,17 @@ Steps: [Override Sass partials](../how-to/override-sass-partials.md).
 
 | Selector | Rule | Why |
 |---|---|---|
-| `@page` | `size: auto; margin: 15mm 14mm` | Paper size follows the printer dialog (A4 or Letter); the page margin is the only margin |
+| `@page` | `size: auto; margin: 12mm 14mm` | Paper size follows the printer dialog (A4 or Letter); the page margin is the only margin |
 | `.wrapper` | `padding: 0` | Avoids doubling the `@page` margin |
 | `.page-footer.print-only` | `padding-top: 0; margin-bottom: 0` | Keeps the permalink footer from adding a blank trailing page |
 | `.section-header`, `.resume-item-title`, `.resume-item-details` | `break-after: avoid` | Keeps a heading with the entry that follows |
-| `.resume-item`, `.resume-item-list li` | `break-inside: avoid` | Keeps entries whole; a hint, so an entry longer than a page still splits |
-| `.resume-item-copy`, `.resume-item-list li` | `orphans: 3; widows: 3` | No one- or two-line fragments at a page edge |
-| `body` | `font-size: 10pt; line-height: calc(var(--line-height-locale, 1.5) * .9)` | Compact density; locale line height is kept (Urdu Nastaliq needs the room) |
+| `.resume-item-copy li`, `.resume-item-list li` | `break-inside: avoid` | Keeps each bullet whole. `.resume-item` (a whole company group) is left splittable: combined with the heading rules it pushed whole sections onto a new page |
+| `.resume-item-copy`, `.resume-item-list li` | `orphans: 2; widows: 2` | No one- or two-line fragments at a page edge |
+| `body` | `font-size: 9pt; line-height: calc(var(--line-height-locale, 1.5) * .9)` | Compact density; locale line height is kept (Urdu Nastaliq needs the room) |
 | `.page-header` | Reduced padding; name `2rem` with the existing print sans stack | Saves page space; Arabic name extracts correctly from Chromium PDFs |
-| `.section-header` | Hairline border; `h2` at `13pt`, line height `calc(var(--line-height-locale, 1.5) * .9)` | Lighter rules for paper |
-| `.resume-item-title` | `12pt`; line height `calc(var(--line-height-locale, 1.5) * .8)` | Locale-driven, so Nastaliq does not overflow |
-| `.resume-item-details` | `10pt` italic (`9pt` for `.award-title`); line height `calc(var(--line-height-locale, 1.5) * .8)` | Same as the title |
+| `.section-header` | Hairline border; `h2` at `12pt`, line height `calc(var(--line-height-locale, 1.5) * .9)` | Lighter rules for paper |
+| `.resume-item-title` | `11pt`; line height `calc(var(--line-height-locale, 1.5) * .8)` | Locale-driven, so Nastaliq does not overflow |
+| `.resume-item-details` | `9pt` italic; line height `calc(var(--line-height-locale, 1.5) * .8)` | Same as the title |
 | `.lang-entry` | Locale line height × .9 | Overrides compact screen spacing for printed language descriptions |
 | `.languages-table` | Stays a two-column table; `break-inside: avoid` | Does not stack to one column on paper |
 | `.no-print` | `display: none` | Hides interactive controls |

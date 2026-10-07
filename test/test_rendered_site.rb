@@ -274,7 +274,7 @@ class RenderedSiteTest < Minitest::Test
 
   def test_cv_print_css_paginates_and_never_collapses_line_height
     headings = %w[.section-header .resume-item-title .resume-item-details]
-    entries = [".resume-item", ".resume-item-list li", ".content-section .languages-table"]
+    entries = [".resume-item-copy li", ".resume-item-list li", ".content-section .languages-table"]
     paragraphs = [".resume-item-copy", ".resume-item-list li"]
     fragment_limits = %w[orphans widows]
     %w[cv-ltr cv-rtl].each do |bundle|
@@ -287,7 +287,7 @@ class RenderedSiteTest < Minitest::Test
         selectors.split(",").each { |selector| rules[selector.strip].merge!(properties) }
       end
       assert_equal "auto", rules["@page"]["size"], "#{bundle}: honor the selected paper size"
-      assert_equal "15mm 14mm", rules["@page"]["margin"], "#{bundle}: set physical print margins"
+      assert_equal "12mm 14mm", rules["@page"]["margin"], "#{bundle}: set physical print margins"
       assert_equal "0", rules[".wrapper"]["padding"], "#{bundle}: avoid doubled print margins"
       assert_equal "0", rules[".page-footer.print-only"]["padding-top"], "#{bundle}: avoid a blank trailing page"
       assert_equal "0", rules[".page-footer.print-only"]["margin-bottom"], "#{bundle}: end within the page box"
@@ -297,12 +297,14 @@ class RenderedSiteTest < Minitest::Test
       entries.each do |selector|
         assert_equal "avoid", rules[selector]["break-inside"], "#{bundle}: keep #{selector} together"
       end
+      # A whole company group must stay splittable: avoid + the heading keep rules pushed sections to a new page.
+      refute_equal "avoid", rules[".resume-item"]["break-inside"], "#{bundle}: .resume-item must be able to split"
       paragraphs.each do |selector|
         fragment_limits.each do |property|
-          assert_equal "3", rules[selector][property], "#{bundle}: protect #{selector} #{property}"
+          assert_equal "2", rules[selector][property], "#{bundle}: protect #{selector} #{property}"
         end
       end
-      assert_equal "10pt", rules["body"]["font-size"], "#{bundle}: preserve legible print body size"
+      assert_equal "9pt", rules["body"]["font-size"], "#{bundle}: preserve legible print body size"
       assert_match(/\Acalc\(var\(--line-height-locale,\s*1\.5\)\s*\*\s*0?\.9\)\z/,
                    rules["body"]["line-height"], "#{bundle}: preserve locale print line spacing")
       refute_match(/line-height:\s*0?\.7em/, css, "#{bundle}.css: .7em print line-height makes lines overlap")
@@ -313,7 +315,7 @@ class RenderedSiteTest < Minitest::Test
     %w[cv-ltr cv-rtl].each do |bundle|
       css = File.read(File.join(self.class.fixture[:dest], "assets", "css", "#{bundle}.css"))
       table_details = css.scan(/\.content-section \.languages-table \.resume-item-details\s*\{([^}]+)\}/).flatten
-      assert_match(/font-size:\s*10pt;/, table_details.last, "#{bundle}: print must override the 14px table rule")
+      assert_match(/font-size:\s*9pt;/, table_details.last, "#{bundle}: print must override the 14px table rule")
 
       table_lines = css.scan(/\.content-section \.lang-entry\s*\{([^}]+)\}/).flatten
       assert_match(/line-height:\s*calc\(var\(--line-height-locale,\s*1\.5\)\s*\*\s*0?\.9\)/,

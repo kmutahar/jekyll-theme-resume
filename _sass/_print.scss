@@ -66,7 +66,7 @@
   // Page box: @page is the only margin (container side padding zeroed below).
   @page {
     size: auto;
-    margin: 15mm 14mm;
+    margin: 12mm 14mm;
   }
 
   .wrapper {
@@ -80,35 +80,37 @@
     margin-bottom: 0;
   }
 
-  // Pagination: keep headings with their content and entries whole.
+  // Pagination: keep headings with their content and bullets whole.
   // "avoid" is a hint, so an entry longer than a page still splits.
+  // .resume-item (a whole company group) is deliberately NOT break-inside: avoid: chained with the
+  // heading keep rules it pushed whole sections to the next page (real CV: 4 pages with 59% of page 2 empty).
   .section-header,
   .resume-item-title,
   .resume-item-details {
     break-after: avoid;
   }
 
-  .resume-item,
+  .resume-item-copy li,
   .resume-item-list li {
     break-inside: avoid;
   }
 
   .resume-item-copy,
   .resume-item-list li {
-    orphans: 3;
-    widows: 3;
+    orphans: 2;
+    widows: 2;
   }
 
-  // Base print typography: scales to 10pt (CV norm is 10-12pt) for compact printable density.
+  // Base print typography: 9pt body for compact density (a real two-section CV prints in about 2 pages).
   body {
-    font-size: 10pt;
+    font-size: 9pt;
     // Locale-driven: en 1.35, ar 1.44, ur 1.8 (Nastaliq needs >= 1.8).
     line-height: calc(var(--line-height-locale, 1.5) * .9);
   }
 
   // Reduced padding on page header to conserve physical page budget.
   .page-header {
-    padding: 1rem 0 .2rem;
+    padding: .5rem 0 .2rem;
 
     .header-name {
       // The sans stack preserves Arabic name extraction in Chromium PDFs.
@@ -121,31 +123,41 @@
   // Switch thick decorative borders to 1px hairline rules.
   .section-header {
     @include mixins.section_border_thin;
-    margin-bottom: 1rem;
+    margin-bottom: .6rem;
 
     h2 {
-      font-size: 13pt;
+      font-size: 12pt;
       line-height: calc(var(--line-height-locale, 1.5) * .9);
     }
   }
 
   // Tighten margins across items and scale down titles.
   .content-section {
-    margin: 0 0 1rem;
+    margin: 0 0 .6rem;
 
     .resume-item {
-      margin-bottom: .75rem;
+      margin-bottom: .4rem;
+    }
+
+    // Screen spacing above role bullets is generous; print keeps them tight to the role line.
+    .resume-item-copy {
+      margin: .25rem 0 0;
+
+      ul,
+      li {
+        margin: 0;
+      }
     }
 
     .resume-item-title {
-      font-size: 12pt;
+      font-size: 11pt;
       line-height: calc(var(--line-height-locale, 1.5) * .8); // en 1.2, ar 1.28, ur 1.6 (Nastaliq overflows 1.2)
     }
 
     .resume-item-details,
     .languages-table .resume-item-details {
-      font-size: 10pt;
-      margin: 0 0 .35rem;
+      font-size: 9pt;
+      margin: 0 0 .25rem;
       line-height: calc(var(--line-height-locale, 1.5) * .8); // en 1.2, ar 1.28, ur 1.6 (Nastaliq overflows 1.2)
       font-style: italic;
 
