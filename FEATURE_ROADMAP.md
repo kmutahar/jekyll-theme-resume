@@ -272,11 +272,11 @@ Provide a turnkey GitHub Actions workflow and theme integration that automatical
 
 **Acceptance criteria:**
 
-- [ ] The workflow generates valid, searchable vector PDF artifacts for all active locales.
-- [ ] Multi-page pagination and margins in generated PDFs match the theme's print stylesheet.
-- [ ] The header "Download PDF" button is localized, accessible, and hidden from print output.
-- [ ] Sites without PDF generation enabled render no broken download links.
-- [ ] ATS check: run `pdftotext` on each PDF and confirm text extracts in logical order. Arabic and Urdu headings already mis-extract in the pre-2.3 baseline. Compare every expected item and the relative order of all extractable items against that baseline; do not stop at the first known failure.
+- [x] The workflow generates valid, searchable vector PDF artifacts for all active locales.
+- [x] Multi-page pagination and margins in generated PDFs match the theme's print stylesheet.
+- [x] The header "Download PDF" button is localized, accessible, and hidden from print output.
+- [x] Sites without PDF generation enabled render no broken download links.
+- [x] ATS check: run `pdftotext` on each PDF and confirm text extracts in logical order. Arabic and Urdu headings already mis-extract in the pre-2.3 baseline. Compare every expected item and the relative order of all extractable items against that baseline; do not stop at the first known failure.
 
 **Deferred from 2.3:** a running footer and page numbers. Evaluate browser support for CSS margin boxes (`@page` `@bottom-center`) and extraction order before adding them; keep essential contact information in the page body.
 
