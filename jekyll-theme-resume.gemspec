@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["contact@mutahar.me"]
 
   spec.summary       = "A data-driven, multilingual (LTR and RTL) Jekyll resume theme with six built-in locales."
-  spec.homepage      = "https://www.mutahr.me/jekyll-theme-resume"
+  spec.homepage      = "https://www.mutahar.me/jekyll-theme-resume"
   spec.license       = "MIT"
 
   spec.platform      = Gem::Platform::RUBY # Specifies this is a pure Ruby gem (works on all platforms)

@@ -6,7 +6,7 @@
 
 **jekyll-theme-resume** is a Ruby gem / Jekyll theme for data-driven, multilingual resume and CV websites. One locale-agnostic layout renders every language, LTR or RTL, from per-language YAML data and locale files. Six locales ship with the theme: English (`en`), Arabic (`ar`), Spanish (`es`), French (`fr`), German (`de`), and Urdu (`ur`). 
 - **RubyGems**: https://rubygems.org/gems/jekyll-theme-resume
-- **Demo / Homepage**: https://www.mutahr.me/jekyll-theme-resume
+- **Demo / Homepage**: https://www.mutahar.me/jekyll-theme-resume
 
 ## 1. Agent Golden Rules & Operating Protocol
 
