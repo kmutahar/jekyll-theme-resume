@@ -73,6 +73,7 @@ present_values:
   - "heute"
   - "aktuell"
   - "gegenwärtig"
+date_format_mdy: "{day}. {month} {year}"
 months:
   - "Januar"
   - "Februar"

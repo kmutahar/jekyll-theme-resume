@@ -12,7 +12,7 @@
 
   Parameters:
     - date: the date to format, or a present-tense marker string (e.g. "Present"). Required.
-    - style: "MDY" for "Month Day, Year"; anything else (default "MY") for "Month Year".
+    - style: "MDY" for a full date, ordered by the locale's date_format_mdy; anything else (default "MY") for "Month Year".
     - lang: locale code to format in. Defaults to the active page/site language.
 {%- endcomment -%}
 {%- assign lang = include.lang | default: page.lang | default: site.default_lang | default: 'en' -%}
@@ -55,7 +55,9 @@
     {%- elsif month_name == nil -%}
       {{ include.date }}
     {%- elsif style == "MDY" and date_parts.size == 3 and day > 0 -%}
-      {{ month_name }} {{ day }}, {{ year }}
+      {%- assign mdy_pattern = locale.date_format_mdy | default: "{month} {day}, {year}" -%}
+      {%- assign mdy_text = mdy_pattern | replace: "{month}", month_name | replace: "{day}", day | replace: "{year}", year -%}
+      {{ mdy_text }}
     {%- else -%}
       {{ month_name }} {{ year }}
     {%- endif -%}

@@ -254,6 +254,8 @@ class RenderedSiteTest < Minitest::Test
     assert_equal "February 15, 2020", date("en", "mdy_date_obj")
     assert_equal "February 2020", date("en", "mdy_month")
     assert_equal "2018", date("en", "mdy_year")
+    assert_equal "15 فبراير 2020", date("ar", "mdy_full")
+    assert_equal "فبراير 2020", date("ar", "mdy_month")
   end
 
   def test_unparseable_text_is_rendered_verbatim

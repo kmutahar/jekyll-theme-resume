@@ -31,6 +31,7 @@ Every locale file has the same key set. The validator warns when a language's ef
 | `ui.social_labels.*` | Platform names: the accessible name (`aria-label`, `title`, screen-reader text) of each social icon and the labels of the print-only contact list. |
 | `error_pages."404"` / `"403"` / `"500"` / `"503"` | `title` and `message` for each HTTP error page. |
 | `present_values` | Case-insensitive words that mean "ongoing" in `enddate` fields. A match renders `ui.present` instead of a date. |
+| `date_format_mdy` | Pattern for full dates (`style="MDY"`: certifications, courses, publications, date of birth), using `{day}`, `{month}`, `{year}`. Defaults to `{month} {day}, {year}`. |
 | `months` | The 12 month names, January first. Dates render as `<month> <year>`; a year-only date renders as the year. |
 
 Read the shipped files in [`../../_data/locales/`](../../_data/locales/) for the full key list and current values.
