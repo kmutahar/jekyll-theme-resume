@@ -4,6 +4,35 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [1.3.2] - 2026-10-26
+
+### Added
+* Add initial trail setup and documentation for coding sessions ([`907835b`](https://github.com/kmutahar/jekyll-theme-resume/commit/907835b55da7d4f0f84f0028f22e6868e5458186))
+
+* Add Windows and JRuby gems to the sample Gemfile ([`ec1223d`](https://github.com/kmutahar/jekyll-theme-resume/commit/ec1223da04393f4abc5dd5673b978044deede65c))
+
+* Add Discord and Behance icons ([`49ede2c`](https://github.com/kmutahar/jekyll-theme-resume/commit/49ede2c9e0eea0fe0edf2440d11e1f11e52bc34a))
+
+
+### Changed
+* Update trail learnings ([`05dfe16`](https://github.com/kmutahar/jekyll-theme-resume/commit/05dfe164f2760e936773d43ee7a82e41d3c8f790))
+
+* Retire SEC-04 ([`aea06d8`](https://github.com/kmutahar/jekyll-theme-resume/commit/aea06d8ef42716613ad9959445130da1c46fb030))
+
+* Link every feature to a GitHub issue and trim shipped social platforms ([`3aca714`](https://github.com/kmutahar/jekyll-theme-resume/commit/3aca7141e89864973cbd504dfec0539f0fa9b222))
+
+* Emit JSON-LD ProfilePage/Person structured data ([`5f7a989`](https://github.com/kmutahar/jekyll-theme-resume/commit/5f7a989d1ccec6190d3c381ec2ac3d0abeaf0079))
+
+* Drop duplicated lists, derive export networks, cover aria-hidden ([`ec6dda8`](https://github.com/kmutahar/jekyll-theme-resume/commit/ec6dda87d8430d89c17882d44afd11cab48b151f))
+
+
+### Fixed
+* Order full dates by locale pattern ([`87c892c`](https://github.com/kmutahar/jekyll-theme-resume/commit/87c892c74f1ddc1ce633f2b110e581d8edf9f9d4))
+
+* Correct homepage URL formatting in documentation and gemspec ([`b649efd`](https://github.com/kmutahar/jekyll-theme-resume/commit/b649efdcc270d91bc639be35aa5d71d7367a48b5))
+
+* Reject plain-string education awards ([`15aa799`](https://github.com/kmutahar/jekyll-theme-resume/commit/15aa7998bda7da8e670ecc1e2ead55b13d1200d0))
+
 ## [1.3.1] - 2026-10-05
 
 ### Added
@@ -491,6 +520,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Initial commit (New Theme Template) ([`00af662`](https://github.com/kmutahar/jekyll-theme-resume/commit/00af6628dfec7aefe0ef7d7083bf98c9713a5ffd))
 
+[1.3.2]: https://github.com/kmutahar/jekyll-theme-resume/compare/v1.3.1...v1.3.2
 [1.3.1]: https://github.com/kmutahar/jekyll-theme-resume/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/kmutahar/jekyll-theme-resume/compare/v1.1.0...v1.3.0
 [1.1.0]: https://github.com/kmutahar/jekyll-theme-resume/compare/v1.0.2...v1.1.0
