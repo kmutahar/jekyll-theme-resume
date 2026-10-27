@@ -129,6 +129,14 @@
                                 &nbsp;&nbsp;{% include vendors/svg-icons/postcard.svg %}&nbsp;{{ lang_cfg.address }}
                             {% endif %}
 
+                            {%- if site.resume_section.linkedin_header and site.social_links.linkedin -%}
+                                {%- include safe-url.html url=site.social_links.linkedin schemes="http,https" -%}
+                                {%- if safe_url -%}
+                                    {%- assign linkedin_short = safe_url | remove: "https://" | remove: "http://" | remove: "www." | split: "/" | join: "/" -%}
+                                    &nbsp;&nbsp;<span class="header-linkedin">{% include vendors/svg-icons/linkedin.svg %}&nbsp;<a href="{{ safe_url | escape }}" dir="ltr" style="text-decoration: none; color: inherit;">{{ linkedin_short | escape }}</a></span>
+                                {%- endif -%}
+                            {%- endif -%}
+
                             {% if site.contact_info.dob %}
                                 &nbsp;&nbsp;{{ locale.ui.date_of_birth }}&nbsp;{% include date-formatter.html date=site.contact_info.dob style="MDY" lang=lang %}
                             {% endif %}

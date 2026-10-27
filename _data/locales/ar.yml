@@ -72,6 +72,7 @@ present_values:
   - "present"
   - "حتى الآن"
   - "حاليًا"
+date_format_mdy: "{day} {month} {year}"
 months:
   - "يناير"
   - "فبراير"

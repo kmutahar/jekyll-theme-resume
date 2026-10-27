@@ -4,7 +4,7 @@
 
 A flexible Jekyll theme for clean, data-driven, multilingual resume/CV websites. Ships English, Arabic, Spanish, French, German, and Urdu; any other language is added from your site alone. Created and maintained by Khaldoon Mutahar. See the latest version on the [Releases page](https://github.com/kmutahar/jekyll-theme-resume/releases).
 
-**Links:** [RubyGems](https://rubygems.org/gems/jekyll-theme-resume) · [Live demo](https://www.mutahr.me/jekyll-theme-resume) · [Source](https://github.com/kmutahar/jekyll-theme-resume)
+**Links:** [RubyGems](https://rubygems.org/gems/jekyll-theme-resume) · [Live demo](https://www.mutahar.me/jekyll-theme-resume) · [Source](https://github.com/kmutahar/jekyll-theme-resume)
 Inspired by and originally forked from [Joel Glovier’s resume template](https://github.com/jglovier/resume-template/). Joel’s version was a basic English-only theme with limited customization (e.g., no section reordering); this project has since evolved into a fully separate theme authored by Khaldoon.
 
 ## Features

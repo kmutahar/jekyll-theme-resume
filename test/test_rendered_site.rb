@@ -254,6 +254,8 @@ class RenderedSiteTest < Minitest::Test
     assert_equal "February 15, 2020", date("en", "mdy_date_obj")
     assert_equal "February 2020", date("en", "mdy_month")
     assert_equal "2018", date("en", "mdy_year")
+    assert_equal "15 فبراير 2020", date("ar", "mdy_full")
+    assert_equal "فبراير 2020", date("ar", "mdy_month")
   end
 
   def test_unparseable_text_is_rendered_verbatim
@@ -361,6 +363,16 @@ class RenderedSiteTest < Minitest::Test
     assert_includes line, "AR English (N)#{separator} AR French (F)"
     refute(doc.css("section h2").any? { |h2| h2.text.strip == locale("ar")["ui"]["section_titles"]["languages"] },
            "the languages section must not render twice")
+  end
+
+  def test_linkedin_header_shows_icon_and_short_url_in_the_contact_bar
+    on = cv("ar", "resume_section" => SECTIONS.to_h { |name| [name, true] }.merge("linkedin_header" => true))
+    link = on.at_css(".header-contact-info .header-linkedin a")
+    assert_equal "https://linkedin.com/in/jane", link["href"]
+    assert_equal "linkedin.com/in/jane", link.text
+    assert_equal "ltr", link["dir"]
+    assert on.at_css(".header-contact-info .header-linkedin svg")
+    assert_nil cv("en").at_css(".header-linkedin")
   end
 
   def test_not_looking_for_work_shows_a_badge_and_nil_shows_nothing

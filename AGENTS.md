@@ -6,7 +6,7 @@
 
 **jekyll-theme-resume** is a Ruby gem / Jekyll theme for data-driven, multilingual resume and CV websites. One locale-agnostic layout renders every language, LTR or RTL, from per-language YAML data and locale files. Six locales ship with the theme: English (`en`), Arabic (`ar`), Spanish (`es`), French (`fr`), German (`de`), and Urdu (`ur`). 
 - **RubyGems**: https://rubygems.org/gems/jekyll-theme-resume
-- **Demo / Homepage**: https://www.mutahr.me/jekyll-theme-resume
+- **Demo / Homepage**: https://www.mutahar.me/jekyll-theme-resume
 
 ## 1. Agent Golden Rules & Operating Protocol
 
@@ -51,6 +51,9 @@ Always leave the git working directory clean. Remove temporary test outputs, scr
 
 ### Rule 9: Release Files Are Owned by `bin/release`
 Never edit `CHANGELOG.md` or the version number in `jekyll-theme-resume.gemspec` (`spec.version`). Both are handled by `bin/release`; hand edits conflict with it.
+
+### Rule 10: Public Learnings Stay Generic
+`.trail/learnings/` is committed to a public repository. Write learnings only about this theme's code and workflow. Never include other projects, personal repositories, private notes, local paths, employers or personal data. If a learning is only about a finished task or a private setup, don't save it.
 
 ## 2. Context Pointers & Master Index
 

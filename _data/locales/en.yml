@@ -71,6 +71,7 @@ error_pages:
 present_values:
   - "present"
   - "current"
+date_format_mdy: "{month} {day}, {year}"
 months:
   - "January"
   - "February"

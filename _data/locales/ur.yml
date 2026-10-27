@@ -73,6 +73,7 @@ present_values:
   - "حال"
   - "موجودہ"
   - "تاحال"
+date_format_mdy: "{day} {month} {year}"
 months:
   - "جنوری"
   - "فروری"

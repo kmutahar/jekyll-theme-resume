@@ -202,6 +202,7 @@ resume_section:
   languages: false
   lang_header: true      # compact language list in the header (needs display_header_contact_info: true); suppresses the full languages section
   interests: false
+  linkedin_header: true  # icon + short `social_links.linkedin` URL in the header contact row (needs display_header_contact_info: true)
   links: false
   publications: false
   references: false
