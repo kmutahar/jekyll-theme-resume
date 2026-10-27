@@ -84,6 +84,17 @@
   vertical-align: middle;
 }
 
+// LinkedIn sits in a nowrap span so the icon never separates from its URL.
+.header-contact-info .header-linkedin {
+  white-space: nowrap;
+
+  svg {
+    width: 20px;
+    fill: var(--icon-fill-dark, #000);
+    vertical-align: middle;
+  }
+}
+
 
 /* Footer */
 // Universal page footer shared between default markdown pages and standalone layouts.

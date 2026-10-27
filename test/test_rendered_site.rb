@@ -365,6 +365,16 @@ class RenderedSiteTest < Minitest::Test
            "the languages section must not render twice")
   end
 
+  def test_linkedin_header_shows_icon_and_short_url_in_the_contact_bar
+    on = cv("ar", "resume_section" => SECTIONS.to_h { |name| [name, true] }.merge("linkedin_header" => true))
+    link = on.at_css(".header-contact-info .header-linkedin a")
+    assert_equal "https://linkedin.com/in/jane", link["href"]
+    assert_equal "linkedin.com/in/jane", link.text
+    assert_equal "ltr", link["dir"]
+    assert on.at_css(".header-contact-info .header-linkedin svg")
+    assert_nil cv("en").at_css(".header-linkedin")
+  end
+
   def test_not_looking_for_work_shows_a_badge_and_nil_shows_nothing
     badge = cv("en", "resume_looking_for_work" => false).at_css("a.contact-button.not-looking")
     assert_equal locale("en")["ui"]["not_looking_for_work"], badge.text.strip
