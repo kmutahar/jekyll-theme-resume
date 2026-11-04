@@ -29,6 +29,21 @@ Build one A4 PDF per language from your built site and offer it as a download bu
 
    The button links to `/assets/pdf/resume-<lang>.pdf` and is hidden in print. If the PDFs were not built (for example under `jekyll serve`), the link returns 404, so turn the flag on only for builds that run the script.
 
+### In GitHub Actions
+
+Chrome is preinstalled on `ubuntu-latest`. The script drops Chrome's sandbox only when `CI=true` or `CHROME_NO_SANDBOX=1`, because CI runners block it; GitHub Actions sets `CI` for you. A minimal job for your own site:
+
+```yaml
+- run: bundle exec jekyll build
+- run: ruby "$(bundle info --path jekyll-theme-resume)/bin/generate-pdf" _site _config.yml
+- uses: actions/upload-artifact@<sha> # pin to a commit SHA
+  with:
+    name: resume-pdfs
+    path: _site/assets/pdf/*.pdf
+```
+
+Install Noto fonts (`fonts-noto-core`) if your site uses Arabic or Urdu with `disable_google_fonts: true`.
+
 Where the PDFs are hosted is up to you; the script only writes them into the built site.
 
 ## Check the extracted text
