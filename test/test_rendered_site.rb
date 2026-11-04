@@ -274,6 +274,23 @@ class RenderedSiteTest < Minitest::Test
     assert cv("ar").at_css('link[href="/assets/css/cv-rtl.css"]'), "RTL CV must link cv-rtl.css"
   end
 
+  # Returns the bodies of every `@media print { ... }` block, counting braces (no backtracking regex).
+  def print_media_blocks(css)
+    blocks = +""
+    css.scan(/@media print\s*\{/) do
+      depth = 1
+      start = Regexp.last_match.end(0)
+      pos = start
+      while depth.positive? && pos < css.length
+        depth += 1 if css[pos] == "{"
+        depth -= 1 if css[pos] == "}"
+        pos += 1
+      end
+      blocks << "{#{css[start...pos]}"
+    end
+    blocks
+  end
+
   def test_cv_print_css_paginates_and_never_collapses_line_height
     headings = %w[.section-header .resume-item-title .resume-item-details]
     entries = [".resume-item-copy li", ".resume-item-list li", ".content-section .languages-table"]
@@ -282,7 +299,7 @@ class RenderedSiteTest < Minitest::Test
     %w[cv-ltr cv-rtl].each do |bundle|
       css = File.read(File.join(self.class.fixture[:dest], "assets", "css", "#{bundle}.css"))
       # Match balanced blocks so screen declarations cannot satisfy print assertions.
-      print_css = css.scan(/@media print\s*(?<block>\{(?:[^{}]|\g<block>)*\})/).join
+      print_css = print_media_blocks(css)
       rules = Hash.new { |hash, selector| hash[selector] = {} }
       print_css.scan(/([^{}]+)\{([^{}]*)\}/).each do |selectors, declarations|
         properties = declarations.scan(/([\w-]+):\s*([^;]+);/).to_h
