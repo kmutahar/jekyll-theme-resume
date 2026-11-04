@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
 
   spec.metadata      = {
     "bug_tracker_uri"   => "https://github.com/kmutahar/jekyll-theme-resume/issues",
-    "changelog_uri"     => "https://github.com/kmutahar/jekyll-theme-resume/blob/master/CHANGELOG.md",
+    "changelog_uri"     => "https://github.com/kmutahar/jekyll-theme-resume/blob/main/CHANGELOG.md",
     "documentation_uri" => "https://github.com/kmutahar/jekyll-theme-resume#readme",
     "homepage_uri"      =>  spec.homepage,
     "source_code_uri"   => "https://github.com/kmutahar/jekyll-theme-resume/",

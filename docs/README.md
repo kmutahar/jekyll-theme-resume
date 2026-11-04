@@ -88,4 +88,4 @@ These commands assume a checkout of the theme repository.
 
 - [Changelog](../CHANGELOG.md): release notes.
 - [`_config.sample.yml`](../_config.sample.yml): the annotated sample configuration for a consuming site.
-- [Contribution and agent rules](https://github.com/kmutahar/jekyll-theme-resume/blob/master/AGENTS.md) (`AGENTS.md`, not shipped in the gem).
+- [Contribution and agent rules](https://github.com/kmutahar/jekyll-theme-resume/blob/main/AGENTS.md) (`AGENTS.md`, not shipped in the gem).

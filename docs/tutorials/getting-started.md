@@ -113,12 +113,12 @@ This file tells the theme to publish two languages. Each language reads its resu
 The theme's demo site has a complete sample resume (Sherlock Holmes) in six languages. Download the demo and copy the English and Arabic folders into your site:
 
 ```bash
-git clone https://github.com/kmutahar/bilingual-jekyll-resume-demo.git ../bilingual-jekyll-resume-demo
+git clone https://github.com/kmutahar/jekyll-theme-resume-demo.git ../jekyll-theme-resume-demo
 mkdir -p _data
-cp -r ../bilingual-jekyll-resume-demo/_data/en ../bilingual-jekyll-resume-demo/_data/ar _data/
+cp -r ../jekyll-theme-resume-demo/_data/en ../jekyll-theme-resume-demo/_data/ar _data/
 ```
 
-The clone creates a folder named `bilingual-jekyll-resume-demo` next to `my-resume`, not inside it. You only need it for this copy.
+The clone creates a folder named `jekyll-theme-resume-demo` next to `my-resume`, not inside it. You only need it for this copy.
 
 **Expected result:** `ls _data/en` and `ls _data/ar` each list 13 YAML files, from `associations.yml` to `volunteering.yml`, including `header.yml`, which holds the intro paragraph shown under your name.
 
