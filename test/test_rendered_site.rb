@@ -274,6 +274,74 @@ class RenderedSiteTest < Minitest::Test
     assert cv("ar").at_css('link[href="/assets/css/cv-rtl.css"]'), "RTL CV must link cv-rtl.css"
   end
 
+  # Returns the bodies of every `@media print { ... }` block, counting braces (no backtracking regex).
+  def print_media_blocks(css)
+    blocks = +""
+    css.scan(/@media print\s*\{/) do
+      depth = 1
+      start = Regexp.last_match.end(0)
+      pos = start
+      while depth.positive? && pos < css.length
+        depth += 1 if css[pos] == "{"
+        depth -= 1 if css[pos] == "}"
+        pos += 1
+      end
+      blocks << "{#{css[start...pos]}"
+    end
+    blocks
+  end
+
+  def test_cv_print_css_paginates_and_never_collapses_line_height
+    headings = %w[.section-header .resume-item-title .resume-item-details]
+    entries = [".resume-item-copy li", ".resume-item-list li", ".content-section .languages-table"]
+    paragraphs = [".resume-item-copy", ".resume-item-list li"]
+    fragment_limits = %w[orphans widows]
+    %w[cv-ltr cv-rtl].each do |bundle|
+      css = File.read(File.join(self.class.fixture[:dest], "assets", "css", "#{bundle}.css"))
+      # Match balanced blocks so screen declarations cannot satisfy print assertions.
+      print_css = print_media_blocks(css)
+      rules = Hash.new { |hash, selector| hash[selector] = {} }
+      print_css.scan(/([^{}]+)\{([^{}]*)\}/).each do |selectors, declarations|
+        properties = declarations.scan(/([\w-]+):\s*([^;]+);/).to_h
+        selectors.split(",").each { |selector| rules[selector.strip].merge!(properties) }
+      end
+      assert_equal "auto", rules["@page"]["size"], "#{bundle}: honor the selected paper size"
+      assert_equal "12mm 14mm", rules["@page"]["margin"], "#{bundle}: set physical print margins"
+      assert_equal "0", rules[".wrapper"]["padding"], "#{bundle}: avoid doubled print margins"
+      assert_equal "0", rules[".page-footer.print-only"]["padding-top"], "#{bundle}: avoid a blank trailing page"
+      assert_equal "0", rules[".page-footer.print-only"]["margin-bottom"], "#{bundle}: end within the page box"
+      headings.each do |selector|
+        assert_equal "avoid", rules[selector]["break-after"], "#{bundle}: keep #{selector} with content"
+      end
+      entries.each do |selector|
+        assert_equal "avoid", rules[selector]["break-inside"], "#{bundle}: keep #{selector} together"
+      end
+      # A whole company group must stay splittable: avoid + the heading keep rules pushed sections to a new page.
+      refute_equal "avoid", rules[".resume-item"]["break-inside"], "#{bundle}: .resume-item must be able to split"
+      paragraphs.each do |selector|
+        fragment_limits.each do |property|
+          assert_equal "2", rules[selector][property], "#{bundle}: protect #{selector} #{property}"
+        end
+      end
+      assert_equal "9pt", rules["body"]["font-size"], "#{bundle}: preserve legible print body size"
+      assert_match(/\Acalc\(var\(--line-height-locale,\s*1\.5\)\s*\*\s*0?\.9\)\z/,
+                   rules["body"]["line-height"], "#{bundle}: preserve locale print line spacing")
+      refute_match(/line-height:\s*0?\.7em/, css, "#{bundle}.css: .7em print line-height makes lines overlap")
+    end
+  end
+
+  def test_print_typography_overrides_language_table
+    %w[cv-ltr cv-rtl].each do |bundle|
+      css = File.read(File.join(self.class.fixture[:dest], "assets", "css", "#{bundle}.css"))
+      table_details = css.scan(/\.content-section \.languages-table \.resume-item-details\s*\{([^}]+)\}/).flatten
+      assert_match(/font-size:\s*9pt;/, table_details.last, "#{bundle}: print must override the 14px table rule")
+
+      table_lines = css.scan(/\.content-section \.lang-entry\s*\{([^}]+)\}/).flatten
+      assert_match(/line-height:\s*calc\(var\(--line-height-locale,\s*1\.5\)\s*\*\s*0?\.9\)/,
+                   table_lines.last, "#{bundle}: table rows need locale-aware print line spacing")
+    end
+  end
+
   def test_locale_font_and_line_height_become_css_variables
     ar_style = cv("ar").at_css("head style").text
     assert_includes ar_style, "--font-locale: #{locale('ar')['font_family']}"
@@ -380,6 +448,17 @@ class RenderedSiteTest < Minitest::Test
     assert_equal locale("en")["ui"]["not_looking_for_work"], badge.text.strip
     assert_nil badge["href"]
     assert_nil cv("en", "resume_looking_for_work" => nil).at_css("a.contact-button")
+  end
+
+  def test_download_pdf_button_is_opt_in_localized_and_honors_baseurl
+    assert_nil cv("en").at_css("a.pdf-button")
+    %w[en ar].each do |lang|
+      button = cv(lang, "resume_download_pdf" => true, "baseurl" => "/cv").at_css("a.pdf-button")
+      assert_equal locale(lang)["ui"]["download_pdf"], button.text.strip
+      assert_equal "/cv/assets/pdf/resume-#{lang}.pdf", button["href"]
+      assert_includes button["class"].split, "no-print"
+    end
+    %w[en ar es fr de ur].each { |lang| refute_empty locale(lang)["ui"]["download_pdf"].to_s, "#{lang} ui.download_pdf" }
   end
 
   def test_avatar_can_be_disabled_unlinked_external_or_open_in_a_new_tab

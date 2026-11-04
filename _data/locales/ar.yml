@@ -10,6 +10,7 @@ ui:
   date_of_birth: "تاريخ الميلاد:"
   languages: "اللغات:"
   contact_me: "تواصل معي"
+  download_pdf: "تنزيل PDF"
   cv_button: "السيرة الذاتية"
   not_looking_for_work: "لستُ باحثاً عن عمل حالياً."
   social_links: "روابط التواصل"

@@ -28,6 +28,7 @@ Every test goes through a public interface; see [Tests use public interfaces onl
 | [`test_json_ld_builder.rb`](../../test/test_json_ld_builder.rb) | `JsonLdBuilder.build` and `.script` | Mapping to ProfilePage + Person, dropping empty values, current-role and dedupe rules, `<` escaping; see [json-ld-fields.md](json-ld-fields.md) |
 | [`test_packaging.rb`](../../test/test_packaging.rb) | Gemspec, shipped `_data` | Gem file list, six-locale key parity, unused locale keys, social icons and labels, demo data parity |
 | [`test_doc_links.rb`](../../test/test_doc_links.rb) | The tracked Markdown files | Every relative link and `#anchor` in the docs resolves; links in code blocks and external URLs are skipped |
+| [`ats_check.rb`](../../test/ats_check.rb) | Generated PDFs of a built site (not part of `rake test`; run by the PDF workflow) | Every visible text node outside `.no-print` appears in `pdftotext` output in order; Arabic and Urdu compared with `ats_baseline.yml`; see [Generate PDFs in CI](../how-to/generate-pdf-in-ci.md) |
 
 ## The rendered-site fixture
 

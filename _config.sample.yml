@@ -204,6 +204,7 @@ resume_looking_for_work: true
 enable_summary: false                # Show detailed summary/description for roles & courses
 enable_live: false                   # Use email_live & phone_live instead of standard contact info
 resume_print_social_links: true      # Render text list of social links in physical and PDF prints
+resume_download_pdf: false            # Show a "Download PDF" button linking to /assets/pdf/resume-<lang>.pdf (built by bin/generate-pdf)
 
 # Build-time resume data validation (warns by default; never fails the build
 # unless validate_resume_strict is also true)

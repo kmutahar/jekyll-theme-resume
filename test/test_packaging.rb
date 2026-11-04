@@ -35,7 +35,7 @@ class PackagingTest < Minitest::Test
     files = spec.files
     LOCALES.each { |lang| assert_includes files, "_data/locales/#{lang}.yml" }
     %w[_layouts/resume.html _includes/resume-section.html _sass/_resume-rtl.scss assets/css/cv-rtl.scss
-       _data/social_networks.yml bin/validate-resume lib/jekyll-theme-resume.rb
+       _data/social_networks.yml bin/validate-resume bin/generate-pdf lib/jekyll-theme-resume.rb
        lib/jekyll-theme-resume/resume_validator.rb lib/jekyll-theme-resume/json_resume_exporter.rb
        lib/jekyll-theme-resume/json_ld_builder.rb _includes/json-ld-resume.html
        lib/jekyll-theme-resume/schemas/json_resume_v1.0.0.json _plugins/error_pages_generator.rb

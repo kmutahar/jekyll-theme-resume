@@ -26,7 +26,7 @@ Every locale file has the same key set. The validator warns when a language's ef
 | `font_family` | CSS font stack emitted as `--font-locale`. Empty string keeps the theme's default stacks (Lora and Open Sans). |
 | `font_url` | Stylesheet URL for the font (usually Google Fonts). Empty string loads the default Lora and Open Sans stylesheet. |
 | `line_height` | Emitted as `--line-height-locale` for resume body text. |
-| `ui.*` | Every UI string the templates render: skip link, "Present", contact button, dark mode toggle label, language switcher label, `language_name` (the language's own name, shown in the switcher and on error page return links), `list_separator`, and more. |
+| `ui.*` | Every UI string the templates render: skip link, "Present", contact button, download-PDF button, dark mode toggle label, language switcher label, `language_name` (the language's own name, shown in the switcher and on error page return links), `list_separator`, and more. |
 | `ui.section_titles.*` | One heading per resume section (`experience`, `education`, ... `links`, `publications`, `references`). |
 | `ui.social_labels.*` | Platform names: the accessible name (`aria-label`, `title`, screen-reader text) of each social icon and the labels of the print-only contact list. |
 | `error_pages."404"` / `"403"` / `"500"` / `"503"` | `title` and `message` for each HTTP error page. |

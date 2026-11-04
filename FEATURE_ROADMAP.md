@@ -149,15 +149,17 @@ Add optional visual skill proficiency indicators alongside skill names and descr
 
 Improve the existing print styles with explicit page-break and typography controls.
 
-**Files:** Create `_sass/_print-optimization.scss` if a separate module is useful; update `assets/css/cv-ltr.scss`, `assets/css/cv-rtl.scss`, `_sass/_resume-ltr.scss`, `_sass/_resume-rtl.scss`, and a new `docs/PRINT_GUIDE.md`.
+**Files:** Create `_sass/_print.scss`; update `assets/css/cv-ltr.scss`, `assets/css/cv-rtl.scss`, `_sass/_resume-ltr.scss` (print rules moved out), and add `docs/how-to/print-your-resume.md`.
 
 **Implementation contract:** Keep headings with following content, use break-inside/break-after deliberately, and avoid forcing oversized groups onto one page. Preserve locale typography, especially Arabic and Urdu; do not reuse the old fixed .7em line-height example.
 
 **Acceptance criteria:**
 
-- [ ] Check multi-page A4 and Letter output for all six locales.
-- [ ] No clipped text or stranded headings; long entries can still paginate.
-- [ ] Controls remain hidden and printed links remain directionally correct.
+- [x] Check multi-page A4 and Letter output for all six locales.
+- [x] No clipped text, stranded headings, or blank trailing pages; long entries can still paginate.
+- [x] Controls remain hidden and printed links remain directionally correct.
+- [x] Print guide and Sass reference updated.
+- [x] `bin/verify` passes.
 
 ### Feature 2.5: Skills Taxonomy & Categorized Tagging System
 
@@ -260,20 +262,27 @@ Provide dedicated typography font stacks for Arabic (ar) and Urdu (ur) to replac
 
 ### Feature 3.2: Automated Headless PDF Generation in CI/CD (GitHub Actions / Playwright)
 
-**Issue:** [#238](https://github.com/kmutahar/jekyll-theme-resume/issues/238) · **Branch:** `feature/ci-pdf-generation` · **Closure:** `Closes #238`
+**Issue:** [#238](https://github.com/kmutahar/jekyll-theme-resume/issues/238) · **Branch:** `feature/print-and-pdf` (shared with 2.3) · **Closure:** `Closes #238`
 
 Provide a turnkey GitHub Actions workflow and theme integration that automatically renders and outputs downloadable vector PDFs (`resume-en.pdf`, `resume-ar.pdf`, etc.) using headless Chromium upon site build.
 
-**Files:** Create `.github/workflows/generate-pdf.yml` (and template for consuming sites), update `_layouts/resume.html`, `_config.sample.yml`, `docs/how-to/publish-json-resume.md`, and all `_data/locales/*.yml`.
+**Files:** Create `.github/workflows/generate-pdf.yml`, update `_layouts/resume.html`, `_config.sample.yml`, and all `_data/locales/*.yml`; add `bin/generate-pdf`, `test/ats_check.rb` and `docs/how-to/generate-pdf-in-ci.md`.
 
 **Implementation contract:** Workflow builds Jekyll site, launches Playwright or Puppeteer in headless mode, sets `emulateMediaType('print')`, iterates through every configured locale (`languages.<lang>.url`), and outputs `resume-<lang>.pdf` to `_site/assets/pdf/`. The theme template inspects `site.resume_download_pdf` (default false): when true, it renders a localized "Download PDF" button in the header linking to `/assets/pdf/resume-{{ lang }}.pdf`.
 
 **Acceptance criteria:**
 
-- [ ] The workflow generates valid, searchable vector PDF artifacts for all active locales.
-- [ ] Multi-page pagination and margins in generated PDFs match the theme's print stylesheet.
-- [ ] The header "Download PDF" button is localized, accessible, and hidden from print output.
-- [ ] Sites without PDF generation enabled render no broken download links.
+- [x] The workflow generates valid, searchable vector PDF artifacts for all active locales.
+- [x] Multi-page pagination and margins in generated PDFs match the theme's print stylesheet.
+- [x] The header "Download PDF" button is localized, accessible, and hidden from print output.
+- [x] Sites without PDF generation enabled render no broken download links.
+- [x] ATS check: run `pdftotext` on each PDF and confirm text extracts in logical order. Arabic and Urdu headings already mis-extract in the pre-2.3 baseline. Compare every expected item and the relative order of all extractable items against that baseline; do not stop at the first known failure.
+
+**Deferred from 2.3:** a running footer and page numbers. Evaluate browser support for CSS margin boxes (`@page` `@bottom-center`) and extraction order before adding them; keep essential contact information in the page body.
+
+**Render option without npm:** `google-chrome --headless=new --no-pdf-header-footer --print-to-pdf=<out>.pdf <url>`, with an injected `@page { size: A4 }` (or Letter) to fix the paper size. This needs no npm dependency and is an alternative to Playwright.
+
+**Pre-2.3 A4 page counts (historical, not post-feature acceptance thresholds):** en 3.46, ar 3.27, es 3.50, fr 3.48, de 3.56, ur 3.28.
 
 ### Feature 3.3: Digital Contact Card (vCard / `.vcf`) Generator & Download
 
