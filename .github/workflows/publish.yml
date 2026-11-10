@@ -28,7 +28,7 @@ jobs:
     # 2. Set up the Ruby environment.
     # setup-ruby is the official way to manage Ruby versions in GitHub Actions.
     - name: Set up Ruby
-      uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
+      uses: ruby/setup-ruby@b3aaceaef7e0ee231b499e7b5f49c03fc1d32199 # v1.338.0
       with:
         ruby-version: '3.4'
         bundler-cache: true # Automatically runs 'bundle install' and caches gems
@@ -54,7 +54,7 @@ jobs:
     # 6. Automatically create a GitHub Release for the pushed tag (e.g. v0.8.0),
     # setting the release body description from RELEASE_NOTES.md and attaching the built .gem asset.
     - name: Create GitHub Release & Upload Gem Artifact
-      uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
+      uses: softprops/action-gh-release@8a0cd651e5b2365bd640854a3fa5dfc70e4875f3 # v3.0.4
       with:
         body_path: RELEASE_NOTES.md
         files: "*.gem"
