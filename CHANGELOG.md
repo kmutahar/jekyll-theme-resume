@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [1.3.3] - 2026-11-15
+
+### Added
+* Add resume_section.linkedin_header option ([`9a55018`](https://github.com/kmutahar/jekyll-theme-resume/commit/9a5501882e60a7992f7d3374193d406846a83075))
+
+
+### Changed
+* Rename default branch to main and point at the renamed demo repo ([`cfebac4`](https://github.com/kmutahar/jekyll-theme-resume/commit/cfebac474cb3bd7f916d813b32eb05f5d1e35681))
+
+* Bump ruby/setup-ruby ([`4e9dd73`](https://github.com/kmutahar/jekyll-theme-resume/commit/4e9dd73c351b967654786b76a01dcbb804d43a9c))
+
 ## [1.3.2] - 2026-10-26
 
 ### Added
@@ -520,6 +531,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Initial commit (New Theme Template) ([`00af662`](https://github.com/kmutahar/jekyll-theme-resume/commit/00af6628dfec7aefe0ef7d7083bf98c9713a5ffd))
 
+[1.3.3]: https://github.com/kmutahar/jekyll-theme-resume/compare/v1.3.2...v1.3.3
 [1.3.2]: https://github.com/kmutahar/jekyll-theme-resume/compare/v1.3.1...v1.3.2
 [1.3.1]: https://github.com/kmutahar/jekyll-theme-resume/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/kmutahar/jekyll-theme-resume/compare/v1.1.0...v1.3.0
